@@ -19,14 +19,15 @@ export function GiftCard({
     <article
       className={`gc-card gc-card-hover gc-fade-up ${delay} overflow-hidden rounded-3xl border border-ink/8 bg-white/85`}
     >
-      <div className="relative aspect-[4/3] w-full bg-shell">
+      <div className="relative aspect-[4/3] w-full bg-white">
         <Image
           src={product.image}
           alt={product.name}
           fill
           unoptimized
+          loading="eager"
           sizes="(max-width: 640px) 100vw, 360px"
-          className="object-cover"
+          className="object-contain p-4"
         />
         <span className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[0.66rem] font-semibold uppercase tracking-wider text-ink/60 backdrop-blur-sm">
           {product.store}

@@ -172,8 +172,9 @@ export function ResultsScreen({
 
       <div className="mt-8">
         <DemoNote>
-          Hackathon prototype. Products, prices and store names are demo data
-          created for this demonstration, not real listings.
+          Real products from Saudi retailers, matched to this profile. Prices
+          were last checked on 16 September 2026 and may change — check the
+          retailer for the latest.
         </DemoNote>
       </div>
 

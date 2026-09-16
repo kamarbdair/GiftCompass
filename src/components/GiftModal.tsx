@@ -63,14 +63,15 @@ export function GiftModal({
           </svg>
         </button>
 
-        <div className="relative aspect-[4/3] w-full bg-shell">
+        <div className="relative aspect-[4/3] w-full bg-white">
           <Image
             src={product.image}
             alt={product.name}
             fill
             unoptimized
+            loading="eager"
             sizes="460px"
-            className="object-cover"
+            className="object-contain p-6"
           />
           <span className="absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-wider text-ink/60 backdrop-blur-sm">
             {product.store}
@@ -110,41 +111,34 @@ export function GiftModal({
             ))}
           </div>
 
-          <div className="rounded-2xl border border-clay/20 bg-clay-mist/50 px-4 py-3.5">
-            <p className="flex items-start gap-2 text-[0.82rem] leading-relaxed text-ink/70">
-              <svg
-                viewBox="0 0 16 16"
-                className="mt-[3px] size-3.5 shrink-0 text-clay"
-                aria-hidden="true"
-              >
-                <circle
-                  cx="8"
-                  cy="8"
-                  r="7"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                />
-                <path
-                  d="M8 7.2v4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <circle cx="8" cy="4.9" r="0.9" fill="currentColor" />
-              </svg>
-              <span>
-                In the full GiftCompass experience, this button will take you
-                directly to the retailer to purchase the gift. This is a demo
-                product with a demo price and a fictional store.
-              </span>
-            </p>
-          </div>
+          <a
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 flex w-full items-center justify-center gap-2 rounded-full bg-plum py-3.5 text-[0.9rem] font-semibold text-cream transition hover:bg-ink"
+          >
+            View at {product.store}
+            <svg viewBox="0 0 20 20" className="size-4" aria-hidden="true">
+              <path
+                d="M8 4h8v8M16 4l-9 9M13 15v1H4V7h1"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+
+          <p className="text-center text-[0.75rem] leading-relaxed text-ink/45">
+            Price and availability may change. Check the retailer for the latest
+            information.
+          </p>
 
           <button
             type="button"
             onClick={onClose}
-            className="mt-1 w-full rounded-full bg-plum py-3.5 text-[0.9rem] font-semibold text-cream transition hover:bg-ink"
+            className="w-full rounded-full border border-ink/15 bg-white py-3 text-[0.86rem] font-semibold text-ink/70 transition hover:border-plum/40 hover:text-ink"
           >
             Back to recommendations
           </button>

@@ -37,8 +37,14 @@ export interface Product {
   id: string;
   name: string;
   price: number;
+  /** Real retailer the product is sold by. */
   store: string;
+  /** Retailer's own product image (remote URL). */
   image: string;
+  /** Direct link to the retailer's product page. */
+  url: string;
+  /** Date the price was last checked against the retailer, ISO yyyy-mm-dd. */
+  priceCheckedOn: string;
   tags: string[];
   archetype: ArchetypeId;
   why: string;

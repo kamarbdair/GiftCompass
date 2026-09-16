@@ -76,9 +76,14 @@ function isRelevant(product: Product, archetype: ArchetypeId) {
 function candidatePool(archetype: ArchetypeId, budgetId: BudgetId): Product[] {
   const relevant = PRODUCTS.filter((p) => isRelevant(p, archetype));
 
+  // Look one budget band either side first. If that leaves too little to choose
+  // from, reach further out — but only ever across gifts that already suit this
+  // recipient, so widening never means showing something irrelevant. Scoring
+  // still ranks in-budget gifts above the ones reached for.
+  const target = Math.min(3, relevant.length);
   for (let spread = 1; spread < BUDGETS.length; spread++) {
     const pool = relevant.filter((p) => bandDistance(p.price, budgetId) <= spread);
-    if (pool.length > 0) return pool;
+    if (pool.length >= target) return pool;
   }
   return relevant;
 }
