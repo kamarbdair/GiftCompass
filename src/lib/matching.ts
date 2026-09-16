@@ -44,18 +44,24 @@ export function resolveFromAnswers(answers: Record<string, string>): {
   return { archetype, prefs: Array.from(prefs) };
 }
 
-function bandIndexForPrice(price: number) {
-  const index = BUDGETS.findIndex((b) => price >= b.min && price <= b.max);
-  return index === -1 ? BUDGETS.length - 1 : index;
-}
-
 /**
- * How many budget bands away a product sits from the chosen band.
- * 0 means it is squarely inside the budget the giver picked.
+ * The budget the giver picked is a hard limit, not a preference. A gift is
+ * either inside the range they chose or it is not shown at all — we never
+ * reach into a neighbouring band to fill out a page of results.
  */
-function bandDistance(price: number, budgetId: BudgetId) {
-  const selected = BUDGETS.findIndex((b) => b.id === budgetId);
-  return Math.abs(bandIndexForPrice(price) - (selected === -1 ? 1 : selected));
+export function isWithinBudget(price: number, budgetId: BudgetId): boolean {
+  switch (budgetId) {
+    case "under-100":
+      return price < 100;
+    case "100-250":
+      return price >= 100 && price <= 250;
+    case "250-500":
+      return price >= 250 && price <= 500;
+    case "500-1000":
+      return price >= 500 && price <= 1000;
+    case "1000-plus":
+      return price >= 1000;
+  }
 }
 
 /**
@@ -70,29 +76,23 @@ function isRelevant(product: Product, archetype: ArchetypeId) {
 }
 
 /**
- * Relevant gifts near the chosen budget. Widens the price neighbourhood only if
- * nothing relevant sits close by; it never relaxes the relevance rule.
+ * Gifts that satisfy BOTH conditions: they suit this recipient, and they sit
+ * inside the budget that was chosen. Nothing else is a candidate — if that
+ * leaves one gift, or none, the results page says so rather than padding.
  */
 function candidatePool(archetype: ArchetypeId, budgetId: BudgetId): Product[] {
-  const relevant = PRODUCTS.filter((p) => isRelevant(p, archetype));
-
-  // Look one budget band either side first. If that leaves too little to choose
-  // from, reach further out — but only ever across gifts that already suit this
-  // recipient, so widening never means showing something irrelevant. Scoring
-  // still ranks in-budget gifts above the ones reached for.
-  const target = Math.min(3, relevant.length);
-  for (let spread = 1; spread < BUDGETS.length; spread++) {
-    const pool = relevant.filter((p) => bandDistance(p.price, budgetId) <= spread);
-    if (pool.length >= target) return pool;
-  }
-  return relevant;
+  return PRODUCTS.filter(
+    (p) => isRelevant(p, archetype) && isWithinBudget(p.price, budgetId),
+  );
 }
 
+/**
+ * Ranks gifts that are already inside the budget, so price plays no part here.
+ */
 function scoreProduct(
   product: Product,
   archetype: ArchetypeId,
   prefs: PrefKey[],
-  budgetId: BudgetId,
 ) {
   const vibe = ARCHETYPES[archetype];
   let score = 0;
@@ -105,10 +105,6 @@ function scoreProduct(
 
   // Gift preferences picked up from the questionnaire.
   score += product.prefs.filter((p) => prefs.includes(p)).length * 5;
-
-  // Budget: inside the chosen band wins, one band out is still plausible.
-  const distance = bandDistance(product.price, budgetId);
-  score += distance === 0 ? 18 : distance === 1 ? 8 : 2;
 
   return score;
 }
@@ -136,7 +132,7 @@ export function recommend(options: {
   const ranked = pool
     .map((product) => ({
       product,
-      score: scoreProduct(product, archetype, prefs, budget),
+      score: scoreProduct(product, archetype, prefs),
     }))
     .sort((a, b) => b.score - a.score || a.product.price - b.product.price);
 

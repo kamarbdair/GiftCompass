@@ -28,6 +28,7 @@ export function ResultsScreen({
   occasion,
   onBack,
   onRestart,
+  onChangeBudget,
 }: {
   archetype: ArchetypeId;
   budget: BudgetId;
@@ -36,6 +37,7 @@ export function ResultsScreen({
   occasion: string;
   onBack: () => void;
   onRestart: () => void;
+  onChangeBudget: () => void;
 }) {
   const [mode, setMode] = useState<RefineMode>("default");
   const [page, setPage] = useState(0);
@@ -143,13 +145,21 @@ export function ResultsScreen({
 
       {gifts.length === 0 && (
         <div className="gc-fade-up mt-7 rounded-3xl border border-ink/8 bg-white/70 p-8 text-center">
-          <p className="font-display text-[1.15rem] font-semibold text-ink">
-            Nothing here feels right for them
+          <p className="font-display text-[1.25rem] font-semibold leading-snug text-ink">
+            We couldn&apos;t find a strong match in this budget yet.
           </p>
-          <p className="mx-auto mt-2 max-w-[24rem] text-[0.88rem] leading-relaxed text-ink/55">
-            We would rather say so than suggest a gift that misses. Try a
-            different budget.
+          <p className="mx-auto mt-2.5 max-w-[24rem] text-[0.88rem] leading-relaxed text-ink/55">
+            Everything we would suggest for {recipient.toLowerCase()} sits
+            outside {band.label}. We would rather show nothing than a gift that
+            misses.
           </p>
+          <button
+            type="button"
+            onClick={onChangeBudget}
+            className="mt-6 rounded-full bg-plum px-7 py-3.5 text-[0.9rem] font-semibold text-cream transition hover:bg-ink"
+          >
+            Change Budget
+          </button>
         </div>
       )}
 

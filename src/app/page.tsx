@@ -163,6 +163,7 @@ export default function Home() {
           occasion={session.occasion || "Birthday"}
           onBack={() => setStep("vibe")}
           onRestart={restart}
+          onChangeBudget={() => setStep("details")}
         />
       );
   }
