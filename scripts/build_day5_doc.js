@@ -41,10 +41,6 @@ const relOf = (code) => {
   const vals = RATERS.map((n) => Number(row[`r${n}_relevance_0_2`])).filter((v) => !Number.isNaN(v));
   return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
 };
-const flagOf = (code, field) => {
-  const row = sheetData.find((r) => r.item_code === code);
-  return RATERS.map((n) => (row[`r${n}_${field}`] || '').trim().toLowerCase() === 'y');
-};
 function agg(filter) {
   const rels = []; let del = 0; let emb = 0; let n = 0;
   for (const row of sheetData) {
