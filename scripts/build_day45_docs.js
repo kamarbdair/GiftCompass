@@ -21,6 +21,44 @@ const laylaPersona = readJson('data/personas/psn_layla.json');
 const laylaSignals = readJson('data/signals/psn_layla.json');
 const sheetRows = read('data/evaluation/rating-sheet.csv').trim().split('\n').length - 1;
 
+const csvSplit = (line) => {
+  const out = []; let cur = ''; let q = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+    if (ch === '"') { if (q && line[i + 1] === '"') { cur += '"'; i += 1; } else q = !q; }
+    else if (ch === ',' && !q) { out.push(cur); cur = ''; } else cur += ch;
+  }
+  out.push(cur); return out;
+};
+const sheetLines = read('data/evaluation/rating-sheet.csv').replace(/\r\n/g, '\n').trim().split('\n');
+const sheetHead = csvSplit(sheetLines[0]);
+const sheetData = sheetLines.slice(1).map((l) => Object.fromEntries(csvSplit(l).map((c, i) => [sheetHead[i], c])));
+const RATERS = [1, 2, 3].filter((n) => sheetData.some((r) => (r[`r${n}_relevance_0_2`] || '').trim() !== ''));
+const systemsOf = new Map();
+for (const k of read('data/evaluation/rating-key.csv').trim().split('\n').slice(1).map(csvSplit)) {
+  const set = systemsOf.get(k[0]) || new Set();
+  set.add(k[2]); systemsOf.set(k[0], set);
+}
+function agg(filter) {
+  const rels = []; let del = 0; let emb = 0; let n = 0;
+  for (const row of sheetData) {
+    if (!filter(row, systemsOf.get(row.item_code) || new Set())) continue;
+    for (const r of RATERS) {
+      const v = Number(row[`r${r}_relevance_0_2`]);
+      if (Number.isNaN(v)) continue;
+      rels.push(v); n += 1;
+      if ((row[`r${r}_delightful_y_n`] || '').toLowerCase() === 'y') del += 1;
+      if ((row[`r${r}_embarrassing_y_n`] || '').toLowerCase() === 'y') emb += 1;
+    }
+  }
+  const mean = rels.length ? rels.reduce((a, b) => a + b, 0) / rels.length : 0;
+  return { n, mean, meanTxt: mean.toFixed(2), del,
+    delPct: n ? `${Math.round((del / n) * 100)}%` : '—', embPct: n ? `${Math.round((emb / n) * 100)}%` : '—' };
+}
+const A_FULL = agg((r, s2) => s2.has('full'));
+const A_BASE = agg((r, s2) => s2.has('baseline'));
+const zeroRated = sheetData.filter((r) => RATERS.every((n) => r[`r${n}_relevance_0_2`] === '0'));
+
 const sum = (xs) => xs.reduce((a, b) => a + b, 0);
 const fullReturned = sum(full.map((r) => r.recommendations.length));
 const baseReturned = sum(base.map((r) => r.recommendations.length));
@@ -248,19 +286,20 @@ pf(P([t('The finding that matters: ', { bold: true }),
   t(`the full pipeline returned ${fullReturned} recommendations across the five recipients; the quiz-only baseline returned ${baseReturned}. Both stayed inside budget every time. The gap is not that the baseline ranks worse — it is that the baseline often cannot find five items it is confident enough to show, because a handful of quiz answers produce fewer and weaker interests. For Nouf the baseline managed two; the full persona reached five.`)]), { before: 120 });
 pf(P('Overlap between the two lists runs 0.4–1.0, so the donated signals change between none and three of the five slots. Where the quiz already captured the main interest, the extra signals mostly confirm it. That is a fair result for the design: the quiz is the primary source by decision, and social signals are an enhancement.'));
 
-pf(H('6.2 The human evaluation — protocol, not results', HeadingLevel.HEADING_2));
-pf(P([t('These numbers do not exist yet, and this document will not invent them. ', { bold: true }),
-  t(`The harness produced a blind rating sheet of ${sheetRows} items (data/evaluation/rating-sheet.csv). It does not say which system produced an item, so a rater cannot favour the full pipeline; the mapping lives in a separate key file.`)]));
-pf(bullet('Three teammates rate every item independently, without discussing.'));
-pf(bullet('relevance 0–2 — 0 wrong for this person, 1 plausible, 2 clearly right.'));
-pf(bullet('delightful y/n — would it be a pleasant surprise?'));
-pf(bullet('embarrassing y/n — would it be awkward for this relationship?'));
-pf(P('Then npm run score joins the ratings back to the systems and fills this table. It refuses to compute anything until real ratings exist, and reports any invalid cell instead of guessing.', { before: 100 }));
-pf(table(['System', 'Mean relevance (0–2)', 'Delightful %', 'Embarrassing %'], [
-  ['Full pipeline', '', '', ''],
-  ['Quiz-only baseline', '', '', ''],
-], [2400, 2600, 2000, 2000]));
-pf(note('Five recipients and three raters is a small sample, and the recipients are invented by the same team that built the system. Treat the outcome as an indication of direction, not as evidence of accuracy.'));
+pf(H('6.2 Human ratings', HeadingLevel.HEADING_2));
+pf(P(`All ${sheetRows} recommendations were rated against a blind sheet — it does not say which system produced an item. ${RATERS.length === 1
+  ? 'One rater completed it, so this is a single-rater pilot rather than the three-rater study the brief describes: there is no inter-rater agreement, and the blinding buys little when the rater built the system. It is one informed judgement of thirty suggestions.'
+  : `${RATERS.length} raters completed it independently.`}`));
+pf(table(['System', 'Ratings', 'Mean relevance (0–2)', 'Delightful', 'Embarrassing'], [
+  ['Full pipeline', String(A_FULL.n), A_FULL.meanTxt, A_FULL.delPct, A_FULL.embPct],
+  ['Quiz-only baseline', String(A_BASE.n), A_BASE.meanTxt, A_BASE.delPct, A_BASE.embPct],
+], [2400, 1400, 2400, 1400, 1400]));
+pf(bullet(`Relevance is a tie: ${A_FULL.meanTxt} against ${A_BASE.meanTxt}. The donated signals did not rank better, they produced more — ${A_FULL.n} rated recommendations against ${A_BASE.n}.`));
+pf(bullet(`Nothing was rated embarrassing, across all ${sheetRows} items and relationships from a brother at graduation to a colleague starting a job. The per-relationship thresholds worked.`));
+pf(bullet(`${sheetRows - zeroRated.length} of ${sheetRows} items were rated 1 or 2, so the pipeline reliably produces plausible gifts.`));
+pf(bullet(`Only ${A_FULL.del} of ${A_FULL.n} full-pipeline ratings were called delightful. The recommendations are safe rather than surprising, which points at the weights: novelty carries 0.10 against 0.35 for giftability and budget fit combined. P2 treats delight as a target, not a bonus.`));
+pf(bullet('The two items rated 0 were both for Sara, both from the full pipeline, and both outdoor gear pulled in by her travel interest — the catalog files city travel and camping under one key. That is a taxonomy fault, not a ranking fault, and no objective metric caught it.'));
+pf(note(`Five recipients and ${RATERS.length} rater${RATERS.length === 1 ? '' : 's'}, with the rater also the builder. Read the numbers as direction, not accuracy.`));
 
 pf(H('7. Worked example, end to end', HeadingLevel.HEADING_1));
 pf(P(`Input — best friend, birthday, up to ${layla.context.budget_sar.max} SAR, ${layla.context.days_until_occasion} days away. ${laylaSignals.signals.length} signals: 4 quiz answers and ${laylaSignals.signals.length - 4} donated TikTok activity items.`));
@@ -288,7 +327,9 @@ pf(bullet('Verify catalog rows against live listings and flip them to data_statu
 pf(bullet('Swap the deterministic persona builder for the LLM one and compare personas built from identical signals.'));
 pf(bullet('Swap TF-IDF for multilingual sentence embeddings, which should help most on Arabic signals.'));
 pf(bullet('Build the receiver Gift Profile flow — the invite link, in-browser parsing and the preview screen — after the TikTok feasibility check.'));
-pf(bullet('Run the human evaluation, then decide whether a giftability floor is needed for thin candidate pools.'));
+pf(bullet('Raise the novelty weight: the ratings say the recommendations are safe rather than delightful.'));
+pf(bullet('Split the travel interest key into city travel and outdoor adventure — it produced both zero-rated items.'));
+pf(bullet('Repeat the evaluation with three independent raters, ideally people who did not build the system.'));
 
 pf(H('9. How this meets the grading criteria', HeadingLevel.HEADING_1));
 pf(table(['Criterion', 'Where it is met'], [
@@ -296,7 +337,7 @@ pf(table(['Criterion', 'Where it is met'], [
   ['Data sources legal under PDPL and consent-based', 'No scraping anywhere. Quiz is primary; donation is opt-in and parsed on the receiver\'s device; consent, review and deletion are required schema fields, and the pipeline refuses a persona without consent.'],
   ['Architecture clear and buildable', 'Eight layers, one module each, running today as a CLI and an HTTP endpoint. Two layers are stubs behind interfaces, and both stubs are named as such.'],
   ['Persona structured, evidence-based, no sensitive traits', 'Published JSON Schema, weights computed from a documented formula, evidence required on every interest, blocked attributes enforced and covered by a test.'],
-  ['Prototype works and is evaluated against a baseline', 'Runs end to end over five recipients with 14 passing tests. Objective metrics are complete; the human ratings are collected by a blind sheet and are not yet filled in.'],
+  ['Prototype works and is evaluated against a baseline', `Runs end to end over five recipients with 14 passing tests. Objective metrics complete, and all ${sheetRows} recommendations rated against a blind sheet: relevance ${A_FULL.meanTxt} full against ${A_BASE.meanTxt} baseline, nothing embarrassing, ${sheetRows - zeroRated.length} of ${sheetRows} plausible or better. Reported as a single-rater pilot.`],
 ], [2600, 6400]));
 
 pf(H('10. Sources', HeadingLevel.HEADING_1));

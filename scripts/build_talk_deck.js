@@ -13,6 +13,44 @@ const fullN = sum(full.map((r) => r.recommendations.length));
 const baseN = sum(base.map((r) => r.recommendations.length));
 const catalogN = fs.readFileSync(path.join(ROOT, 'data/products_demo.csv'), 'utf8').trim().split('\n').length - 1;
 
+const csvSplit = (line) => {
+  const out = []; let cur = ''; let q = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+    if (ch === '"') { if (q && line[i + 1] === '"') { cur += '"'; i += 1; } else q = !q; }
+    else if (ch === ',' && !q) { out.push(cur); cur = ''; } else cur += ch;
+  }
+  out.push(cur); return out;
+};
+const sLines = fs.readFileSync(path.join(ROOT, 'data/evaluation/rating-sheet.csv'), 'utf8').replace(/\r\n/g, '\n').trim().split('\n');
+const sHead = csvSplit(sLines[0]);
+const sheetData = sLines.slice(1).map((l) => Object.fromEntries(csvSplit(l).map((c, i) => [sHead[i], c])));
+const RATERS = [1, 2, 3].filter((n) => sheetData.some((r) => (r[`r${n}_relevance_0_2`] || '').trim() !== ''));
+const systemsOf = new Map();
+for (const k of fs.readFileSync(path.join(ROOT, 'data/evaluation/rating-key.csv'), 'utf8').trim().split('\n').slice(1).map(csvSplit)) {
+  const set = systemsOf.get(k[0]) || new Set();
+  set.add(k[2]); systemsOf.set(k[0], set);
+}
+function agg(filter) {
+  const rels = []; let del = 0; let emb = 0; let n = 0;
+  for (const row of sheetData) {
+    if (!filter(systemsOf.get(row.item_code) || new Set())) continue;
+    for (const r of RATERS) {
+      const v = Number(row[`r${r}_relevance_0_2`]);
+      if (Number.isNaN(v)) continue;
+      rels.push(v); n += 1;
+      if ((row[`r${r}_delightful_y_n`] || '').toLowerCase() === 'y') del += 1;
+      if ((row[`r${r}_embarrassing_y_n`] || '').toLowerCase() === 'y') emb += 1;
+    }
+  }
+  const mean = rels.length ? rels.reduce((a, b) => a + b, 0) / rels.length : 0;
+  return { n, meanTxt: mean.toFixed(2), del, emb };
+}
+const A_FULL = agg((x) => x.has('full'));
+const A_BASE = agg((x) => x.has('baseline'));
+const nItems = sheetData.length;
+const nZero = sheetData.filter((r) => RATERS.every((n) => r[`r${n}_relevance_0_2`] === '0')).length;
+
 // Berry & cream: warm, gift-shaped, and not the default blue.
 const BERRY = '6D2E46';
 const ROSE = 'A26769';
@@ -304,16 +342,22 @@ function card(slide, { x, y, w, h, fill }) {
     x: 7.2, y: 2.55, w: 5.1, h: 1.6, isTextBox: true, margin: 0,
     fontFace: BODY, fontSize: 13, color: INK, paraSpaceAfter: 6,
   });
-  card(s, { x: 0.7, y: 4.45, w: 11.9, h: 1.85, fill: CREAM });
-  s.addText('What we have not done yet', {
+  card(s, { x: 0.7, y: 4.45, w: 11.9, h: 1.95, fill: CREAM });
+  s.addText(`Rated blind: relevance ${A_FULL.meanTxt} full vs ${A_BASE.meanTxt} baseline`, {
     x: 1.05, y: 4.62, w: 11.2, h: 0.35, isTextBox: true, margin: 0,
     fontFace: HEAD, fontSize: 17, bold: true, color: BERRY,
   });
-  s.addText('Relevance, delight and embarrassment need human judgement. The harness produced a blind rating sheet — it does not say which system made which suggestion — and three of us will rate every item independently. Those numbers are not in this deck, because we have not collected them yet.', {
-    x: 1.05, y: 5.0, w: 11.2, h: 1.1, isTextBox: true, margin: 0,
-    fontFace: BODY, fontSize: 14, color: INK,
+  const facts = [
+    `Nothing rated embarrassing — 0 of ${nItems}. The relationship thresholds worked.`,
+    `${nItems - nZero} of ${nItems} rated plausible or better.`,
+    `Only ${A_FULL.del} rated delightful: safe, not surprising. Novelty is weighted 0.10 — too low.`,
+    `Single-rater pilot, ${nItems} items. Direction, not accuracy.`,
+  ];
+  s.addText(facts.map((f, i) => ({ text: f, options: { bullet: true, breakLine: i < facts.length - 1 } })), {
+    x: 1.05, y: 5.02, w: 11.2, h: 1.3, isTextBox: true, margin: 0,
+    fontFace: BODY, fontSize: 13.5, color: INK, paraSpaceAfter: 4,
   });
-  s.addNotes('55s. The measurable result: donated signals mostly do not change the ranking, they increase how many gifts the system is confident enough to show. Be explicit that the human ratings are not collected yet — the sheet is blind and ready.');
+  s.addNotes('55s. Two results. Relevance is a tie, so the donated signals add breadth not accuracy. And the human ratings caught two things no metric did: nothing was embarrassing, which means the filters work, and almost nothing was delightful, which means we tuned for safety. Say clearly this is one rater, not three.');
 }
 
 // ----------------------------------------------------------------- 9. close

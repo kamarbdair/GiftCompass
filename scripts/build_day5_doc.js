@@ -15,6 +15,66 @@ const full = runs.filter((r) => r.system === 'full');
 const base = runs.filter((r) => r.system === 'baseline');
 const metrics = read('data/evaluation/objective-metrics.csv').trim().split('\n').slice(1).map((l) => l.split(','));
 const sheetRows = read('data/evaluation/rating-sheet.csv').trim().split('\n').length - 1;
+
+// --- human ratings, read back from the scored sheet -----------------------
+const csvSplit = (line) => {
+  const out = []; let cur = ''; let q = false;
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+    if (ch === '"') { if (q && line[i + 1] === '"') { cur += '"'; i += 1; } else q = !q; }
+    else if (ch === ',' && !q) { out.push(cur); cur = ''; } else cur += ch;
+  }
+  out.push(cur); return out;
+};
+const sheetLines = read('data/evaluation/rating-sheet.csv').replace(/\r\n/g, '\n').trim().split('\n');
+const sheetHead = csvSplit(sheetLines[0]);
+const sheetData = sheetLines.slice(1).map((l) => Object.fromEntries(csvSplit(l).map((c, i) => [sheetHead[i], c])));
+const RATERS = [1, 2, 3].filter((n) => sheetData.some((r) => (r[`r${n}_relevance_0_2`] || '').trim() !== ''));
+const keyLines = read('data/evaluation/rating-key.csv').trim().split('\n').slice(1).map(csvSplit);
+const systemsOf = new Map();
+for (const k of keyLines) {
+  const set = systemsOf.get(k[0]) || new Set();
+  set.add(k[2]); systemsOf.set(k[0], set);
+}
+const relOf = (code) => {
+  const row = sheetData.find((r) => r.item_code === code);
+  const vals = RATERS.map((n) => Number(row[`r${n}_relevance_0_2`])).filter((v) => !Number.isNaN(v));
+  return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+};
+const flagOf = (code, field) => {
+  const row = sheetData.find((r) => r.item_code === code);
+  return RATERS.map((n) => (row[`r${n}_${field}`] || '').trim().toLowerCase() === 'y');
+};
+function agg(filter) {
+  const rels = []; let del = 0; let emb = 0; let n = 0;
+  for (const row of sheetData) {
+    const systems = systemsOf.get(row.item_code) || new Set();
+    if (!filter(row, systems)) continue;
+    for (const r of RATERS) {
+      const v = Number(row[`r${r}_relevance_0_2`]);
+      if (Number.isNaN(v)) continue;
+      rels.push(v);
+      if ((row[`r${r}_delightful_y_n`] || '').toLowerCase() === 'y') del += 1;
+      if ((row[`r${r}_embarrassing_y_n`] || '').toLowerCase() === 'y') emb += 1;
+      n += 1;
+    }
+  }
+  const mean = rels.length ? rels.reduce((a, b) => a + b, 0) / rels.length : 0;
+  return { n, mean, meanTxt: mean.toFixed(2), del, emb,
+    delPct: n ? `${Math.round((del / n) * 100)}%` : '—', embPct: n ? `${Math.round((emb / n) * 100)}%` : '—' };
+}
+const A_FULL = agg((r, s2) => s2.has('full'));
+const A_BASE = agg((r, s2) => s2.has('baseline'));
+const A_SHARED = agg((r, s2) => s2.has('full') && s2.has('baseline'));
+const A_FULLONLY = agg((r, s2) => s2.has('full') && !s2.has('baseline'));
+const A_BASEONLY = agg((r, s2) => s2.has('baseline') && !s2.has('full'));
+const perPersona = [...new Set(sheetData.map((r) => r.persona_id))].sort().map((pid) => ({
+  pid,
+  full: agg((r, s2) => r.persona_id === pid && s2.has('full')),
+  base: agg((r, s2) => r.persona_id === pid && s2.has('baseline')),
+}));
+const zeroRated = sheetData.filter((r) => relOf(r.item_code) === 0);
+const delta = A_FULL.mean - A_BASE.mean;
 const catalogN = read('data/products_demo.csv').trim().split('\n').length - 1;
 
 const sum = (xs) => xs.reduce((a, b) => a + b, 0);
@@ -106,15 +166,51 @@ p(H('Finding 4 — the relevance gate changed the result, and was worth it', Hea
 p(P('An earlier run returned five items for every recipient, including a pet water fountain for a football-mad teenager with no pets — it reached the list through the technology tag once a tight budget had thinned the candidate pool. Adding the gate (an item must be primarily about something they like, or connect to something they like strongly) reduced several lists below five. That is the intended behaviour: four good gifts beat five where one is noise, and it is also what exposed Finding 1.'));
 
 // ------------------------------------------------------------------ 5
-p(H('5. Human evaluation — not yet collected', HeadingLevel.HEADING_1));
-p(P([t('This section has no numbers in it, and we have not invented any. ', { bold: true }),
-  t(`Relevance, delight and embarrassment are human judgements. The blind sheet of ${sheetRows} items is ready; the three of us have not filled it in. Until we do, this table stays empty.`)]));
-p(table(['System', 'Ratings', 'Mean relevance (0–2)', 'Delightful %', 'Embarrassing %'], [
-  ['Full pipeline', '', '', '', ''],
-  ['Quiz-only baseline', '', '', '', ''],
-  ['Difference', '', '', '', ''],
+p(H('5. Human evaluation', HeadingLevel.HEADING_1));
+p(P(`All ${sheetRows} items were rated against the blind sheet. ${RATERS.length === 1
+  ? 'One rater completed it, so this is a single-rater pilot rather than the three-rater study the brief describes. There is no inter-rater agreement to report, and the blinding buys nothing when the same person sees every item — it is reported here as one informed judgement of thirty suggestions.'
+  : `${RATERS.length} raters completed it independently.`}`));
+
+p(H('5.1 Results', HeadingLevel.HEADING_2));
+p(table(['System', 'Ratings', 'Mean relevance (0–2)', 'Delightful', 'Embarrassing'], [
+  ['Full pipeline', String(A_FULL.n), A_FULL.meanTxt, A_FULL.delPct, A_FULL.embPct],
+  ['Quiz-only baseline', String(A_BASE.n), A_BASE.meanTxt, A_BASE.delPct, A_BASE.embPct],
+  ['Difference', `+${A_FULL.n - A_BASE.n}`, `${delta >= 0 ? '+' : ''}${delta.toFixed(2)}`, '—', '—'],
 ], [2200, 1400, 2200, 1600, 1600]));
-p(P('To fill it in: each rater opens data/evaluation/rating-sheet.csv, completes their own three columns (r1_*, r2_*, r3_*) without conferring, then run npm run score. The scorer joins the ratings back to the systems through the key file, reports any invalid cell rather than guessing at it, and refuses to compute anything at all until real ratings exist.', { before: 120 }));
+
+p(table(['Recipient', 'Full — relevance', 'Baseline — relevance', 'Full items', 'Baseline items'],
+  perPersona.map((x) => [
+    x.pid.replace('psn_', ''),
+    x.full.meanTxt, x.base.meanTxt, String(x.full.n), String(x.base.n),
+  ]), [2200, 1900, 1900, 1500, 1500]));
+
+p(H('5.2 What the ratings say', HeadingLevel.HEADING_2));
+
+p(P([t('Relevance is a tie. ', { bold: true }),
+  t(`${A_FULL.meanTxt} for the full pipeline against ${A_BASE.meanTxt} for the baseline — a difference of ${delta.toFixed(2)} on a three-point scale, which is noise at this sample size. The donated signals did not produce better-ranked gifts. What they produced, as section 4 showed, is more of them: ${A_FULL.n} rated recommendations against ${A_BASE.n}.`)]));
+
+p(P([t('Nothing was rated embarrassing. ', { bold: true }),
+  t(`Zero of ${sheetRows} items, across relationships as different as a brother at graduation and a colleague starting a new job. The per-relationship embarrassment thresholds and the relationship_fit filter did the job they were added for — Sara's colleague request alone dropped five items on relationship fit and one on embarrassment risk before ranking began.`)]));
+
+p(P([t('Almost nothing was rated wrong. ', { bold: true }),
+  t(`${sheetRows - zeroRated.length} of ${sheetRows} items scored 1 or 2. The pipeline is reliably producing plausible gifts.`)]));
+
+p(P([t('Very little was rated delightful. ', { bold: true }),
+  t(`Only ${A_FULL.del} of ${A_FULL.n} full-pipeline ratings were marked as a pleasant surprise, all of them for one recipient. The recommendations are sensible rather than surprising. That points straight at the ranking weights: novelty carries 0.10 while giftability and budget fit together carry 0.35, so the safe, obvious gift wins. P2 treats delight as a target, not a bonus, and on this evidence we are under-weighting it.`)]));
+
+p(P([t('The items both systems agree on are the best ones. ', { bold: true }),
+  t(`Shared items averaged ${A_SHARED.meanTxt} (n=${A_SHARED.n}), against ${A_FULLONLY.meanTxt} for items only the full pipeline found (n=${A_FULLONLY.n}) and ${A_BASEONLY.meanTxt} for baseline-only items (n=${A_BASEONLY.n}). Where quiz and donated signals converge, the recommendation is strong; the extra slots each system fills on its own are the weaker half of the list.`)]));
+
+p(H('5.3 The one clear failure', HeadingLevel.HEADING_2));
+p(P(`Sara is the only recipient where the full pipeline scored worse than the baseline (${perPersona.find((x) => x.pid === 'psn_sara').full.meanTxt} against ${perPersona.find((x) => x.pid === 'psn_sara').base.meanTxt}), and the cause is specific rather than statistical. Both items rated 0 in the whole study are hers, and both came from the full pipeline:`));
+p(table(['Item', 'Price', 'Why it got through'],
+  zeroRated.map((r) => [r.product_name, `${r.price_sar} SAR`,
+    'Matched her travel interest (weight 0.76), which the catalog also attaches to camping and diving gear.']),
+  [3600, 1200, 4200]));
+p(P('Her travel signals are about city trips and photography — "carry-on packing for a 3 day trip", "street photography walk in old Jeddah". The catalog files an action-camera mount and a cooler backpack under the same travel key. One key is carrying two unrelated meanings, so a strong interest pulled in products for an activity she never showed.'));
+p(P([t('This is a taxonomy problem, not a ranking problem. ', { bold: true }),
+  t('The weights, the filters and the score all behaved correctly; they were fed a key too broad to be useful. The fix is to split travel into trip/city-travel and outdoor/adventure, which is a catalog and taxonomy edit rather than a change to the engine. It is also the kind of fault only a human rater catches — every objective metric scored those two items as a clean match.')]));
+p(note(`Meanwhile the full pipeline beat the baseline for ${perPersona.filter((x) => x.full.mean > x.base.mean).length} of the 5 recipients and tied on ${perPersona.filter((x) => x.full.mean === x.base.mean).length}. One bad taxonomy key is enough to swing the overall average, which is a fair warning about how much weight five recipients can carry.`));
 
 // ------------------------------------------------------------------ 6
 p(H('6. What each recipient was recommended', HeadingLevel.HEADING_1));
@@ -136,23 +232,25 @@ p(H('7. Threats to validity', HeadingLevel.HEADING_1));
 p(P('Stated plainly, because a 5-recipient study can be over-read very easily:'));
 p(bullet('The recipients are invented by the same team that built the system. Their signals are what we imagined a matcha drinker or an F1 fan would post, so the persona builder is being tested against our own assumptions rather than against real behaviour.'));
 p(bullet('The catalog is demo data. Prices and availability are realistic for Jeddah but unverified, so "in budget" means in budget against a price we wrote.'));
-p(bullet('Five recipients and three raters is a small sample, and the raters built the system. Blinding helps, but it does not make us neutral.'));
+p(bullet(`Five recipients and ${RATERS.length} rater${RATERS.length === 1 ? '' : 's'} is a small sample, and the rater built the system. With one rater there is no agreement statistic and the blinding is decorative: a person who wrote the pipeline recognises its output. Treat every number in section 5 as one informed opinion.`));
 p(bullet('The persona builder is keyword-based, not the LLM described in the design. Some of the baseline\'s weakness may be the keyword matcher failing to extract much from four quiz sentences, rather than the quiz being genuinely thin.'));
 p(bullet('Retrieval is TF-IDF, not sentence embeddings. Semantic near-misses — "cup" against "mug" — are invisible to it.'));
+p(bullet('Delight and embarrassment are single yes/no judgements per item. Zero embarrassing results is encouraging, but the test set contains no deliberately awkward candidates — the filters removed them before a human ever saw them, so this measures the filters rather than the raters.'));
 p(P('The useful claim from this evaluation is narrow: the pipeline runs end to end, it respects every hard constraint, and richer input produces more confident recommendations. Whether those recommendations are good gifts is what the human ratings are for.', { before: 120 }));
 
 // ------------------------------------------------------------------ 8
 p(H('8. Conclusion', HeadingLevel.HEADING_1));
 p(P(`The Day 3 architecture survived contact with an implementation. Hard filters before ranking, a persona with evidence behind every interest, and a published scoring formula all behaved as specified across ${runs.length} runs over a ${catalogN}-item catalog, with no budget violation and no sensitive attribute anywhere in a persona.`));
-p(P('The comparison supports the Day 2 decision rather than overturning it: the quiz baseline is strong, and the consented signals add breadth rather than replacing it. That is the right shape for a product that must work when the recipient does not respond.'));
-p(P('The open question is quality, and it needs people. The harness is built, blind and ready; the ratings are the next thing this project needs, not more code.'));
+p(P(`The comparison supports the Day 2 decision rather than overturning it: the quiz baseline is strong (relevance ${A_BASE.meanTxt} against the full pipeline's ${A_FULL.meanTxt}), and the consented signals add breadth rather than accuracy. That is the right shape for a product that must work when the recipient does not respond — and it means the Gift Profile flow should be justified by coverage, not by a promise of better ranking.`));
+p(P(`The ratings found two things no objective metric could. Nothing was embarrassing, which is the clearest evidence that the relationship thresholds work. And almost nothing was delightful, which says the ranking is tuned for safety: novelty at 0.10 against 0.35 for giftability and budget fit produces the obvious gift. Raising novelty is the first change we would make.`));
+p(P('The one failure was also human-only: a travel interest that pulled in camping gear, because one taxonomy key covers two unrelated activities. Splitting that key is a smaller job than anything else on the list and would remove both zero-rated items.'));
 
 p(H('9. Day 5 deliverables', HeadingLevel.HEADING_1));
 p(table(['Deliverable', 'Where'], [
-  ['Evaluation table', 'This document, section 3 (objective) and section 5 (human, pending). Machine-readable in data/evaluation/objective-metrics.csv and results.csv once scored.'],
+  ['Evaluation table', 'This document, section 3 (objective) and section 5 (human). Machine-readable in data/evaluation/objective-metrics.csv and results.csv.'],
   ['Final design document', 'docs/GiftCompass_Final_Design_Document.docx'],
   ['5-minute talk', 'docs/GiftCompass_5min_Talk.pptx — 9 slides with speaker notes and timings'],
-  ['Rating materials', 'data/evaluation/rating-sheet.csv (blind) and rating-key.csv'],
+  ['Rating materials', 'data/evaluation/rating-sheet.csv (completed), rating-key.csv, and the rater export in data/evaluation/ratings/'],
 ], [2400, 6600]));
 
 const doc = new Document({

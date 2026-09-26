@@ -71,6 +71,7 @@ interface Rating { relevance: number; delightful: boolean; embarrassing: boolean
 
 const problems: string[] = [];
 const ratingsByItem = new Map<string, Rating[]>();
+const ratersSeen = new Set<string>();
 let rated = 0;
 
 for (const row of sheet) {
@@ -88,6 +89,7 @@ for (const row of sheet) {
     if (d === null || e === null) {
       problems.push(`${row.item_code} ${r}: delightful/embarrassing must be y or n`); continue;
     }
+    ratersSeen.add(r);
     list.push({ relevance, delightful: d, embarrassing: e });
   }
   if (list.length) { ratingsByItem.set(row.item_code, list); rated += 1; }
@@ -181,7 +183,14 @@ if (full && base) {
     : delta < -0.1
       ? 'The donated signals made relevance worse in this sample.'
       : 'No meaningful difference in this sample: the quiz baseline is doing most of the work.');
-  console.log('Five personas and three raters is a small sample. Report it as an indication, not a result.');
+
+  const personas = new Set([...byPersonaSystem.keys()].map((k) => k.split('|')[0])).size;
+  const nRaters = ratersSeen.size;
+  console.log(`\nSample: ${personas} personas, ${nRaters} rater${nRaters === 1 ? '' : 's'}. Report this as an indication, not a result.`);
+  if (nRaters < 2) {
+    console.log('With a single rater there is no inter-rater agreement to report, and the');
+    console.log('blinding of the sheet buys nothing. Call it a single-rater pilot.');
+  }
 }
 
 const outRows = [['persona_id', 'system', 'ratings', 'mean_relevance', 'delightful_rate', 'embarrassing_rate'], ...rows];

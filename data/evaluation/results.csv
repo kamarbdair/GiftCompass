@@ -1,0 +1,11 @@
+persona_id,system,ratings,mean_relevance,delightful_rate,embarrassing_rate
+psn_faisal,baseline,4,2.00,50%,0%
+psn_faisal,full,5,2.00,40%,0%
+psn_layla,baseline,5,1.60,0%,0%
+psn_layla,full,5,1.80,0%,0%
+psn_nouf,baseline,2,1.50,0%,0%
+psn_nouf,full,5,1.60,0%,0%
+psn_omar,baseline,3,1.00,0%,0%
+psn_omar,full,5,1.20,0%,0%
+psn_sara,baseline,5,1.60,0%,0%
+psn_sara,full,5,1.00,0%,0%
