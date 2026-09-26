@@ -12,6 +12,25 @@ Initial market: **Jeddah, Saudi Arabia**. Prices are shown in **SAR**.
 Working prototype of the recommendation pipeline (Day 4). The web UI is still
 the placeholder page; the pipeline runs through a CLI and an API route.
 
+## Documents
+
+| Day | Deliverable |
+| --- | --- |
+| 3 | `docs/day3/GiftCompass_Day3_Architecture_Schemas_Catalog.docx` + `architecture-v2.png` |
+| 4 | `docs/day4/GiftCompass_Day4_Prototype.docx` |
+| 5 | `docs/day5/GiftCompass_Day5_Evaluation.docx` |
+| 5 | `docs/GiftCompass_Final_Design_Document.docx` |
+| 5 | `docs/GiftCompass_5min_Talk.pptx` |
+
+Rebuild any of them from live repo data:
+
+```bash
+node scripts/build_day3_doc.js     # needs the `docx` npm package on NODE_PATH
+node scripts/build_day45_docs.js
+node scripts/build_day5_doc.js
+node scripts/build_talk_deck.js    # needs `pptxgenjs`
+```
+
 ## Stack
 
 - Next.js (App Router)
