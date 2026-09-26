@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "personas": "node scripts/build-personas.ts",
+    "recommend": "node scripts/recommend.ts",
+    "evaluate": "node scripts/run-evaluation.ts",
+    "score": "node scripts/score-evaluation.ts",
+    "test": "node --test scripts/test-pipeline.ts",
+    "validate": "python3 scripts/validate_catalog.py"
   },
   "dependencies": {
     "next": "16.3.5",

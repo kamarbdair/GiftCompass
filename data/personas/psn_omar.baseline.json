@@ -1,0 +1,108 @@
+{
+  "persona_id": "psn_omar_baseline",
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-26T09:00:00Z",
+  "expires_at": "2027-03-25T09:00:00.000Z",
+  "locale": "ar-SA",
+  "consent": {
+    "consent_given": true,
+    "granted_by": "sender_about_self",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": false,
+    "sources": [
+      "quiz"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "recipient_basics": {
+    "age_range": "12_17",
+    "city": "Jeddah",
+    "life_stage": "student"
+  },
+  "interests": [
+    {
+      "key": "football",
+      "label_en": "Football",
+      "label_ar": "كرة القدم",
+      "weight": 0.45,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.64,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Interests: football, always watching matches",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Free time: gym and football training",
+          "observed_at": "2026-09-20",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "fitness",
+      "label_en": "Fitness & gym",
+      "label_ar": "اللياقة والرياضة",
+      "weight": 0.29,
+      "strength": "weak",
+      "sentiment": "positive",
+      "giftability": 0.85,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Free time: gym and football training",
+          "observed_at": "2026-09-20",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "dislikes": [
+    {
+      "key": "reading",
+      "label_en": "Reading & books",
+      "reason": "negative_sentiment",
+      "source": "quiz"
+    }
+  ],
+  "style": {
+    "aesthetics": [
+      "sporty",
+      "colourful"
+    ],
+    "practical_vs_sentimental": -0.6,
+    "product_vs_experience": 0.4
+  },
+  "already_owns": [],
+  "blocked_attributes": [
+    "religion",
+    "health",
+    "politics",
+    "sexuality",
+    "ethnicity",
+    "income",
+    "financial_status"
+  ],
+  "provenance": {
+    "builder": "persona-builder-deterministic@1.0.0",
+    "built_at": "2026-09-26T09:00:00Z",
+    "signal_count": 4,
+    "source_mix": {
+      "quiz": 4
+    },
+    "completeness": 0.2,
+    "is_fallback": true
+  }
+}

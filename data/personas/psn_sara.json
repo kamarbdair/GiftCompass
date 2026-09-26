@@ -1,0 +1,176 @@
+{
+  "persona_id": "psn_sara",
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-26T09:00:00Z",
+  "expires_at": "2027-03-25T09:00:00.000Z",
+  "locale": "ar-SA",
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "recipient_basics": {
+    "age_range": "25_34",
+    "city": "Jeddah",
+    "life_stage": "working"
+  },
+  "interests": [
+    {
+      "key": "photography",
+      "label_en": "Photography",
+      "label_ar": "التصوير",
+      "weight": 0.86,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.88,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Interests: photography and travel",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "street photography walk in old Jeddah",
+          "observed_at": "2026-09-02",
+          "count": 7
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "camera settings for golden hour",
+          "observed_at": "2026-08-16",
+          "count": 9
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "followed",
+          "excerpt": "follows travel photography accounts",
+          "observed_at": "2026-06-05",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "key": "travel",
+      "label_en": "Travel",
+      "label_ar": "السفر",
+      "weight": 0.76,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.8,
+      "confidence": 0.88,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Interests: photography and travel",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Free time: weekend trips and coffee",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "carry-on packing for a 3 day trip",
+          "observed_at": "2026-08-01",
+          "count": 5
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "followed",
+          "excerpt": "follows travel photography accounts",
+          "observed_at": "2026-06-05",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "key": "coffee",
+      "label_en": "Coffee",
+      "label_ar": "القهوة",
+      "weight": 0.64,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.64,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Free time: weekend trips and coffee",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "pour over coffee at home routine",
+          "observed_at": "2026-07-21",
+          "count": 6
+        }
+      ]
+    }
+  ],
+  "dislikes": [
+    {
+      "key": "jewellery",
+      "label_en": "Jewellery",
+      "reason": "negative_sentiment",
+      "source": "quiz"
+    }
+  ],
+  "style": {
+    "aesthetics": [
+      "modern",
+      "minimal"
+    ],
+    "practical_vs_sentimental": -0.1,
+    "product_vs_experience": 0.5
+  },
+  "already_owns": [
+    {
+      "label": "clip-on phone lens kit",
+      "interest_key": "photography"
+    }
+  ],
+  "blocked_attributes": [
+    "religion",
+    "health",
+    "politics",
+    "sexuality",
+    "ethnicity",
+    "income",
+    "financial_status"
+  ],
+  "provenance": {
+    "builder": "persona-builder-deterministic@1.0.0",
+    "built_at": "2026-09-26T09:00:00Z",
+    "signal_count": 9,
+    "source_mix": {
+      "quiz": 4,
+      "tiktok_export": 5
+    },
+    "completeness": 0.7,
+    "is_fallback": false
+  }
+}

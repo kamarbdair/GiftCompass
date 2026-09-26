@@ -1,0 +1,112 @@
+{
+  "persona_id": "psn_faisal",
+  "recipient_label": "Faisal — Formula 1, cars, LEGO, gaming",
+  "note": "Synthetic test data written for Day 4. No real person and no real account.",
+  "recipient_basics": {
+    "age_range": "25_34",
+    "city": "Jeddah",
+    "life_stage": "graduate"
+  },
+  "style": {
+    "aesthetics": [
+      "sporty",
+      "modern"
+    ],
+    "practical_vs_sentimental": -0.4,
+    "product_vs_experience": 0.2
+  },
+  "already_owns": [],
+  "default_context": {
+    "relationship": "brother",
+    "occasion": "graduation",
+    "band": "500_1000",
+    "max": 1000,
+    "days": 21
+  },
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "signals": [
+    {
+      "text": "Interests: Formula 1 and cars",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Free time: gaming with friends",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Style: sporty and modern",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Not into fragrance or perfume gifts",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Jeddah Corniche Circuit grand prix highlights",
+      "source": "tiktok_export",
+      "signal_type": "reposted",
+      "observed_at": "2026-08-20",
+      "count": 9
+    },
+    {
+      "text": "ferrari pit stop breakdown #formula1",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-08-05",
+      "count": 6
+    },
+    {
+      "text": "building the lego technic racing car",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-07-02",
+      "count": 5
+    },
+    {
+      "text": "car detailing satisfying clips",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-06-18",
+      "count": 7
+    },
+    {
+      "text": "new gaming setup rgb tour",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-07-25",
+      "count": 4
+    },
+    {
+      "text": "follows racing collectibles shops",
+      "source": "tiktok_export",
+      "signal_type": "followed",
+      "observed_at": "2026-05-09",
+      "count": 2
+    }
+  ]
+}

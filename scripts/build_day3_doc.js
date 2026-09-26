@@ -40,7 +40,6 @@ const N_PRODUCTS = CATALOG.length;
 const N_COLS = Object.keys(CATALOG[0]).length;
 const N_KEYS = new Set(CATALOG.flatMap((r) => r.interest_keys.split('|'))).size;
 const TOTAL = 9000;
-const GREY = 'F1F5F9';
 
 const t = (text, o = {}) => new TextRun({ text, ...o });
 

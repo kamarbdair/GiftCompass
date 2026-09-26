@@ -1,0 +1,219 @@
+{
+  "persona_id": "psn_layla",
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-26T09:00:00Z",
+  "expires_at": "2027-03-25T09:00:00.000Z",
+  "locale": "ar-SA",
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "recipient_basics": {
+    "age_range": "18_24",
+    "city": "Jeddah",
+    "life_stage": "student"
+  },
+  "interests": [
+    {
+      "key": "matcha",
+      "label_en": "Matcha",
+      "label_ar": "الماتشا",
+      "weight": 0.79,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.76,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Drinks: matcha every morning",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "#matcharecipe ceremonial grade at home",
+          "observed_at": "2026-08-14",
+          "count": 7
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "reposted",
+          "excerpt": "matcha latte art tutorial",
+          "observed_at": "2026-07-30",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "key": "reading",
+      "label_en": "Reading & books",
+      "label_ar": "القراءة والكتب",
+      "weight": 0.78,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.76,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Free time: reading and annotating books",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "#booktok annotating my books with tabs",
+          "observed_at": "2026-08-02",
+          "count": 11
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "followed",
+          "excerpt": "follows independent bookshop accounts",
+          "observed_at": "2026-06-11",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "key": "home_decor",
+      "label_en": "Home & room decor",
+      "label_ar": "ديكور المنزل",
+      "weight": 0.62,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.8,
+      "confidence": 0.64,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Style: minimal and cozy rooms",
+          "observed_at": "2026-09-20",
+          "count": 1
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "neutral minimal desk setup tour",
+          "observed_at": "2026-07-19",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "key": "coffee",
+      "label_en": "Coffee",
+      "label_ar": "القهوة",
+      "weight": 0.52,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "reposted",
+          "excerpt": "matcha latte art tutorial",
+          "observed_at": "2026-07-30",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "key": "art",
+      "label_en": "Art & drawing",
+      "label_ar": "الفن والرسم",
+      "weight": 0.52,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.85,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "reposted",
+          "excerpt": "matcha latte art tutorial",
+          "observed_at": "2026-07-30",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "key": "cafe_culture",
+      "label_en": "Cafe culture",
+      "label_ar": "ثقافة المقاهي",
+      "weight": 0.48,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.7,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "specialty cafe hopping in Jeddah",
+          "observed_at": "2026-05-28",
+          "count": 5
+        }
+      ]
+    }
+  ],
+  "dislikes": [
+    {
+      "key": "makeup",
+      "label_en": "Makeup",
+      "reason": "negative_sentiment",
+      "source": "quiz"
+    }
+  ],
+  "style": {
+    "aesthetics": [
+      "minimal",
+      "cozy"
+    ],
+    "practical_vs_sentimental": 0.2,
+    "product_vs_experience": -0.3
+  },
+  "already_owns": [
+    {
+      "label": "electric milk frother",
+      "interest_key": "matcha"
+    }
+  ],
+  "blocked_attributes": [
+    "religion",
+    "health",
+    "politics",
+    "sexuality",
+    "ethnicity",
+    "income",
+    "financial_status"
+  ],
+  "provenance": {
+    "builder": "persona-builder-deterministic@1.0.0",
+    "built_at": "2026-09-26T09:00:00Z",
+    "signal_count": 10,
+    "source_mix": {
+      "quiz": 4,
+      "tiktok_export": 6
+    },
+    "completeness": 1,
+    "is_fallback": false
+  }
+}

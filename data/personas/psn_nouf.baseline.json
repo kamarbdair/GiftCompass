@@ -1,0 +1,112 @@
+{
+  "persona_id": "psn_nouf_baseline",
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-26T09:00:00Z",
+  "expires_at": "2027-03-25T09:00:00.000Z",
+  "locale": "ar-SA",
+  "consent": {
+    "consent_given": true,
+    "granted_by": "sender_about_self",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": false,
+    "sources": [
+      "quiz"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "recipient_basics": {
+    "age_range": "45_54",
+    "city": "Jeddah",
+    "life_stage": "working"
+  },
+  "interests": [
+    {
+      "key": "skincare",
+      "label_en": "Skincare",
+      "label_ar": "العناية بالبشرة",
+      "weight": 0.29,
+      "strength": "weak",
+      "sentiment": "positive",
+      "giftability": 0.75,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Interests: skincare routine and oud",
+          "observed_at": "2026-09-20",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "fragrance",
+      "label_en": "Fragrance & oud",
+      "label_ar": "العطور والعود",
+      "weight": 0.29,
+      "strength": "weak",
+      "sentiment": "positive",
+      "giftability": 0.85,
+      "confidence": 0.52,
+      "evidence": [
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Interests: skincare routine and oud",
+          "observed_at": "2026-09-20",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "dislikes": [
+    {
+      "key": "gaming",
+      "label_en": "Gaming",
+      "reason": "negative_sentiment",
+      "source": "quiz"
+    },
+    {
+      "key": "technology",
+      "label_en": "Technology & gadgets",
+      "reason": "negative_sentiment",
+      "source": "quiz"
+    }
+  ],
+  "style": {
+    "aesthetics": [
+      "classic",
+      "cozy"
+    ],
+    "practical_vs_sentimental": 0.5,
+    "product_vs_experience": -0.2
+  },
+  "already_owns": [
+    {
+      "label": "jade roller",
+      "interest_key": "skincare"
+    }
+  ],
+  "blocked_attributes": [
+    "religion",
+    "health",
+    "politics",
+    "sexuality",
+    "ethnicity",
+    "income",
+    "financial_status"
+  ],
+  "provenance": {
+    "builder": "persona-builder-deterministic@1.0.0",
+    "built_at": "2026-09-26T09:00:00Z",
+    "signal_count": 4,
+    "source_mix": {
+      "quiz": 4
+    },
+    "completeness": 0.2,
+    "is_fallback": true
+  }
+}

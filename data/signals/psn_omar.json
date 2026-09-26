@@ -1,0 +1,105 @@
+{
+  "persona_id": "psn_omar",
+  "recipient_label": "Omar — football, gym, tech (teen)",
+  "note": "Synthetic test data written for Day 4. No real person and no real account.",
+  "recipient_basics": {
+    "age_range": "12_17",
+    "city": "Jeddah",
+    "life_stage": "student"
+  },
+  "style": {
+    "aesthetics": [
+      "sporty",
+      "colourful"
+    ],
+    "practical_vs_sentimental": -0.6,
+    "product_vs_experience": 0.4
+  },
+  "already_owns": [],
+  "default_context": {
+    "relationship": "classmate",
+    "occasion": "birthday",
+    "band": "100_250",
+    "max": 250,
+    "days": 5
+  },
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "signals": [
+    {
+      "text": "Interests: football, always watching matches",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Free time: gym and football training",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Style: sporty",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "I don't like books as gifts",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "كورة اهلي الجولة الاخيرة",
+      "source": "tiktok_export",
+      "signal_type": "reposted",
+      "observed_at": "2026-09-01",
+      "count": 8
+    },
+    {
+      "text": "football freestyle skills tutorial",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-08-19",
+      "count": 12
+    },
+    {
+      "text": "gym workout split for beginners",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-08-08",
+      "count": 5
+    },
+    {
+      "text": "cheap tech gadgets under 100",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-07-28",
+      "count": 4
+    },
+    {
+      "text": "follows football club accounts",
+      "source": "tiktok_export",
+      "signal_type": "followed",
+      "observed_at": "2026-06-15",
+      "count": 3
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "persona_id": "psn_layla",
+  "recipient_label": "Layla — matcha, books, minimal room",
+  "note": "Synthetic test data written for Day 4. No real person and no real account.",
+  "recipient_basics": {
+    "age_range": "18_24",
+    "city": "Jeddah",
+    "life_stage": "student"
+  },
+  "style": {
+    "aesthetics": [
+      "minimal",
+      "cozy"
+    ],
+    "practical_vs_sentimental": 0.2,
+    "product_vs_experience": -0.3
+  },
+  "already_owns": [
+    {
+      "label": "electric milk frother",
+      "interest_key": "matcha"
+    }
+  ],
+  "default_context": {
+    "relationship": "best_friend",
+    "occasion": "birthday",
+    "band": "250_500",
+    "max": 500,
+    "days": 14
+  },
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "signals": [
+    {
+      "text": "Drinks: matcha every morning",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Free time: reading and annotating books",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Style: minimal and cozy rooms",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "I don't like makeup as a gift",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "#matcharecipe ceremonial grade at home",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-08-14",
+      "count": 7
+    },
+    {
+      "text": "matcha latte art tutorial",
+      "source": "tiktok_export",
+      "signal_type": "reposted",
+      "observed_at": "2026-07-30",
+      "count": 3
+    },
+    {
+      "text": "#booktok annotating my books with tabs",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-08-02",
+      "count": 11
+    },
+    {
+      "text": "follows independent bookshop accounts",
+      "source": "tiktok_export",
+      "signal_type": "followed",
+      "observed_at": "2026-06-11",
+      "count": 3
+    },
+    {
+      "text": "neutral minimal desk setup tour",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-07-19",
+      "count": 4
+    },
+    {
+      "text": "specialty cafe hopping in Jeddah",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-05-28",
+      "count": 5
+    }
+  ]
+}

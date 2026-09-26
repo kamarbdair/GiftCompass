@@ -1,0 +1,110 @@
+{
+  "persona_id": "psn_sara",
+  "recipient_label": "Sara — photography, travel, coffee (colleague)",
+  "note": "Synthetic test data written for Day 4. No real person and no real account.",
+  "recipient_basics": {
+    "age_range": "25_34",
+    "city": "Jeddah",
+    "life_stage": "working"
+  },
+  "style": {
+    "aesthetics": [
+      "modern",
+      "minimal"
+    ],
+    "practical_vs_sentimental": -0.1,
+    "product_vs_experience": 0.5
+  },
+  "already_owns": [
+    {
+      "label": "clip-on phone lens kit",
+      "interest_key": "photography"
+    }
+  ],
+  "default_context": {
+    "relationship": "colleague",
+    "occasion": "new_job",
+    "band": "250_500",
+    "max": 500,
+    "days": 7
+  },
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "signals": [
+    {
+      "text": "Interests: photography and travel",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Free time: weekend trips and coffee",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Style: modern and minimal",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Not a fan of jewellery",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "street photography walk in old Jeddah",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-09-02",
+      "count": 7
+    },
+    {
+      "text": "camera settings for golden hour",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-08-16",
+      "count": 9
+    },
+    {
+      "text": "carry-on packing for a 3 day trip",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-08-01",
+      "count": 5
+    },
+    {
+      "text": "pour over coffee at home routine",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-07-21",
+      "count": 6
+    },
+    {
+      "text": "follows travel photography accounts",
+      "source": "tiktok_export",
+      "signal_type": "followed",
+      "observed_at": "2026-06-05",
+      "count": 4
+    }
+  ]
+}

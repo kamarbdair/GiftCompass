@@ -1,0 +1,117 @@
+{
+  "persona_id": "psn_nouf",
+  "recipient_label": "Nouf — skincare, oud, home styling",
+  "note": "Synthetic test data written for Day 4. No real person and no real account.",
+  "recipient_basics": {
+    "age_range": "45_54",
+    "city": "Jeddah",
+    "life_stage": "working"
+  },
+  "style": {
+    "aesthetics": [
+      "classic",
+      "cozy"
+    ],
+    "practical_vs_sentimental": 0.5,
+    "product_vs_experience": -0.2
+  },
+  "already_owns": [
+    {
+      "label": "jade roller",
+      "interest_key": "skincare"
+    }
+  ],
+  "default_context": {
+    "relationship": "mother",
+    "occasion": "thank_you",
+    "band": "250_500",
+    "max": 500,
+    "days": 10
+  },
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-20T10:00:00Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "quiz",
+      "tiktok_export"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-20T10:00:00Z"
+  },
+  "signals": [
+    {
+      "text": "Interests: skincare routine and oud",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Free time: styling the house",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "Style: classic and cozy",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "I hate gaming gadgets",
+      "source": "quiz",
+      "signal_type": "quiz_answer",
+      "observed_at": "2026-09-20",
+      "count": 1
+    },
+    {
+      "text": "evening skincare routine serum and spf",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-08-28",
+      "count": 8
+    },
+    {
+      "text": "oud and bakhoor layering guide",
+      "source": "tiktok_export",
+      "signal_type": "reposted",
+      "observed_at": "2026-08-11",
+      "count": 5
+    },
+    {
+      "text": "مراجعة عطر عود جديد",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-07-14",
+      "count": 6
+    },
+    {
+      "text": "تنسيق ديكور غرفة المعيشة",
+      "source": "tiktok_export",
+      "signal_type": "saved",
+      "observed_at": "2026-07-06",
+      "count": 5
+    },
+    {
+      "text": "follows home decor accounts",
+      "source": "tiktok_export",
+      "signal_type": "followed",
+      "observed_at": "2026-06-02",
+      "count": 4
+    },
+    {
+      "text": "scented candle shelf styling",
+      "source": "tiktok_export",
+      "signal_type": "liked",
+      "observed_at": "2026-06-22",
+      "count": 3
+    }
+  ]
+}

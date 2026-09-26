@@ -70,6 +70,22 @@ def main():
             print(f"  [persona.example] interest '{i['key']}' outside taxonomy"); errors += 1
     print("persona example checked")
 
+    persona_dir = ROOT / "data/personas"
+    if persona_dir.exists():
+        n = 0
+        for f in sorted(persona_dir.glob("*.json")):
+            obj = json.loads(f.read_text())
+            for e in pv.iter_errors(obj):
+                print(f"  [{f.name}] {'.'.join(str(p) for p in e.path)}: {e.message}")
+                errors += 1
+            for i in obj.get("interests", []):
+                if i["key"] not in valid_keys:
+                    print(f"  [{f.name}] interest '{i['key']}' outside taxonomy"); errors += 1
+            if not obj["consent"]["consent_given"]:
+                print(f"  [{f.name}] persona without consent"); errors += 1
+            n += 1
+        print(f"{n} generated personas checked")
+
     pe = json.loads((ROOT / "docs/schemas/examples/product.example.json").read_text())
     for e in v.iter_errors(pe):
         print(f"  [product.example] {'.'.join(str(p) for p in e.path)}: {e.message}")
