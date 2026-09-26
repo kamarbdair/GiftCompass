@@ -12,7 +12,8 @@
     "evaluate": "node scripts/run-evaluation.ts",
     "score": "node scripts/score-evaluation.ts",
     "test": "node --test scripts/test-pipeline.ts",
-    "validate": "python3 scripts/validate_catalog.py"
+    "validate": "python3 scripts/validate_catalog.py",
+    "merge-ratings": "node scripts/merge-ratings.ts"
   },
   "dependencies": {
     "next": "16.3.5",
