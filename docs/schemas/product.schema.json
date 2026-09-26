@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giftcompass.app/schemas/product.schema.json",
+  "title": "GiftCompass Product (Catalog Item)",
+  "description": "One buyable gift candidate in the GiftCompass catalog. Field names match the column names of data/products_demo.csv exactly, so the CSV is a flat serialisation of this schema (array fields are pipe-separated in the CSV).",
+  "type": "object",
+  "required": ["product_id", "name_en", "category", "interest_keys", "price_sar", "occasions", "relationship_fit", "giftability", "embarrassment_risk", "available_in_jeddah", "delivery_days", "data_status"],
+  "additionalProperties": false,
+  "properties": {
+    "product_id": { "type": "string", "pattern": "^GC-[0-9]{4}$" },
+    "name_en": { "type": "string" },
+    "name_ar": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["drinkware", "books_stationery", "beauty_fragrance", "tech_gaming", "sports_fitness", "home_decor", "jewellery_watches", "hobby_collectibles", "food_gourmet", "outdoor_travel", "experience", "pets"]
+    },
+    "tags": { "type": "array", "items": { "type": "string" }, "description": "Free-text descriptors for embedding and keyword match. CSV: pipe-separated." },
+    "interest_keys": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+      "description": "Keys from interest-taxonomy.json. This is the join to Persona.interests[].key. CSV: pipe-separated."
+    },
+    "style_tags": { "type": "array", "items": { "type": "string" }, "description": "Matched against Persona.style.aesthetics. CSV: pipe-separated." },
+
+    "price_sar": { "type": "number", "minimum": 0, "description": "Indicative price in Saudi Riyal, delivery excluded." },
+    "currency": { "type": "string", "const": "SAR" },
+    "budget_band": { "type": "string", "enum": ["under_100", "100_250", "250_500", "500_1000", "1000_plus"], "description": "Derived from price_sar. Matches the sender's budget selector." },
+
+    "age_min": { "type": "integer", "minimum": 0 },
+    "age_max": { "type": "integer", "maximum": 120 },
+    "occasions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["birthday", "graduation", "anniversary", "wedding", "achievement", "thank_you", "just_because", "eid", "new_job", "get_well"] },
+      "description": "CSV: pipe-separated."
+    },
+    "relationship_fit": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "enum": ["friend", "best_friend", "partner", "mother", "father", "sister", "brother", "relative", "colleague", "classmate"] },
+      "description": "Hard filter, not a score. A gift that is right for a partner can be wrong for a colleague. CSV: pipe-separated."
+    },
+
+    "giftability": { "type": "number", "minimum": 0, "maximum": 1, "description": "How well this item works AS A GIFT (presentable, not too personal a size/fit, does not require the giver to know a private detail). A cheap phone case scores low even for a phone lover." },
+    "embarrassment_risk": { "type": "number", "minimum": 0, "maximum": 1, "description": "P2 embarrassment metric. Risk that the item lands as a faux pas. Thresholded per relationship at filter time: colleague 0.20, relative 0.30, friend/family 0.45, partner 0.70." },
+    "novelty": { "type": "number", "minimum": 0, "maximum": 1, "description": "Inverse of how obvious/common the item is. Feeds the 'pleasant surprise' term in ranking." },
+
+    "is_experience": { "type": "boolean", "default": false },
+    "personalizable": { "type": "boolean", "default": false, "description": "Can be engraved/customised. Raises sentimental value." },
+    "requires_size": { "type": "boolean", "default": false, "description": "Clothing/rings. Filtered out unless the sender declares they know the size." },
+
+    "available_in_jeddah": { "type": "boolean", "description": "In stock for Jeddah delivery or collection." },
+    "delivery_days": { "type": "integer", "minimum": 0, "description": "Typical days to Jeddah. Hard-filtered against days_until_occasion." },
+    "retailer_hint": { "type": "string", "description": "Indicative retailer TYPE or name for sourcing, e.g. 'Jarir', 'Noon', 'local roastery'. In demo data this is a sourcing hint, NOT a verified listing." },
+    "product_url": { "type": ["string", "null"], "description": "Deep link to the seller. NULL in demo data - never fabricate a URL." },
+    "image_url": { "type": ["string", "null"] },
+
+    "data_status": {
+      "type": "string",
+      "enum": ["demo", "verified"],
+      "description": "'demo' = placeholder item written for prototype development: the item type and price band are realistic for Jeddah, but the price is not a quoted price and no listing has been checked. 'verified' = sourced from a real listing on a stated date. Only 'verified' rows may ever be shown to a real user."
+    },
+    "verified_at": { "type": ["string", "null"], "format": "date" },
+    "notes": { "type": ["string", "null"] }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "note": "Shared controlled vocabulary. Persona interests and product interest_keys MUST use these keys so the two schemas can be joined. Extend deliberately: every new key needs a default_giftability value.",
+  "interests": [
+    { "key": "matcha",          "label_en": "Matcha",             "label_ar": "الماتشا",            "domain": "food_drink",   "default_giftability": 0.90 },
+    { "key": "coffee",          "label_en": "Coffee",             "label_ar": "القهوة",             "domain": "food_drink",   "default_giftability": 0.90 },
+    { "key": "cooking",         "label_en": "Cooking & baking",   "label_ar": "الطبخ والخبز",       "domain": "food_drink",   "default_giftability": 0.85 },
+    { "key": "sweets",          "label_en": "Desserts & sweets",  "label_ar": "الحلويات",           "domain": "food_drink",   "default_giftability": 0.70 },
+    { "key": "reading",         "label_en": "Reading & books",    "label_ar": "القراءة والكتب",     "domain": "culture",      "default_giftability": 0.90 },
+    { "key": "art",             "label_en": "Art & drawing",      "label_ar": "الفن والرسم",        "domain": "culture",      "default_giftability": 0.85 },
+    { "key": "photography",     "label_en": "Photography",        "label_ar": "التصوير",            "domain": "culture",      "default_giftability": 0.90 },
+    { "key": "music",           "label_en": "Music",              "label_ar": "الموسيقى",           "domain": "culture",      "default_giftability": 0.80 },
+    { "key": "gaming",          "label_en": "Gaming",             "label_ar": "الألعاب الإلكترونية","domain": "tech",         "default_giftability": 0.90 },
+    { "key": "technology",      "label_en": "Technology & gadgets","label_ar": "التقنية",           "domain": "tech",         "default_giftability": 0.85 },
+    { "key": "cars",            "label_en": "Cars",               "label_ar": "السيارات",           "domain": "hobby",        "default_giftability": 0.75 },
+    { "key": "formula1",        "label_en": "Formula 1 & racing",  "label_ar": "الفورمولا 1",        "domain": "sport",        "default_giftability": 0.90 },
+    { "key": "football",        "label_en": "Football",           "label_ar": "كرة القدم",          "domain": "sport",        "default_giftability": 0.90 },
+    { "key": "fitness",         "label_en": "Fitness & gym",      "label_ar": "اللياقة والرياضة",   "domain": "sport",        "default_giftability": 0.85 },
+    { "key": "outdoors",        "label_en": "Outdoors & camping",  "label_ar": "الرحلات والتخييم",   "domain": "hobby",        "default_giftability": 0.85 },
+    { "key": "travel",          "label_en": "Travel",             "label_ar": "السفر",              "domain": "lifestyle",    "default_giftability": 0.80 },
+    { "key": "skincare",        "label_en": "Skincare",           "label_ar": "العناية بالبشرة",    "domain": "beauty",       "default_giftability": 0.75 },
+    { "key": "fragrance",       "label_en": "Fragrance & oud",    "label_ar": "العطور والعود",      "domain": "beauty",       "default_giftability": 0.85 },
+    { "key": "makeup",          "label_en": "Makeup",             "label_ar": "المكياج",            "domain": "beauty",       "default_giftability": 0.65 },
+    { "key": "fashion",         "label_en": "Fashion & style",    "label_ar": "الأزياء",            "domain": "lifestyle",    "default_giftability": 0.60 },
+    { "key": "jewellery",       "label_en": "Jewellery",          "label_ar": "المجوهرات",          "domain": "lifestyle",    "default_giftability": 0.80 },
+    { "key": "watches",         "label_en": "Watches",            "label_ar": "الساعات",            "domain": "lifestyle",    "default_giftability": 0.85 },
+    { "key": "home_decor",      "label_en": "Home & room decor",  "label_ar": "ديكور المنزل",       "domain": "lifestyle",    "default_giftability": 0.80 },
+    { "key": "stationery",      "label_en": "Stationery & journaling","label_ar": "القرطاسية",      "domain": "lifestyle",    "default_giftability": 0.85 },
+    { "key": "plants",          "label_en": "Plants & gardening",  "label_ar": "النباتات",           "domain": "lifestyle",    "default_giftability": 0.80 },
+    { "key": "collectibles",    "label_en": "Collectibles & figures","label_ar": "المقتنيات",        "domain": "hobby",        "default_giftability": 0.85 },
+    { "key": "board_games",     "label_en": "Board games & puzzles","label_ar": "ألعاب الطاولة",     "domain": "hobby",        "default_giftability": 0.85 },
+    { "key": "cafe_culture",    "label_en": "Cafe culture",       "label_ar": "ثقافة المقاهي",      "domain": "lifestyle",    "default_giftability": 0.70 },
+    { "key": "sea_diving",      "label_en": "Sea, beach & diving", "label_ar": "البحر والغوص",       "domain": "hobby",        "default_giftability": 0.80 },
+    { "key": "pets",            "label_en": "Pets",               "label_ar": "الحيوانات الأليفة",  "domain": "lifestyle",    "default_giftability": 0.75 }
+  ],
+  "style_tags": [
+    "minimal", "cozy", "cute", "modern", "sporty", "classic", "luxury", "colourful", "vintage", "practical"
+  ],
+  "blocked_attributes": [
+    "religion", "religious_practice", "health", "medical_condition", "politics",
+    "political_opinion", "sexuality", "sexual_orientation", "ethnicity", "income",
+    "financial_status", "biometric", "criminal_record"
+  ]
+}

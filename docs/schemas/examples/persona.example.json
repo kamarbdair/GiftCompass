@@ -1,0 +1,173 @@
+{
+  "persona_id": "psn_7Kq2mR",
+  "schema_version": "1.0.0",
+  "created_at": "2026-09-26T09:12:00Z",
+  "expires_at": "2027-03-26T09:12:00Z",
+  "locale": "ar-SA",
+  "consent": {
+    "consent_given": true,
+    "granted_by": "receiver",
+    "purpose": "gift_recommendation",
+    "consent_version": "gc-consent-1.0-ar-en",
+    "granted_at": "2026-09-26T09:10:41Z",
+    "receiver_reviewed": true,
+    "sources": [
+      "tiktok_export",
+      "quiz"
+    ],
+    "raw_data_deleted": true,
+    "revocable_until": "2027-03-26T09:12:00Z"
+  },
+  "recipient_basics": {
+    "age_range": "18_24",
+    "city": "Jeddah",
+    "life_stage": "student"
+  },
+  "interests": [
+    {
+      "key": "matcha",
+      "label_en": "Matcha",
+      "label_ar": "الماتشا",
+      "weight": 0.79,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.86,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "#matcharecipe",
+          "observed_at": "2026-08-14",
+          "count": 7
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "reposted",
+          "excerpt": "ceremonial grade matcha at home",
+          "observed_at": "2026-07-30",
+          "count": 3
+        },
+        {
+          "source": "quiz",
+          "signal_type": "quiz_answer",
+          "excerpt": "Drinks: matcha",
+          "observed_at": "2026-09-26",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "reading",
+      "label_en": "Reading & books",
+      "label_ar": "القراءة والكتب",
+      "weight": 0.76,
+      "strength": "strong",
+      "sentiment": "positive",
+      "giftability": 0.9,
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "#booktok annotating my books",
+          "observed_at": "2026-08-02",
+          "count": 11
+        },
+        {
+          "source": "tiktok_export",
+          "signal_type": "followed",
+          "excerpt": "follows 3 bookshop accounts",
+          "observed_at": "2026-06-11",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "key": "home_decor",
+      "label_en": "Home & room decor",
+      "label_ar": "ديكور المنزل",
+      "weight": 0.55,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.8,
+      "confidence": 0.62,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "saved",
+          "excerpt": "neutral desk setup",
+          "observed_at": "2026-07-19",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "key": "cafe_culture",
+      "label_en": "Cafe culture",
+      "label_ar": "ثقافة المقاهي",
+      "weight": 0.48,
+      "strength": "medium",
+      "sentiment": "positive",
+      "giftability": 0.7,
+      "confidence": 0.55,
+      "evidence": [
+        {
+          "source": "tiktok_export",
+          "signal_type": "liked",
+          "excerpt": "specialty cafes in Jeddah",
+          "observed_at": "2026-05-28",
+          "count": 5
+        }
+      ]
+    }
+  ],
+  "dislikes": [
+    {
+      "key": "makeup",
+      "label_en": "Makeup",
+      "reason": "receiver_removed",
+      "source": "receiver_edit"
+    },
+    {
+      "key": "sweets",
+      "label_en": "Desserts & sweets",
+      "reason": "negative_sentiment",
+      "source": "manual_caption"
+    }
+  ],
+  "style": {
+    "aesthetics": [
+      "minimal",
+      "cozy"
+    ],
+    "practical_vs_sentimental": 0.2,
+    "product_vs_experience": -0.3
+  },
+  "already_owns": [
+    {
+      "label": "electric milk frother",
+      "interest_key": "matcha"
+    }
+  ],
+  "blocked_attributes": [
+    "religion",
+    "health",
+    "politics",
+    "sexuality",
+    "ethnicity",
+    "income",
+    "financial_status"
+  ],
+  "provenance": {
+    "builder": "persona-builder@1.0.0 (llm, json-mode, temperature 0.2)",
+    "built_at": "2026-09-26T09:12:00Z",
+    "signal_count": 34,
+    "source_mix": {
+      "tiktok_export": 33,
+      "quiz": 1
+    },
+    "completeness": 0.78,
+    "is_fallback": false
+  }
+}

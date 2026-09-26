@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giftcompass.app/schemas/gift-context.schema.json",
+  "title": "GiftCompass Gift Context (Sender Request)",
+  "description": "Supporting schema, not one of the two Day 3 deliverables. The SENDER's side of the request, deliberately kept separate from the Persona so the same persona can be reused for a different occasion, relationship or budget.",
+  "type": "object",
+  "required": ["request_id", "relationship", "occasion", "budget_sar"],
+  "additionalProperties": false,
+  "properties": {
+    "request_id": { "type": "string" },
+    "persona_id": { "type": ["string", "null"], "description": "Null until a persona is attached (e.g. while the receiver has not yet responded)." },
+    "relationship": { "type": "string", "enum": ["friend", "best_friend", "partner", "mother", "father", "sister", "brother", "relative", "colleague", "classmate", "other"] },
+    "occasion": { "type": "string", "enum": ["birthday", "graduation", "anniversary", "wedding", "achievement", "thank_you", "just_because", "eid", "new_job", "get_well", "other"] },
+    "budget_sar": {
+      "type": "object",
+      "required": ["max"],
+      "additionalProperties": false,
+      "properties": {
+        "band": { "type": "string", "enum": ["under_100", "100_250", "250_500", "500_1000", "1000_plus"] },
+        "min": { "type": "number", "minimum": 0, "default": 0 },
+        "max": { "type": "number", "minimum": 0, "description": "For the 1000_plus band the sender types an explicit ceiling." },
+        "includes_delivery": { "type": "boolean", "default": true }
+      }
+    },
+    "days_until_occasion": { "type": "integer", "minimum": 0, "description": "Hard filter against Product.delivery_days." },
+    "delivery_city": { "type": "string", "default": "Jeddah" },
+    "sender_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "experiences_ok": { "type": "boolean", "default": true },
+        "diy_ok": { "type": "boolean", "default": false },
+        "knows_size": { "type": "boolean", "default": false },
+        "exclude_categories": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "refinement": {
+      "type": "string",
+      "enum": ["more_unique", "more_sentimental", "more_practical", "cheaper", "more_premium", "different_category", "show_more"],
+      "description": "Applied on a re-run without rebuilding the persona or re-asking for relationship/occasion/budget."
+    }
+  }
+}
