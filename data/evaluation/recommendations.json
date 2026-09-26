@@ -46,7 +46,8 @@
       "after_filters": 43,
       "filter_drops": {
         "over_budget": 5,
-        "needs_size": 2
+        "needs_size": 2,
+        "weak_interest_match": 25
       },
       "returned": 5,
       "llm_rerank": false
@@ -207,9 +208,10 @@
       "filter_drops": {
         "over_budget": 5,
         "needs_size": 2,
-        "relationship_mismatch": 1
+        "relationship_mismatch": 1,
+        "weak_interest_match": 32
       },
-      "returned": 5,
+      "returned": 4,
       "llm_rerank": false
     },
     "recommendations": [
@@ -301,28 +303,6 @@
           "cosine": 0.322
         },
         "why": "They show an interest in gaming (1 signal). At 330 SAR it comes in well under your graduation budget of up to 1000 SAR."
-      },
-      {
-        "rank": 5,
-        "product_id": "GC-0149",
-        "name_en": "Karting session, 2 races",
-        "price_sar": 220,
-        "category": "experience",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.325,
-          "giftability": 0.8,
-          "budget_fit": 0.293,
-          "novelty": 0.8,
-          "embarrassment_risk": 0.15,
-          "total": 0.392,
-          "matched_keys": [
-            "cars"
-          ],
-          "top_key": "cars",
-          "cosine": 0.378
-        },
-        "why": "They show an interest in cars (1 signal). It is an experience rather than an object. At 220 SAR it comes in well under your graduation budget of up to 1000 SAR."
       }
     ]
   },
@@ -383,7 +363,8 @@
       "after_filters": 46,
       "filter_drops": {
         "already_owns": 1,
-        "over_budget": 3
+        "over_budget": 3,
+        "weak_interest_match": 4
       },
       "returned": 5,
       "llm_rerank": false
@@ -546,7 +527,8 @@
       "after_filters": 47,
       "filter_drops": {
         "over_budget": 2,
-        "already_owns": 1
+        "already_owns": 1,
+        "weak_interest_match": 15
       },
       "returned": 5,
       "llm_rerank": false
@@ -576,28 +558,6 @@
       },
       {
         "rank": 2,
-        "product_id": "GC-0013",
-        "name_en": "Arabic coffee dallah with finjan set",
-        "price_sar": 380,
-        "category": "drinkware",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.259,
-          "giftability": 0.84,
-          "budget_fit": 0.987,
-          "novelty": 0.6,
-          "embarrassment_risk": 0.05,
-          "total": 0.472,
-          "matched_keys": [
-            "home_decor"
-          ],
-          "top_key": "home_decor",
-          "cosine": 0.211
-        },
-        "why": "They show an interest in home & room decor (1 signal). At 380 SAR it fits your birthday budget of up to 500 SAR."
-      },
-      {
-        "rank": 3,
         "product_id": "GC-0144",
         "name_en": "Matcha and pastry tasting for two",
         "price_sar": 260,
@@ -619,7 +579,7 @@
         "why": "They show an interest in matcha (1 signal). It is an experience rather than an object. At 260 SAR it fits your birthday budget of up to 500 SAR."
       },
       {
-        "rank": 4,
+        "rank": 3,
         "product_id": "GC-0015",
         "name_en": "Matcha and tea gift hamper",
         "price_sar": 260,
@@ -639,6 +599,28 @@
           "cosine": 0.277
         },
         "why": "They show an interest in matcha (1 signal). At 260 SAR it fits your birthday budget of up to 500 SAR."
+      },
+      {
+        "rank": 4,
+        "product_id": "GC-0077",
+        "name_en": "Minimal desk lamp with wireless charging",
+        "price_sar": 285,
+        "category": "home_decor",
+        "data_status": "demo",
+        "score": {
+          "interest_match": 0.299,
+          "giftability": 0.81,
+          "budget_fit": 0.76,
+          "novelty": 0.5,
+          "embarrassment_risk": 0.1,
+          "total": 0.431,
+          "matched_keys": [
+            "home_decor"
+          ],
+          "top_key": "home_decor",
+          "cosine": 0.314
+        },
+        "why": "They show an interest in home & room decor (1 signal). At 285 SAR it fits your birthday budget of up to 500 SAR."
       },
       {
         "rank": 5,
@@ -710,7 +692,8 @@
         "already_owns": 1,
         "over_budget": 4,
         "disliked": 3,
-        "needs_size": 1
+        "needs_size": 1,
+        "weak_interest_match": 8
       },
       "returned": 5,
       "llm_rerank": false
@@ -868,9 +851,10 @@
       "filter_drops": {
         "already_owns": 1,
         "over_budget": 3,
-        "disliked": 1
+        "disliked": 1,
+        "weak_interest_match": 33
       },
-      "returned": 5,
+      "returned": 2,
       "llm_rerank": false
     },
     "recommendations": [
@@ -917,70 +901,6 @@
           "cosine": 0.402
         },
         "why": "They show an interest in fragrance & oud (1 signal). At 350 SAR it fits your thank-you budget of up to 500 SAR."
-      },
-      {
-        "rank": 3,
-        "product_id": "GC-0078",
-        "name_en": "Ceramic diffuser with essential oils",
-        "price_sar": 195,
-        "category": "home_decor",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.243,
-          "giftability": 0.835,
-          "budget_fit": 0.52,
-          "novelty": 0.5,
-          "embarrassment_risk": 0.1,
-          "total": 0.377,
-          "matched_keys": [
-            "fragrance"
-          ],
-          "top_key": "fragrance",
-          "cosine": 0.171
-        },
-        "why": "They show an interest in fragrance & oud (1 signal). At 195 SAR it comes in well under your thank-you budget of up to 500 SAR."
-      },
-      {
-        "rank": 4,
-        "product_id": "GC-0172",
-        "name_en": "Small reed diffuser",
-        "price_sar": 70,
-        "category": "home_decor",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.247,
-          "giftability": 0.835,
-          "budget_fit": 0.187,
-          "novelty": 0.5,
-          "embarrassment_risk": 0.1,
-          "total": 0.329,
-          "matched_keys": [
-            "fragrance"
-          ],
-          "top_key": "fragrance",
-          "cosine": 0.183
-        },
-        "why": "They show an interest in fragrance & oud (1 signal). At 70 SAR it comes in well under your thank-you budget of up to 500 SAR."
-      },
-      {
-        "rank": 5,
-        "product_id": "GC-0126",
-        "name_en": "Chef knife, Japanese steel",
-        "price_sar": 430,
-        "category": "food_gourmet",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.005,
-          "giftability": 0.61,
-          "budget_fit": 0.853,
-          "novelty": 0.45,
-          "embarrassment_risk": 0.25,
-          "total": 0.26,
-          "matched_keys": [],
-          "top_key": null,
-          "cosine": 0.013
-        },
-        "why": "This fits the general style in their profile. At 430 SAR it fits your thank-you budget of up to 500 SAR."
       }
     ]
   },
@@ -1026,7 +946,8 @@
       "after_filters": 28,
       "filter_drops": {
         "over_budget": 21,
-        "relationship_mismatch": 1
+        "relationship_mismatch": 1,
+        "weak_interest_match": 16
       },
       "returned": 5,
       "llm_rerank": false
@@ -1122,25 +1043,25 @@
       },
       {
         "rank": 5,
-        "product_id": "GC-0161",
-        "name_en": "Automatic pet water fountain",
-        "price_sar": 190,
-        "category": "pets",
+        "product_id": "GC-0171",
+        "name_en": "Braided cable organiser set",
+        "price_sar": 45,
+        "category": "tech_gaming",
         "data_status": "demo",
         "score": {
-          "interest_match": 0.332,
-          "giftability": 0.8,
-          "budget_fit": 0.987,
-          "novelty": 0.55,
-          "embarrassment_risk": 0.1,
-          "total": 0.481,
+          "interest_match": 0.336,
+          "giftability": 0.725,
+          "budget_fit": 0.24,
+          "novelty": 0.5,
+          "embarrassment_risk": 0.05,
+          "total": 0.358,
           "matched_keys": [
             "technology"
           ],
           "top_key": "technology",
-          "cosine": 0.094
+          "cosine": 0.106
         },
-        "why": "They show an interest in technology & gadgets (4 signals). At 190 SAR it fits your birthday budget of up to 250 SAR."
+        "why": "They show an interest in technology & gadgets (4 signals). At 45 SAR it comes in well under your birthday budget of up to 250 SAR."
       }
     ]
   },
@@ -1181,9 +1102,10 @@
       "after_filters": 21,
       "filter_drops": {
         "over_budget": 17,
-        "relationship_mismatch": 1
+        "relationship_mismatch": 1,
+        "weak_interest_match": 12
       },
-      "returned": 5,
+      "returned": 3,
       "llm_rerank": false
     },
     "recommendations": [
@@ -1252,46 +1174,6 @@
           "cosine": 0.091
         },
         "why": "They show an interest in fitness & gym (1 signal). It can be personalised, which suits a keepsake gift. At 130 SAR it fits your birthday budget of up to 250 SAR."
-      },
-      {
-        "rank": 4,
-        "product_id": "GC-0116",
-        "name_en": "Pottery clay starter kit",
-        "price_sar": 190,
-        "category": "hobby_collectibles",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.004,
-          "giftability": 0.69,
-          "budget_fit": 0.987,
-          "novelty": 0.75,
-          "embarrassment_risk": 0.06,
-          "total": 0.354,
-          "matched_keys": [],
-          "top_key": null,
-          "cosine": 0.01
-        },
-        "why": "This fits the general style in their profile. At 190 SAR it fits your birthday budget of up to 250 SAR."
-      },
-      {
-        "rank": 5,
-        "product_id": "GC-0108",
-        "name_en": "Collector display case, acrylic",
-        "price_sar": 175,
-        "category": "hobby_collectibles",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.003,
-          "giftability": 0.69,
-          "budget_fit": 0.933,
-          "novelty": 0.65,
-          "embarrassment_risk": 0.06,
-          "total": 0.335,
-          "matched_keys": [],
-          "top_key": null,
-          "cosine": 0.008
-        },
-        "why": "This fits the general style in their profile. At 175 SAR it fits your birthday budget of up to 250 SAR."
       }
     ]
   },
@@ -1339,7 +1221,8 @@
         "relationship_mismatch": 5,
         "already_owns": 1,
         "over_budget": 7,
-        "too_embarrassing": 1
+        "too_embarrassing": 1,
+        "weak_interest_match": 14
       },
       "returned": 5,
       "llm_rerank": false
@@ -1501,7 +1384,8 @@
         "over_budget": 7,
         "relationship_mismatch": 5,
         "already_owns": 1,
-        "too_embarrassing": 1
+        "too_embarrassing": 1,
+        "weak_interest_match": 18
       },
       "returned": 5,
       "llm_rerank": false
@@ -1553,28 +1437,6 @@
       },
       {
         "rank": 3,
-        "product_id": "GC-0139",
-        "name_en": "Insulated cooler backpack",
-        "price_sar": 230,
-        "category": "outdoor_travel",
-        "data_status": "demo",
-        "score": {
-          "interest_match": 0.432,
-          "giftability": 0.81,
-          "budget_fit": 0.613,
-          "novelty": 0.55,
-          "embarrassment_risk": 0.08,
-          "total": 0.47,
-          "matched_keys": [
-            "travel"
-          ],
-          "top_key": "travel",
-          "cosine": 0.406
-        },
-        "why": "They show an interest in travel (2 signals). At 230 SAR it comes in well under your new job budget of up to 500 SAR."
-      },
-      {
-        "rank": 4,
         "product_id": "GC-0055",
         "name_en": "Instant photo printer for phone",
         "price_sar": 450,
@@ -1596,7 +1458,7 @@
         "why": "They show an interest in photography (1 signal). At 450 SAR it fits your new job budget of up to 500 SAR."
       },
       {
-        "rank": 5,
+        "rank": 4,
         "product_id": "GC-0132",
         "name_en": "Leather passport holder and luggage tag",
         "price_sar": 165,
@@ -1616,6 +1478,28 @@
           "cosine": 0.393
         },
         "why": "They show an interest in travel (2 signals). It can be personalised, which suits a keepsake gift. At 165 SAR it comes in well under your new job budget of up to 500 SAR."
+      },
+      {
+        "rank": 5,
+        "product_id": "GC-0057",
+        "name_en": "Phone gimbal stabiliser",
+        "price_sar": 470,
+        "category": "tech_gaming",
+        "data_status": "demo",
+        "score": {
+          "interest_match": 0.273,
+          "giftability": 0.875,
+          "budget_fit": 0.747,
+          "novelty": 0.5,
+          "embarrassment_risk": 0.05,
+          "total": 0.439,
+          "matched_keys": [
+            "photography"
+          ],
+          "top_key": "photography",
+          "cosine": 0.247
+        },
+        "why": "They show an interest in photography (1 signal). At 470 SAR it fits your new job budget of up to 500 SAR."
       }
     ]
   }

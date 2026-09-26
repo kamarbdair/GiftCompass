@@ -30,3 +30,25 @@ python3 scripts/validate_catalog.py     # validates every row against the schema
 The validator also checks the example persona and product instances in
 `docs/schemas/examples/`, and rejects any interest key that is not in
 `docs/schemas/interest-taxonomy.json`.
+
+## evaluation/
+
+Written by `npm run evaluate`, which runs both systems over every persona.
+
+| File | What it is |
+| --- | --- |
+| `recommendations.json` | Every result from both systems, with score breakdowns and filter traces |
+| `objective-metrics.csv` | Metrics needing no human judgement (budget adherence, diversity, interest coverage, overlap) |
+| `rating-sheet.csv` | **Blind** sheet for three raters. Does not say which system produced an item |
+| `rating-key.csv` | Maps each item code back to its system — keep it away from the raters |
+
+Human columns start empty and stay empty until real raters fill them in.
+`npm run score` reports "no ratings yet" rather than inventing numbers, and
+flags any invalid cell instead of guessing.
+
+## signals/ and personas/
+
+`signals/` holds five synthetic recipients as raw signal bundles. They are
+invented: no real person, no real account. `npm run personas` turns each one
+into two personas — the full profile and a quiz-only baseline — in
+`personas/`. Those files are generated; edit the signal bundles, not them.

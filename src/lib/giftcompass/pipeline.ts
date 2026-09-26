@@ -4,8 +4,8 @@ import type { GiftContext, Persona, PipelineResult, Product, Recommendation } fr
 import { loadCatalog } from './data.ts';
 import { applyFilters } from './filters.ts';
 import {
-  coverStrongInterests, createRanker, diversify, retrieve, scoreProduct,
-  toRecommendation, type Ranker,
+  coverStrongInterests, createRanker, diversify, isRelevant, retrieve,
+  scoreProduct, toRecommendation, type Ranker,
 } from './ranking.ts';
 import { applyRerank, noopReranker, type RerankProvider } from './llm.ts';
 
@@ -42,10 +42,13 @@ export async function recommend(
     requireVerified: opts.requireVerified,
   });
 
-  // 6 - ranking + diversity
-  const scored = kept
+  // 6 - ranking, relevance gate, diversity
+  const allScored = kept
     .map((product) => ({ product, score: scoreProduct(product, persona, ctx, ranker, personaVector) }))
     .sort((a, b) => b.score.total - a.score.total);
+
+  const scored = allScored.filter((x) => isRelevant(x.score, x.product, persona));
+  const weakDrops = allScored.length - scored.length;
 
   const perCategory = opts.perCategory ?? 2;
   const top = coverStrongInterests(scored, diversify(scored, limit, perCategory), persona, perCategory);
@@ -67,7 +70,7 @@ export async function recommend(
       catalog_size: catalog.length,
       retrieved: retrieved.length,
       after_filters: kept.length,
-      filter_drops: drops,
+      filter_drops: weakDrops > 0 ? { ...drops, weak_interest_match: weakDrops } : drops,
       returned: recommendations.length,
       llm_rerank: reranker.name !== 'none',
     },

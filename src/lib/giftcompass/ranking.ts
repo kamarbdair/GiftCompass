@@ -122,6 +122,21 @@ export function retrieve(
   return { products: scored.slice(0, topN).filter((x) => x.s > 0).map((x) => x.p), personaVector };
 }
 
+/** Relevance gate. A product earns a slot only if it is primarily about
+ *  something the recipient likes, or it connects to something they like a lot.
+ *
+ *  Without this, a thin candidate pool lets an item ride in on giftability and
+ *  budget fit alone: a pet water fountain reached a football-mad teenager's
+ *  list because it happens to carry the `technology` tag. Returning four good
+ *  gifts beats returning five where one is noise.
+ */
+export function isRelevant(score: ScoreBreakdown, product: Product, persona: Persona): boolean {
+  if (score.matched_keys.length === 0) return false;
+  if (score.matched_keys.includes(product.interest_keys[0])) return true;
+  const byKey = new Map(persona.interests.map((i) => [i.key, i]));
+  return score.matched_keys.some((k) => (byKey.get(k)?.weight ?? 0) >= 0.66);
+}
+
 /** Interest coverage: the two strongest interests each deserve a slot when a
  *  qualifying candidate exists. Without this the budget_fit term can crowd out
  *  a whole interest — a recipient who loves books gets no book, because books
