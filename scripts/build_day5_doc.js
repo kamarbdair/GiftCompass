@@ -21,7 +21,6 @@ const sum = (xs) => xs.reduce((a, b) => a + b, 0);
 const fullN = sum(full.map((r) => r.recommendations.length));
 const baseN = sum(base.map((r) => r.recommendations.length));
 const shortName = (r) => r.recipient_label.split('—')[0].trim();
-const byId = (id, system) => runs.find((r) => r.persona_id === id && r.system === system);
 const m = (id, system, i) => (metrics.find((x) => x[0] === id && x[1] === system) || [])[i];
 
 const d = [];
