@@ -21,6 +21,7 @@ the placeholder page; the pipeline runs through a CLI and an API route.
 | 5 | `docs/day5/GiftCompass_Day5_Evaluation.docx` |
 | 5 | `docs/GiftCompass_Final_Design_Document.docx` |
 | 5 | `docs/GiftCompass_5min_Talk.pptx` |
+| — | `docs/GiftCompass_Feasibility_Study.docx` |
 
 Rebuild any of them from live repo data:
 
@@ -29,6 +30,7 @@ node scripts/build_day3_doc.js     # needs the `docx` npm package on NODE_PATH
 node scripts/build_day45_docs.js
 node scripts/build_day5_doc.js
 node scripts/build_talk_deck.js    # needs `pptxgenjs`
+node scripts/build_feasibility_study.js
 ```
 
 ## Stack
