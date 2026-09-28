@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 const {
-  Document, Packer, Paragraph, TextRun, ImageRun, AlignmentType, PageBreak,
-  HeadingLevel, BorderStyle, ShadingType,
+  Document, Packer, Paragraph, ImageRun, AlignmentType, PageBreak,
+  HeadingLevel, BorderStyle,
 } = require('docx');
 const K = require('./lib/docx-kit.js');
 
