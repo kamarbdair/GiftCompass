@@ -1,0 +1,174 @@
+\documentclass[10pt]{article}
+% GiftCompass --- Project Development Schedule (Gantt chart)
+% Built with the pgfgantt package, following the Overleaf pgfgantt example.
+% Compile with pdfLaTeX.
+\usepackage[a3paper,landscape,margin=1.4cm]{geometry}
+% For A4 instead, replace the line above with:
+% \usepackage[a4paper,landscape,margin=1cm]{geometry}  % also set y unit chart=0.24cm below
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{pgfgantt}
+\usepackage{caption}
+
+% ---- GiftCompass palette -------------------------------------------------
+\definecolor{gcBerry}   {HTML}{6D2E46}
+\definecolor{gcBerryDk} {HTML}{4A1F30}
+\definecolor{gcRose}    {HTML}{A26769}
+\definecolor{gcSand}    {HTML}{E7D9D3}
+\definecolor{gcInk}     {HTML}{2B1A20}
+\definecolor{gcGrid}    {HTML}{D8CBC8}
+
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+{\Large\bfseries\color{gcBerry} GiftCompass --- Project Development Schedule}\\[2pt]
+{\normalsize\color{gcInk} Personalised Gift Recommendation Platform for Jeddah, Saudi Arabia}\\[2pt]
+{\small\color{gcInk!70} Full software development life cycle, September 2026 -- May 2027 (39 weeks). Testing and evaluation complete before the May deadline.}
+\end{center}
+\vspace{1mm}
+
+\begin{center}
+\begin{ganttchart}[
+    hgrid,
+    vgrid={*{1}{draw=gcGrid!60, line width=0.2pt}},
+    x unit=0.68cm,
+    y unit title=0.50cm,
+    y unit chart=0.32cm,
+    title height=1,
+    title/.append style={fill=gcBerry, draw=gcBerryDk, line width=0.3pt},
+    title label font=\sffamily\bfseries\scriptsize\color{white},
+    include title in canvas=false,
+    bar/.append style={fill=gcRose, draw=gcBerryDk, line width=0.3pt, rounded corners=1pt},
+    bar height=0.62,
+    bar label font=\sffamily\scriptsize\color{gcInk},
+    bar label node/.append style={left=4pt},
+    group/.append style={fill=gcBerry, draw=gcBerryDk, line width=0.3pt},
+    group label font=\sffamily\bfseries\scriptsize\color{gcBerry},
+    group label node/.append style={left=4pt},
+    group height=0.5, group peaks height=0.14,
+    group right shift=0, group left shift=0,
+    milestone/.append style={fill=gcBerryDk, draw=gcBerryDk},
+    milestone label font=\sffamily\bfseries\scriptsize\color{gcBerryDk},
+    link/.style={->, thick, draw=gcInk!55},
+    link bulge=0.5, link tolerance=0.25,
+    progress label text={}, milestone label node/.append style={left=6pt},
+]{1}{39}
+  %% ---- calendar -------------------------------------------------------
+  \gantttitle{Semester 1 --- Analysis \& Design (Sep--Dec 2026)}{17} \gantttitle{Semester 2 --- Implementation, Testing \& Delivery (Jan--May 2027)}{22} \\
+  \gantttitle{Sep 2026}{4} \gantttitle{Oct 2026}{5} \gantttitle{Nov 2026}{4} \gantttitle{Dec 2026}{4} \gantttitle{Jan 2027}{5} \gantttitle{Feb 2027}{4} \gantttitle{Mar 2027}{4} \gantttitle{Apr 2027}{5} \gantttitle{May 2027}{4} \\
+  \gantttitlelist{1,...,39}{1} \\
+  \ganttgroup[name=p1]{\textbf{Phase 1 --- Requirements Engineering}}{1}{7} \\
+  \ganttbar[name=t11]{T1.1 Problem definition and project scope}{1}{2} \\
+  \ganttbar[name=t12]{T1.2 Literature review (gift recommenders, LLM4Rec)}{1}{4} \\
+  \ganttbar[name=t13]{T1.3 Stakeholder and user requirements (Jeddah)}{2}{5} \\
+  \ganttbar[name=t14]{T1.4 Functional and non-functional requirements}{4}{6} \\
+  \ganttbar[name=t15]{T1.5 Software Requirements Specification (SRS)}{6}{7} \\
+  \ganttmilestone[name=m1]{M1 --- Requirements baseline approved}{7} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p2]{\textbf{Phase 2 --- Feasibility \& Analysis}}{4}{10} \\
+  \ganttbar[name=t21]{T2.1 Technical feasibility assessment}{4}{6} \\
+  \ganttbar[name=t22]{T2.2 Legal analysis: PDPL and platform terms}{5}{8} \\
+  \ganttbar[name=t23]{T2.3 Data-source assessment (TikTok API, donation)}{6}{9} \\
+  \ganttbar[name=t24]{T2.4 Economic feasibility and cost model}{8}{9} \\
+  \ganttbar[name=t25]{T2.5 Feasibility study report}{9}{10} \\
+  \ganttmilestone[name=m2]{M2 --- Feasibility approved, data source fixed}{10} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p3]{\textbf{Phase 3 --- System Design}}{10}{17} \\
+  \ganttbar[name=t31]{T3.1 System architecture design}{10}{13} \\
+  \ganttbar[name=t32]{T3.2 Recipient persona schema and interest taxonomy}{12}{14} \\
+  \ganttbar[name=t33]{T3.3 Product catalogue schema}{12}{14} \\
+  \ganttbar[name=t34]{T3.4 Database design (ERD, PostgreSQL + pgvector)}{13}{16} \\
+  \ganttbar[name=t35]{T3.5 UI/UX wireframes and user-flow design}{13}{16} \\
+  \ganttbar[name=t36]{T3.6 High-fidelity UI design (Arabic/English, mobile)}{15}{17} \\
+  \ganttbar[name=t37]{T3.7 Consent and privacy design (bilingual screens)}{14}{17} \\
+  \ganttbar[name=t38]{T3.8 Recommendation algorithm design (filters, scoring)}{14}{17} \\
+  \ganttbar[name=t39]{T3.9 Software Design Document (SDD)}{16}{17} \\
+  \ganttmilestone[name=m3]{M3 --- Design freeze / Semester 1 review}{17} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p4]{\textbf{Phase 4 --- Implementation}}{16}{32} \\
+  \ganttbar[name=t41]{T4.1 Development environment and repository setup}{16}{17} \\
+  \ganttbar[name=t42]{T4.2 Database implementation and migrations}{18}{20} \\
+  \ganttbar[name=t43]{T4.3 Product catalogue module and price verification}{18}{23} \\
+  \ganttbar[name=t44]{T4.4 Backend API and routing}{19}{23} \\
+  \ganttbar[name=t45]{T4.5 Frontend: landing and gift-context screens}{20}{24} \\
+  \ganttbar[name=t46]{T4.6 Questionnaire module (recipient questions)}{22}{25} \\
+  \ganttbar[name=t47]{T4.7 Persona Builder module (LLM, schema-validated)}{23}{27} \\
+  \ganttbar[name=t48]{T4.8 Retrieval module (multilingual embeddings)}{25}{28} \\
+  \ganttbar[name=t49]{T4.9 Hard-filter module (budget, delivery, age, relation)}{26}{28} \\
+  \ganttbar[name=t410]{T4.10 Ranking and scoring engine}{28}{31} \\
+  \ganttbar[name=t411]{T4.11 Explanation generator (``why this matches'')}{31}{32} \\
+  \ganttbar[name=t412]{T4.12 Results and refinement interface}{29}{32} \\
+  \ganttbar[name=t413]{T4.13 Feedback capture module}{31}{32} \\
+  \ganttbar[name=t414]{T4.14 TikTok Gift Profile module (invite, parse, approve)}{24}{31} \\
+  \ganttbar[name=t415]{T4.15 Security and privacy implementation}{28}{32} \\
+  \ganttmilestone[name=m4]{M4 --- Feature-complete build}{32} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p5]{\textbf{Phase 5 --- Integration}}{30}{33} \\
+  \ganttbar[name=t51]{T5.1 Module integration}{30}{32} \\
+  \ganttbar[name=t52]{T5.2 End-to-end pipeline integration}{32}{33} \\
+  \ganttmilestone[name=m5]{M5 --- Integrated system}{33} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p6]{\textbf{Phase 6 --- Testing \& Debugging}}{24}{35} \\
+  \ganttbar[name=t61]{T6.1 Unit testing (continuous with development)}{24}{32} \\
+  \ganttbar[name=t62]{T6.2 Integration testing}{32}{34} \\
+  \ganttbar[name=t63]{T6.3 System testing}{33}{35} \\
+  \ganttbar[name=t64]{T6.4 Security and PDPL compliance testing}{32}{34} \\
+  \ganttbar[name=t65]{T6.5 Usability testing with target users}{33}{35} \\
+  \ganttbar[name=t66]{T6.6 Debugging and regression testing}{32}{35} \\
+  \ganttbar[name=t67]{T6.7 User acceptance testing (UAT)}{34}{35} \\
+  \ganttmilestone[name=m6]{M6 --- Testing complete (before May)}{35} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p7]{\textbf{Phase 7 --- Evaluation}}{32}{35} \\
+  \ganttbar[name=t71]{T7.1 Recommendation quality evaluation vs.\ baseline}{32}{34} \\
+  \ganttbar[name=t72]{T7.2 Results analysis and comparison}{34}{35} \\
+  \ganttmilestone[name=m7]{M7 --- Evaluation complete}{35} \\
+  %% ---------------------------------------------------------------------
+  \ganttgroup[name=p8]{\textbf{Phase 8 --- Documentation \& Closure}}{1}{39} \\
+  \ganttbar[name=t81]{T8.1 Continuous documentation and progress reports}{1}{35} \\
+  \ganttbar[name=t82]{T8.2 Final project report}{34}{38} \\
+  \ganttbar[name=t83]{T8.3 User manual and deployment guide}{35}{37} \\
+  \ganttbar[name=t84]{T8.4 Final presentation and demonstration preparation}{36}{38} \\
+  \ganttbar[name=t85]{T8.5 Final submission and project defence}{38}{39} \\
+  \ganttmilestone[name=m8]{M8 --- Final submission (May 2027)}{39}
+  %% ---- dependencies ---------------------------------------------------
+  \ganttlink{t11}{t13}
+  \ganttlink{t12}{t14}
+  \ganttlink{t14}{t15}
+  \ganttlink{t15}{m1}
+  \ganttlink{m1}{t24}
+  \ganttlink{t24}{t25}
+  \ganttlink{t25}{m2}
+  \ganttlink{m2}{t31}
+  \ganttlink{t31}{t34}
+  \ganttlink{t31}{t35}
+  \ganttlink{t32}{t38}
+  \ganttlink{t39}{m3}
+  \ganttlink{m3}{t42}
+  \ganttlink{t42}{t45}
+  \ganttlink{t44}{t47}
+  \ganttlink{t47}{t410}
+  \ganttlink{t49}{t410}
+  \ganttlink{t410}{t411}
+  \ganttlink{t414}{m4}
+  \ganttlink{t415}{m4}
+  \ganttlink{m4}{t52}
+  \ganttlink{t51}{t52}
+  \ganttlink{t52}{m5}
+  \ganttlink{m5}{t63}
+  \ganttlink{t62}{t67}
+  \ganttlink{t67}{m6}
+  \ganttlink{t72}{m7}
+  \ganttlink{m7}{t84}
+  \ganttlink{t82}{t85}
+  \ganttlink{t85}{m8}
+\end{ganttchart}
+\end{center}
+
+\vspace{0.5mm}
+\begin{center}\scriptsize\color{gcInk!75}
+\textbf{Legend:}\; \textcolor{gcBerry}{$\blacksquare$}~SDLC phase \quad \textcolor{gcRose}{$\blacksquare$}~Task \quad \textcolor{gcBerryDk}{$\blacklozenge$}~Milestone \quad $\rightarrow$~Dependency\\[2pt]
+Week 1 = first week of September 2026. \; M6 (testing complete) and M7 (evaluation complete) both fall in week 35 (end of April 2027), before the May deadline.
+\end{center}
+\end{document}
