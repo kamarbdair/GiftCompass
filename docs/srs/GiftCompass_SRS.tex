@@ -68,6 +68,20 @@
    \endfoot}
   {\end{longtable}}
 
+% elicitation table used in the requirements elicitation section
+\newenvironment{elictable}[2]
+  {\begin{longtable}{@{}L{2.8cm}L{3.9cm}L{7.8cm}@{}}
+   \caption{#1}\label{#2}\\
+   \toprule \textbf{Requirements} & \textbf{Elicitation technique} & \textbf{Justification} \\ \midrule
+   \endfirsthead
+   \toprule \textbf{Requirements} & \textbf{Elicitation technique} & \textbf{Justification} \\ \midrule
+   \endhead
+   \bottomrule
+   \endfoot}
+  {\end{longtable}}
+\newcommand{\applied}{\newline\textit{(applied)}}
+\newcommand{\planned}{\newline\textit{(planned for validation)}}
+
 \begin{document}
 
 %===================================================================== title
@@ -762,6 +776,346 @@ ERR-10 & Where the database or another essential internal service is unavailable
 ERR-11 & The system shall handle any unanticipated error without terminating the user's session, shall record the diagnostic detail server-side, and shall present the user with a plain-language message only (SEC-09). \\
 \end{reqtable}
 
+\section{Requirements Elicitation Techniques and Justification}
+\label{sec:elicitation}
+This section records, for each group of requirements in this document, the elicitation
+technique the requirement was derived from and the reason that technique was the appropriate
+one for it. It introduces no requirement and alters none: Sections~\ref{sec:fr}
+to~\ref{sec:errors} and Table~\ref{tab:nfr} remain the statement of what the system shall do.
+Requirements are grouped where one technique and one justification apply to all of them, and
+listed separately where they do not.
+
+Two statuses are used, and they are kept distinct throughout so that no activity is claimed
+that has not taken place.
+
+\begin{description}[style=nextline,leftmargin=0pt]
+  \item[Applied] The technique has been carried out and the requirement is derived from its
+        result. The applied techniques are: analysis of research literature; analysis of
+        regulatory and legal texts; analysis of platform developer documentation; analysis of
+        published technical, security and accessibility guidance; analysis of the project's
+        own documents [R3]--[R5]; benchmarking of comparable products and interfaces; and
+        exploratory prototyping together with the prototype evaluation.
+  \item[Planned for validation] The requirement has been derived by an applied technique and
+        the named technique is scheduled to confirm or correct it before the requirement is
+        baselined. \textbf{No user interview, survey, focus group or usability session has
+        been conducted at the date of this document, and no requirement stated here rests on
+        data from one.}
+\end{description}
+
+\noindent Where a row names both, the applied technique is the source of the requirement and
+the planned technique is the means by which it will be validated.
+
+\subsection{Elicitation of the Functional Requirements}
+
+\begin{elictable}{Elicitation technique and justification --- functional requirements}{tab:elic-fr}
+FR-01 -- FR-06 &
+Benchmarking and competitor analysis\applied &
+The three inputs that open the flow are a settled interaction pattern. Marketplaces,
+occasion-based gift guides and retailer gift finders were examined to establish which fields
+such a tool consistently asks for and which value lists are conventional. Benchmarking was the
+right source because the pattern already exists in comparable products, so the fields could be
+fixed from observed practice rather than from speculation about how a giver would behave. \\
+
+FR-07 -- FR-11 &
+Exploratory prototyping\applied\newline
+User interviews and a short survey of givers\planned &
+The question set was derived by building the questionnaire route and observing which answers
+produced a usable profile; the twelve-question ceiling (FR-07), the tolerance of unanswered
+questions (FR-10) and the prohibition on re-asking module M1 (FR-09) all follow from that.
+Because the wording of a question determines the quality of the answer, and no giver outside
+the team has yet completed the questionnaire, interviews and a short survey are planned to
+validate wording and ordering before the set is frozen. \\
+
+FR-12 -- FR-17 &
+Research literature analysis\applied, made concrete by prototyping &
+The structure of the profile --- evidence attached to every interest, a weight derived from
+signal strength and recency, and a strength band --- is taken from published work on gift
+recommendation and on preference modelling from behavioural signals, which is where the
+treatment of signal strength and recency decay is established. Literature analysis suited this
+group because no stakeholder can state how a preference weight ought to be computed.
+Prototyping then fixed the concrete values and produced the rule that an interest is never
+fabricated (FR-16), from observed sparse-input cases. \\
+
+FR-18 &
+Regulatory and legal document analysis\applied, supported by research literature &
+The prohibited attributes are those the Personal Data Protection Law and its implementing
+regulations [R2] treat as sensitive, so the boundary is set by law and is not open to
+stakeholder preference; legal-text analysis is therefore the only valid source. Published
+research showing that such attributes can be inferred from ordinary digital traces is the
+reason the prohibition is stated as a requirement on the system rather than left to
+implementation judgement. \\
+
+FR-19 -- FR-21 &
+Document analysis of seller listings, carried out while constructing the catalogue\applied &
+The mandatory field list was derived by examining the product information Jeddah sellers
+actually publish, and only attributes obtainable for every item were made mandatory. Document
+analysis was appropriate because the binding constraint is what data exists in the market,
+which is directly observable and would not be answered reliably by asking a user. \\
+
+FR-22 -- FR-24 &
+Analysis of the project's own risk and feasibility documents\applied &
+These requirements answer risk RK-03, catalogue drift, recorded in the feasibility study [R3].
+The need was elicited by analysing that risk record rather than from a user, because a user
+cannot observe that a displayed price has gone stale; the requirement therefore makes the
+verification state explicit instead of assuming freshness. \\
+
+FR-25 -- FR-28 &
+Exploratory prototyping\applied &
+The retrieval order --- retrieve first, filter afterwards --- the bounded candidate count and
+the obligation never to return an unexplained empty page were established by running the
+pipeline over the demonstration catalogue, including constraint combinations that eliminate
+every candidate. These are internal behaviours on which no external stakeholder holds an
+opinion, so observation of a working implementation was the only source that could settle
+them. \\
+
+FR-29 -- FR-33, FR-35 &
+Document analysis of the gift context and the catalogue schema\applied &
+Each of these exclusions is the direct consequence of a value already captured in module M1 or
+recorded in the Recipient Profile: budget, days remaining, age range, relationship, stated
+dislikes and items already owned. They were derived by tracing each captured field to the
+decision it must control, which is a documentary exercise; no elicitation from users was
+needed to establish that a gift over budget, or arriving after the occasion, is unusable. \\
+
+FR-34 &
+Research literature analysis\applied\newline
+Focus group with participants from the Jeddah market\planned &
+The idea of a social-appropriateness risk that varies with the closeness of the relationship
+is taken from published gift-recommendation research. That literature does not supply
+thresholds for this market: what is acceptable from a close friend but not from a colleague is
+culturally specific, and a focus group is the technique that surfaces shared social norms
+rather than individual taste. The requirement therefore fixes only that the threshold is
+relationship-dependent and configurable, and the values used in the prototype are provisional
+until that group is held. \\
+
+FR-36 -- FR-40 &
+Research literature analysis\applied, tuned by prototype evaluation &
+Multi-criteria scoring that combines match strength, giftability, budget fit and
+social-appropriateness follows published gift-recommender work. The constraint on model-based
+re-ordering (FR-40) follows from published analysis of large language models used for
+recommendation, which documents the invention of item identifiers absent from the candidate
+set. Literature identified that failure mode before the project could encounter it, which is
+why it is specified in advance rather than discovered in testing. \\
+
+FR-41 -- FR-44 &
+Prototype evaluation\applied\newline
+User interviews\planned &
+The three-sentence limit and the obligation to name an interest actually present in the
+profile were derived from the prototype evaluation [R5], in which generated explanations were
+rated alongside the products they justified. FR-44 follows from the same exercise: the score
+components the prototype exposes are meaningful for development only. Whether an explanation
+increases a giver's confidence in a suggestion is a question about the user, so interviews are
+planned to validate it. \\
+
+FR-45 -- FR-49 &
+Benchmarking of comparable interfaces\applied\newline
+Prototype evaluation\applied &
+The refinement vocabulary --- cheaper, more expensive, more practical, more sentimental, more
+unusual, different category --- was drawn from the filter and sort controls comparable
+shopping interfaces expose, then reduced to the operations this pipeline can actually perform.
+The rule that a short result set is never padded (FR-46) came from the evaluation, where a
+weakly matched item included to fill the set was rated poor; a relevance gate (FR-38) was
+introduced in response. \\
+
+FR-50 -- FR-52 &
+Analysis of the project's evaluation design\applied &
+These fields exist to supply the measurement NFR-13 requires. They were elicited by working
+backwards from the evaluation method recorded in [R5] to the data that method consumes, rather
+than from a user asking to rate results. Document analysis was appropriate because the purpose
+of the requirement is internal measurement, not a user-facing function. \\
+
+FR-53, FR-54, FR-57, FR-58, FR-61 &
+Regulatory and legal document analysis\applied &
+Each of these steps --- an invitation carrying no recipient data, a stated purpose with a
+refusal offered as prominently as acceptance, review of every inferred interest before
+storage, explicit approval, and deletion of the source material afterwards --- implements a
+specific obligation of the Personal Data Protection Law [R2] on consent, transparency and data
+minimisation. Those obligations are not negotiable with users, so the legal text is the
+authoritative source and a user-facing technique would have been the wrong instrument. \\
+
+FR-55, FR-56 &
+Analysis of platform developer documentation\applied &
+The TikTok developer documentation [R6] --- the Display API, the Login Kit scopes and the
+eligibility criteria of the Research API --- was analysed to establish what a project of this
+kind may lawfully obtain. It established that no route exists for retrieving a third party's
+activity without that person's own action, which is why FR-55 is written as a prohibition, and
+it established what a user-initiated export contains, which is the basis of the exclusion list
+in FR-56. \\
+
+FR-59, FR-60 &
+Exploratory prototyping\applied &
+That the system continues to function when the recipient declines, and that both routes
+produce a profile of the same structure, were established by running the pipeline with and
+without recipient-supplied signals and comparing the profiles produced. Prototyping is the
+technique that demonstrates independence between components; no interview or survey could have
+shown it. \\
+
+FR-62 -- FR-68 &
+Regulatory and legal document analysis\applied, with analysis of the project's own documents &
+The consent record, purpose limitation, data minimisation, retention expiry and deletion on
+request are each obligations drawn from the Personal Data Protection Law and its implementing
+regulations [R2]. The two-case distinction in FR-62 was obtained by applying those texts to
+the two routes this system actually offers, which required reading the legal text against the
+project's own architecture record [R4]. The bilingual requirement (FR-68) additionally follows
+from constraint C-5. \\
+\end{elictable}
+
+\subsection{Elicitation of the Interface, Data, Security and Error Requirements}
+
+\begin{elictable}{Elicitation technique and justification --- interface, data, security and error requirements}{tab:elic-other}
+UIR-01 -- UIR-10 &
+Benchmarking of comparable interfaces and analysis of published accessibility
+guidance\applied\newline
+Usability sessions with structured observation\planned &
+The step structure, the progress indication and the consistent results layout were derived by
+examining how comparable multi-step and results-based interfaces are built. The contrast and
+keyboard criteria in UIR-10 come from published accessibility guidance, which states them
+numerically and so makes them specifiable and checkable. Whether the flow is actually
+understood is a matter of observed behaviour rather than of design intent, so usability
+sessions are planned; none has been held. \\
+
+SIR-01 -- SIR-07 &
+Analysis of the project's architecture documentation\applied, confirmed by prototyping &
+The module contracts, the published schemas and the replaceability of the language-model
+service were derived from the architecture and data-model report [R4] and confirmed by
+implementing the pipeline as separate modules. These requirements concern internal structure,
+which is recorded by the team and held by no external stakeholder. \\
+
+CIR-01 -- CIR-04 &
+Analysis of published technical standards and platform documentation\applied &
+Transport encryption, a structured request and response format, and timeout handling follow
+established web practice as documented in the relevant specifications and in hosting-platform
+documentation. The share-by-URL position in CIR-03 follows from the same platform-documentation
+analysis that produced FR-53: no access to the giver's contacts is needed, so none is
+requested. \\
+
+DR-01 -- DR-08 &
+Regulatory and legal document analysis\applied, applied to the data model &
+Each restriction maps an obligation in [R2] onto a specific entity in
+Table~\ref{tab:entities}: no direct identifier, an age range in place of a date of birth, no
+sensitive attribute, a consent link that makes a deletion request satisfiable, and an expiry.
+The requirements were elicited by walking the stored data model against the legal text field by
+field, which is the only technique that can show that a stored field has no lawful purpose. \\
+
+SEC-01 -- SEC-10 &
+Analysis of published secure-development guidance\applied, with regulatory analysis &
+Input validation, safe query construction, output encoding, credential storage and the
+suppression of diagnostic detail are standard controls documented in established
+secure-development guidance. The access restriction, the unguessable invitation link and the
+logging rule additionally implement the confidentiality expectations of [R2]. Security
+requirements are elicited from guidance and law because users do not state them and their
+absence is not visible in normal operation. \\
+
+ERR-01 -- ERR-11 &
+Exploratory prototyping and analysis of the project risk register\applied &
+The list was assembled from two sources. The first is the conditions encountered while running
+the pipeline over the demonstration catalogue: an empty candidate set, a profile with too few
+signals to be usable, and a candidate eliminated by a constraint the user could relax. The
+second is the failure modes already recorded as risks RK-03, RK-05 and RK-08, together with
+the validation rules stated in module M1. Observing a system fail is the most reliable way to
+enumerate the states it must handle; the risk register supplies the failures that have not yet
+occurred. \\
+\end{elictable}
+
+\subsection{Elicitation of the Non-Functional Requirements}
+
+\begin{elictable}{Elicitation technique and justification --- non-functional requirements}{tab:elic-nfr}
+NFR-01 &
+Exploratory prototyping\applied\newline
+Instrumented measurement\planned &
+The response target was derived from the structure of the implemented pipeline --- the number
+of stages a request passes through and the external model call each one may make --- which
+prototyping made concrete. The systematic timing over at least twenty representative requests
+that the requirement itself specifies has not yet been carried out; it is the means by which
+the figure will be validated or corrected. \\
+
+NFR-02 &
+Usability testing with structured observation\planned &
+The requirement names a completion time, an unassisted success rate and a participant count:
+it specifies the study to be run, and nothing is presented as already observed. Observation is
+the correct technique because what is being measured is whether a first-time user completes
+the flow, which users cannot reliably report about themselves. The three-minute figure is a
+target derived from the length of the implemented flow. \\
+
+NFR-03 &
+Document analysis of the error requirements\applied &
+The reliability criterion is defined directly over the conditions enumerated in
+Section~\ref{sec:errors}, so it was elicited by analysing that list rather than independently
+of it. Deriving it this way keeps the quality attribute checkable: every condition already has
+a defined behaviour to test against. \\
+
+NFR-04 &
+Analysis of the project constraints\applied &
+No availability figure is claimed, because constraints C-1 and C-7 fix the system as a student
+prototype on free or low-cost hosting. The requirement was elicited by reading those
+constraints; benchmarking against commercial availability targets would have produced a number
+the project cannot honour. \\
+
+NFR-05 &
+Regulatory analysis and analysis of secure-development guidance\applied &
+The requirement defers to SEC-01 to SEC-10, which were themselves elicited from published
+guidance and legal text. Stating it by reference avoids a second, weaker restatement of the
+same controls and leaves one verifiable source for them. \\
+
+NFR-06 &
+Regulatory and legal document analysis\applied, with inspection of the data model &
+Data minimisation and the prohibited-attribute rule are obligations drawn from [R2]. The
+checkable form of the requirement was obtained by mapping those obligations onto the entity
+list in Table~\ref{tab:entities}, a documentary exercise on the system's own design rather
+than an elicitation from any stakeholder. \\
+
+NFR-07 &
+Analysis of the architecture documentation\applied, confirmed by prototyping &
+Module replaceability is an internal property stated in the architecture report [R4] and
+demonstrated during development by substituting one implementation of a pipeline module for
+another. It is elicited from the design record because no user ever experiences it directly. \\
+
+NFR-08 &
+Analysis extrapolated from the prototype\applied &
+The catalogue size and concurrency figures were obtained by extending the NFR-01 target to the
+largest catalogue this project would realistically curate, the demonstration catalogue being
+an order of magnitude smaller. They were not adopted from an industry figure, which the
+prototype could not be tested against; the requirement states explicitly that nothing is
+specified beyond that point. \\
+
+NFR-09 &
+Benchmarking of common platform-support practice\applied &
+The support matrix --- the current and immediately preceding release of three major browsers,
+on desktop and mobile --- is the conventional baseline in web practice, adopted because it is
+both achievable and checkable by executing the main flow on each. Confirming it against usage
+statistics for the Jeddah market is planned before the requirement is baselined. \\
+
+NFR-10 &
+Analysis of published accessibility guidance\applied\newline
+Observation with assistive technology\planned &
+The contrast ratio and keyboard-operability criteria are taken from published accessibility
+guidance, which states them in a form an automated check can verify. Conformance to guidance
+is not the same as usability for a disabled user, which is why observation is named here as a
+planned validation rather than claimed as a result. \\
+
+NFR-11 &
+Analysis of the project constraints\applied\newline
+Review by native speakers\planned &
+Arabic and English coverage, right-to-left layout and display in SAR follow from constraints
+C-5 and C-6, which fix the market the system is built for. Constraint analysis establishes
+what must be present; whether the Arabic reads naturally is a judgement only a native speaker
+can give, and that review is planned rather than performed. \\
+
+NFR-12 &
+Document analysis of the published schemas\applied, confirmed by prototyping &
+The requirement was elicited from the schemas the project already publishes for the Recipient
+Profile and the product record (SIR-04): once a schema exists, validate-before-store is the
+criterion that makes it meaningful. It was confirmed in development by validating the
+demonstration catalogue against its schema and rejecting the records that failed. \\
+
+NFR-13 &
+Prototype evaluation\applied, first round completed &
+An evaluation of this form has been carried out once: recommendations for a set of test
+recipients were rated for relevance and for social appropriateness by a single human assessor,
+and the result was reported as measured. The requirement specifies the fuller measurement,
+with more than one independent assessor, to be repeated before release. No figure in this
+document is presented as the outcome of a larger study than the one conducted. \\
+\end{elictable}
+
 %===================================================================== 4
 \chapter{System Features}
 \label{sec:features}
@@ -1019,6 +1373,10 @@ reported as measured rather than adjusted. \\
 what target is being aimed at. It does not assert that the system will achieve the target, and
 no requirement in this document claims that a recommendation will be correct for any
 particular recipient.
+
+\noindent The elicitation technique from which each non-functional requirement is derived, and
+the justification for that technique, are recorded in Table~\ref{tab:elic-nfr} in
+Section~\ref{sec:elicitation}.
 
 %===================================================================== 6
 \chapter{Verification and Traceability}
