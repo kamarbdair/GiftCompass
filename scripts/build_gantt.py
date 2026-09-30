@@ -9,89 +9,89 @@ SEMESTERS = [("Semester 1 --- Analysis \\& Design (Sep--Dec 2026)",17),
 
 # (id, kind, label, start, end)   kind: group | bar | ms
 ROWS = [
- ("p1","group","\\textbf{Phase 1 --- Requirements Engineering}",1,7),
+ ("p1","group","Phase 1 --- Requirements Engineering",1,7),
  ("t11","bar","T1.1 Problem definition and project scope",1,2),
- ("t12","bar","T1.2 Literature review (gift recommenders, LLM4Rec)",1,4),
- ("t13","bar","T1.3 Stakeholder and user requirements (Jeddah)",2,5),
+ ("t12","bar","T1.2 Literature review on gift recommender systems",1,4),
+ ("t13","bar","T1.3 User and stakeholder requirements (Jeddah)",2,5),
  ("t14","bar","T1.4 Functional and non-functional requirements",4,6),
  ("t15","bar","T1.5 Software Requirements Specification (SRS)",6,7),
- ("m1","ms","M1 --- Requirements baseline approved",7,7),
+ ("m1","ms","M1 --- Requirements completed",7,7),
 
- ("p2","group","\\textbf{Phase 2 --- Feasibility \\& Analysis}",4,10),
+ ("p2","group","Phase 2 --- Feasibility \& Analysis",4,10),
  ("t21","bar","T2.1 Technical feasibility assessment",4,6),
- ("t22","bar","T2.2 Legal analysis: PDPL and platform terms",5,8),
- ("t23","bar","T2.3 Data-source assessment (TikTok API, donation)",6,9),
- ("t24","bar","T2.4 Economic feasibility and cost model",8,9),
+ ("t22","bar","T2.2 Legal and privacy analysis (Saudi PDPL, platform terms)",5,8),
+ ("t23","bar","T2.3 Data-source study: TikTok access routes and consent",6,9),
+ ("t24","bar","T2.4 Economic feasibility and cost analysis",8,9),
  ("t25","bar","T2.5 Feasibility study report",9,10),
- ("m2","ms","M2 --- Feasibility approved, data source fixed",10,10),
+ ("m2","ms","M2 --- Feasibility completed",10,10),
 
- ("p3","group","\\textbf{Phase 3 --- System Design}",10,17),
+ ("p3","group","Phase 3 --- System Design",10,17),
  ("t31","bar","T3.1 System architecture design",10,13),
- ("t32","bar","T3.2 Recipient persona schema and interest taxonomy",12,14),
- ("t33","bar","T3.3 Product catalogue schema",12,14),
- ("t34","bar","T3.4 Database design (ERD, PostgreSQL + pgvector)",13,16),
- ("t35","bar","T3.5 UI/UX wireframes and user-flow design",13,16),
- ("t36","bar","T3.6 High-fidelity UI design (Arabic/English, mobile)",15,17),
- ("t37","bar","T3.7 Consent and privacy design (bilingual screens)",14,17),
- ("t38","bar","T3.8 Recommendation algorithm design (filters, scoring)",14,17),
- ("t39","bar","T3.9 Software Design Document (SDD)",16,17),
- ("m3","ms","M3 --- Design freeze / Semester 1 review",17,17),
+ ("t32","bar","T3.2 Data model design (Recipient Profile, product catalogue)",12,14),
+ ("t33","bar","T3.3 Database design (ERD and data storage)",13,16),
+ ("t34","bar","T3.4 UI/UX wireframes and user-flow design",13,16),
+ ("t35","bar","T3.5 Interface design (Arabic/English, mobile-first)",15,17),
+ ("t36","bar","T3.6 Consent and privacy design (bilingual screens)",14,17),
+ ("t37","bar","T3.7 Recommendation engine design (matching, filtering, ranking)",14,17),
+ ("t38","bar","T3.8 Software Design Document (SDD)",16,17),
+ ("m3","ms","M3 --- Design completed",17,17),
 
- ("p4","group","\\textbf{Phase 4 --- Implementation}",16,32),
- ("t41","bar","T4.1 Development environment and repository setup",16,17),
- ("t42","bar","T4.2 Database implementation and migrations",18,20),
- ("t43","bar","T4.3 Product catalogue module and price verification",18,23),
- ("t44","bar","T4.4 Backend API and routing",19,23),
- ("t45","bar","T4.5 Frontend: landing and gift-context screens",20,24),
- ("t46","bar","T4.6 Questionnaire module (recipient questions)",22,25),
- ("t47","bar","T4.7 Persona Builder module (LLM, schema-validated)",23,27),
- ("t48","bar","T4.8 Retrieval module (multilingual embeddings)",25,28),
- ("t49","bar","T4.9 Hard-filter module (budget, delivery, age, relation)",26,28),
- ("t410","bar","T4.10 Ranking and scoring engine",28,31),
- ("t411","bar","T4.11 Explanation generator (``why this matches'')",31,32),
- ("t412","bar","T4.12 Results and refinement interface",29,32),
- ("t413","bar","T4.13 Feedback capture module",31,32),
- ("t414","bar","T4.14 TikTok Gift Profile module (invite, parse, approve)",24,31),
- ("t415","bar","T4.15 Security and privacy implementation",28,32),
+ ("p4","group","Phase 4 --- Implementation",16,32),
+ ("t41","bar","T4.1 Development environment setup",16,17),
+ ("t42","bar","T4.2 Database implementation and data setup",18,20),
+ ("t43","bar","T4.3 Product catalogue module (Jeddah products, prices in SAR)",18,23),
+ ("t44","bar","T4.4 Backend services and application logic",19,23),
+ ("t45","bar","T4.5 Web interface: landing and gift request screens",20,24),
+ ("t46","bar","T4.6 Recipient questionnaire module",22,25),
+ ("t47","bar","T4.7 Recipient Profile Builder (interest extraction, weighting)",23,27),
+ ("t48","bar","T4.8 Gift matching module (Arabic/English candidate retrieval)",25,28),
+ ("t49","bar","T4.9 Filtering module (budget, relationship, occasion, delivery)",26,28),
+ ("t410","bar","T4.10 Ranking and scoring module",28,31),
+ ("t411","bar","T4.11 Recommendation explanation module",31,32),
+ ("t412","bar","T4.12 Results, refinement and feedback interface",29,32),
+ ("t413","bar","T4.13 TikTok Gift Profile: consent, upload and approval flow",24,28),
+ ("t414","bar","T4.14 TikTok interest extraction into Recipient Profile",28,31),
+ ("t415","bar","T4.15 Security, privacy and consent implementation (PDPL)",28,32),
  ("m4","ms","M4 --- Feature-complete build",32,32),
 
- ("p5","group","\\textbf{Phase 5 --- Integration}",30,33),
+ ("p5","group","Phase 5 --- Integration",30,33),
  ("t51","bar","T5.1 Module integration",30,32),
- ("t52","bar","T5.2 End-to-end pipeline integration",32,33),
+ ("t52","bar","T5.2 End-to-end system integration",32,33),
  ("m5","ms","M5 --- Integrated system",33,33),
 
- ("p6","group","\\textbf{Phase 6 --- Testing \\& Debugging}",24,35),
- ("t61","bar","T6.1 Unit testing (continuous with development)",24,32),
+ ("p6","group","Phase 6 --- Testing \& Debugging",24,35),
+ ("t61","bar","T6.1 Unit testing (alongside module development)",24,32),
  ("t62","bar","T6.2 Integration testing",32,34),
  ("t63","bar","T6.3 System testing",33,35),
- ("t64","bar","T6.4 Security and PDPL compliance testing",32,34),
+ ("t64","bar","T6.4 Security and privacy (PDPL) testing",33,35),
  ("t65","bar","T6.5 Usability testing with target users",33,35),
  ("t66","bar","T6.6 Debugging and regression testing",32,35),
  ("t67","bar","T6.7 User acceptance testing (UAT)",34,35),
- ("m6","ms","M6 --- Testing complete (before May)",35,35),
+ ("m6","ms","M6 --- Testing completed",35,35),
 
- ("p7","group","\\textbf{Phase 7 --- Evaluation}",32,35),
- ("t71","bar","T7.1 Recommendation quality evaluation vs.\\ baseline",32,34),
- ("t72","bar","T7.2 Results analysis and comparison",34,35),
- ("m7","ms","M7 --- Evaluation complete",35,35),
+ ("p7","group","Phase 7 --- Evaluation",33,35),
+ ("t71","bar","T7.1 Recommendation quality evaluation against baseline",33,34),
+ ("t72","bar","T7.2 Results analysis and discussion",34,35),
+ ("m7","ms","M7 --- Evaluation completed",35,35),
 
- ("p8","group","\\textbf{Phase 8 --- Documentation \\& Closure}",1,39),
+ ("p8","group","Phase 8 --- Documentation \& Closure",1,39),
  ("t81","bar","T8.1 Continuous documentation and progress reports",1,35),
  ("t82","bar","T8.2 Final project report",34,38),
  ("t83","bar","T8.3 User manual and deployment guide",35,37),
- ("t84","bar","T8.4 Final presentation and demonstration preparation",36,38),
+ ("t84","bar","T8.4 Final presentation and demonstration",36,38),
  ("t85","bar","T8.5 Final submission and project defence",38,39),
- ("m8","ms","M8 --- Final submission (May 2027)",39,39),
+ ("m8","ms","M8 --- Final submission",39,39),
 ]
 
 LINKS = [("t11","t13"),("t12","t14"),("t14","t15"),("t15","m1"),
-         ("m1","t24"),("t24","t25"),("t25","m2"),
-         ("m2","t31"),("t31","t34"),("t31","t35"),("t32","t38"),("t39","m3"),
+         ("t21","t24"),("t23","t25"),("t24","t25"),("t25","m2"),
+         ("m2","t31"),("t31","t33"),("t31","t34"),("t32","t37"),("t38","m3"),
          ("m3","t42"),("t42","t45"),("t44","t47"),("t47","t410"),("t49","t410"),
-         ("t410","t411"),("t414","m4"),("t415","m4"),
+         ("t410","t411"),("t413","t414"),("t414","m4"),("t415","m4"),("t411","m4"),
          ("m4","t52"),("t51","t52"),("t52","m5"),
-         ("m5","t63"),("t62","t67"),("t67","m6"),
-         ("t72","m7"),("m7","t84"),("t82","t85"),("t85","m8")]
+         ("m5","t63"),("m5","t64"),("t62","t67"),("t67","m6"),
+         ("m5","t71"),("t71","t72"),("t72","m7"),
+         ("m7","t84"),("t82","t85"),("t85","m8")]
 
 # --------------------------------------------------------------- validation
 span = {r[0]: (r[3], r[4]) for r in ROWS}
@@ -163,7 +163,7 @@ A(r"\begin{center}")
 A(r"\begin{ganttchart}[")
 A(r"    hgrid,")
 A(r"    vgrid={*{1}{draw=gcGrid!60, line width=0.2pt}},")
-A(r"    x unit=0.68cm,")
+A(r"    x unit=0.70cm,")
 A(r"    y unit title=0.50cm,")
 A(r"    y unit chart=0.32cm,")
 A(r"    title height=1,")
@@ -216,8 +216,8 @@ A(r"\textbf{Legend:}\; \textcolor{gcBerry}{$\blacksquare$}~SDLC phase \quad "
   r"\textcolor{gcRose}{$\blacksquare$}~Task \quad "
   r"\textcolor{gcBerryDk}{$\blacklozenge$}~Milestone \quad "
   r"$\rightarrow$~Dependency\\[2pt]")
-A(r"Week 1 = first week of September 2026. \; M6 (testing complete) and M7 (evaluation complete) "
-  r"both fall in week 35 (end of April 2027), before the May deadline.")
+A(r"Week 1 = first week of September 2026. \; Testing (M6) and evaluation (M7) both complete in week 35 "
+  r"(end of April 2027); May 2027 is reserved for documentation, presentation and submission.")
 A(r"\end{center}")
 A(r"\end{document}")
 
