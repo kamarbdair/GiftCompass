@@ -1,0 +1,1174 @@
+%=====================================================================
+%  GiftCompass --- Software Requirements Specification
+%  Layout follows the CSE327 Requirements Specification structure
+%  (IEEE 830 style). Compile with pdfLaTeX.
+%=====================================================================
+\documentclass[11pt,a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm,headheight=14pt]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{microtype}
+\usepackage[hidelinks,bookmarks=true]{hyperref}
+
+%---------------------------------------------------------------- palette
+\definecolor{gcBerry}{HTML}{6D2E46}
+\definecolor{gcBerryDk}{HTML}{4A1F30}
+\definecolor{gcRose}{HTML}{A26769}
+\definecolor{gcInk}{HTML}{2B1A20}
+\definecolor{gcGrid}{HTML}{D8CBC8}
+\definecolor{gcTint}{HTML}{F7F2F0}
+
+%---------------------------------------------------------------- headings
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{gcBerry}}{\chaptertitlename\ \thechapter}{16pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{24pt}
+\titleformat{\section}{\normalfont\Large\bfseries\color{gcBerry}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries\color{gcBerryDk}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\color{gcInk}}{\thesubsubsection}{1em}{}
+
+%---------------------------------------------------------------- headers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{gcInk!70}GiftCompass --- Software Requirements Specification}
+\fancyhead[R]{\small\color{gcInk!70}v1.0}
+\fancyfoot[C]{\small\color{gcInk!70}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%---------------------------------------------------------------- helpers
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\rid}[1]{\textbf{#1}}
+\setlist[itemize]{topsep=3pt,itemsep=2pt,parsep=0pt,leftmargin=1.4em}
+\setlist[enumerate]{topsep=3pt,itemsep=2pt,parsep=0pt,leftmargin=1.6em}
+\setlist[description]{topsep=3pt,itemsep=3pt,parsep=0pt}
+\captionsetup{font=small,labelfont={bf,color=gcBerry}}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\emergencystretch}{1.5em}
+
+% requirement table used throughout the functional sections
+\newenvironment{reqtable}[1]
+  {\begin{longtable}{@{}L{1.9cm}L{12.6cm}@{}}
+   \caption{#1}\\
+   \toprule \textbf{ID} & \textbf{Requirement} \\ \midrule
+   \endfirsthead
+   \toprule \textbf{ID} & \textbf{Requirement} \\ \midrule
+   \endhead
+   \bottomrule
+   \endfoot}
+  {\end{longtable}}
+
+\begin{document}
+
+%===================================================================== title
+\begin{titlepage}
+\centering
+\vspace*{1.5cm}
+{\Large\bfseries\color{gcBerry} SOFTWARE REQUIREMENTS SPECIFICATION\par}
+\vspace{1.2cm}
+{\Huge\bfseries\color{gcInk} GiftCompass\par}
+\vspace{0.5cm}
+{\large\color{gcInk} An AI-Assisted Personalised Gift Recommendation Platform\par}
+{\large\color{gcInk} for the Jeddah Market, Kingdom of Saudi Arabia\par}
+\vspace{1.0cm}
+{\color{gcGrid}\rule{0.75\textwidth}{1pt}}
+\vspace{1.0cm}
+
+\begin{tabular}{@{}rl@{}}
+\textbf{Document}        & Software Requirements Specification (SRS) \\
+\textbf{Version}         & 1.0 \\
+\textbf{Status}          & Baselined for design \\
+\textbf{Project}         & GiftCompass \\
+\textbf{Course}          & [Course code and title] \\
+\textbf{Instructor}      & [Instructor name] \\
+\textbf{Institution}     & [University / Department] \\
+\textbf{Team members}    & [Student names and IDs] \\
+\textbf{Date}            & [Submission date] \\
+\end{tabular}
+
+\vfill
+{\small\color{gcInk!70}
+This document specifies the requirements for the GiftCompass prototype developed as a
+university software engineering project. It describes required system behaviour; it does
+not describe a deployed commercial service.\par}
+\end{titlepage}
+
+%===================================================================== revision
+\chapter*{Document Control}
+\addcontentsline{toc}{chapter}{Document Control}
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}llL{6.2cm}l@{}}
+\toprule
+\textbf{Version} & \textbf{Date} & \textbf{Description of change} & \textbf{Author} \\
+\midrule
+0.1 & [date] & Initial draft: introduction and overall description & Project team \\
+0.2 & [date] & Functional and non-functional requirements added & Project team \\
+1.0 & [date] & Baselined following requirements review (Milestone M1) & Project team \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.6cm}
+\noindent\textbf{Approval.} This specification is baselined at project milestone M1
+(Requirements completed). Changes after baselining are made through the change procedure
+described in Section~\ref{sec:traceability}.
+
+\tableofcontents
+\listoftables
+
+%===================================================================== 1
+\chapter{Introduction}
+
+\section{Purpose}
+This Software Requirements Specification (SRS) defines the functional and non-functional
+requirements of \textbf{GiftCompass}, a web-based system that recommends gifts by first
+building a structured profile of the person who will receive the gift, and then matching
+that profile against a catalogue of products available in Jeddah, Saudi Arabia, within a
+budget set by the giver.
+
+The document specifies:
+\begin{itemize}
+  \item the behaviour required of all twelve system modules listed in Section~\ref{sec:functions};
+  \item the external interfaces through which users and other software interact with the system;
+  \item the data the system processes, and the constraints on processing personal data;
+  \item the non-functional qualities the system must exhibit;
+  \item the criteria by which each requirement can later be verified.
+\end{itemize}
+
+\noindent The document does \emph{not} specify the internal design of the system, the choice
+of algorithms beyond what is required for observable behaviour, the database schema, or the
+test cases themselves. Those belong to the Software Design Document and the test
+specification respectively.
+
+\section{Intended Audience}
+\begin{description}[style=nextline,leftmargin=0pt]
+  \item[Project team] Uses this document as the agreed statement of what is to be built and
+        as the basis for effort estimation and task allocation.
+  \item[Instructor and project supervisor] Uses it to assess the completeness, precision and
+        feasibility of the requirements, and as the reference against which the delivered
+        system is judged.
+  \item[Developers] Use the functional requirements and system features as the specification
+        to implement, and the external interface requirements as the contract between modules.
+  \item[UI/UX designers] Use Sections~\ref{sec:ui} and~\ref{sec:features} to design screens,
+        flows, bilingual presentation and error states.
+  \item[Testers] Use the requirement identifiers, the acceptance criteria in
+        Chapter~\ref{ch:verification} and the traceability matrix in Appendix~\ref{app:rtm}
+        to derive test cases and demonstrate coverage.
+  \item[Project evaluators] Use the document to trace a stated user need through to a
+        requirement, a feature and a verification method.
+\end{description}
+
+\noindent Readers are assumed to be familiar with general software engineering terminology.
+Terms specific to GiftCompass are defined in Appendix~\ref{app:glossary}.
+
+\section{Intended Use}
+The SRS is used across the project life cycle as follows.
+\begin{itemize}
+  \item \textbf{Design.} Each module in the architecture is derived from a group of
+        functional requirements in Section~\ref{sec:fr}; no module is introduced that does
+        not satisfy a stated requirement.
+  \item \textbf{Implementation.} Developers implement against requirement identifiers, and
+        commits reference the identifiers they address.
+  \item \textbf{Testing.} Every requirement carries a verification method
+        (Chapter~\ref{ch:verification}). Test cases are derived from requirements, not from
+        the implementation.
+  \item \textbf{Change control.} The document is baselined at milestone M1. Subsequent
+        changes are recorded in the Document Control table and propagated through the
+        traceability matrix.
+  \item \textbf{Assessment.} The document is the reference against which the completed
+        project is evaluated.
+\end{itemize}
+
+\section{Product Scope}
+\subsection*{In scope}
+GiftCompass is a web application that:
+\begin{itemize}
+  \item collects the gift context from the giver: relationship to the recipient, occasion,
+        budget in Saudi Riyals (SAR), and the time available before the occasion;
+  \item collects information about the recipient through a short structured questionnaire,
+        and optionally through a consent-based TikTok Gift Profile;
+  \item constructs a \emph{Recipient Profile}: a structured set of weighted interests, each
+        supported by evidence, together with dislikes and style preferences;
+  \item retrieves candidate products from a curated catalogue of items available in Jeddah;
+  \item applies constraint filters (budget, delivery time, age suitability, relationship
+        appropriateness, stated dislikes) before ranking;
+  \item ranks the surviving candidates and presents up to five recommendations;
+  \item explains, in one or two sentences per recommendation, why each item was selected;
+  \item allows the giver to refine the result set and to record feedback;
+  \item links the giver to an external seller to complete the purchase.
+\end{itemize}
+
+\subsection*{Out of scope}
+GiftCompass does not:
+\begin{itemize}
+  \item process payments, hold stock, arrange delivery, or handle returns --- the purchase is
+        completed on the seller's own site;
+  \item collect data about any person without that person's consent, or scrape any social
+        media platform;
+  \item provide social networking, messaging between users, or user-to-user gifting;
+  \item guarantee that a recommended product is in stock or priced as displayed at the moment
+        of purchase; the system reports catalogue data and links to the seller for
+        confirmation;
+  \item operate outside the Jeddah market in this version.
+\end{itemize}
+
+\subsection*{Development status}
+This SRS specifies the complete intended system. A prototype covering the recommendation
+pipeline has been implemented; the requirements in this document that are not yet
+implemented are stated as requirements on the system to be delivered, not as descriptions of
+existing behaviour. Section~\ref{sec:assumptions} distinguishes confirmed capability from
+planned capability.
+
+\section{Risk Definition}
+\label{sec:risks}
+The following risks affect the requirements in this document. Each is stated with its effect
+on the specification rather than as a general project risk.
+
+\begin{longtable}{@{}L{1.4cm}L{5.4cm}L{7.6cm}@{}}
+\caption{Risks affecting the requirements}\\
+\toprule
+\textbf{ID} & \textbf{Risk} & \textbf{Effect on the specification} \\ \midrule
+\endfirsthead
+\toprule \textbf{ID} & \textbf{Risk} & \textbf{Effect on the specification} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+RK-01 & Official TikTok platform access may not be obtainable for a student project. &
+The TikTok requirements (FR-53 to FR-61) are written so that the system remains functional
+without any platform integration; the questionnaire is specified as a full alternative, not
+a degraded mode. \\
+RK-02 & Recommendations may not match the recipient. &
+Requirements specify observable behaviour (constraint satisfaction, explanation, refinement,
+feedback) rather than an accuracy guarantee. Recommendation quality is addressed as a
+measured target in NFR-13. \\
+RK-03 & Catalogue prices and availability drift from the seller's actual values. &
+FR-22 and FR-23 require every catalogue record to carry a verification status and date, and
+FR-24 requires unverified records to be excluded from results shown to end users. \\
+RK-04 & Personal data of a third party (the recipient) is processed. &
+Consent, purpose limitation, data minimisation and deletion are specified as functional
+requirements (FR-62 to FR-68) and reinforced in Section~\ref{sec:security}. \\
+RK-05 & Recipient information may be sparse, noisy or contradictory. &
+FR-16, FR-17 and FR-46 require the system to report low confidence, to exclude weakly
+supported candidates, and to return fewer than five results rather than pad the list. \\
+RK-06 & An AI component may produce an unsupported or invented output. &
+FR-14 requires every inferred interest to carry evidence; FR-40 constrains any model-based
+re-ranking to the candidate set already retrieved and filtered. \\
+RK-07 & Integration between modules may fail late in the schedule. &
+Section~\ref{sec:software-if} requires each module to expose a defined interface, so modules
+can be integrated and tested independently. \\
+RK-08 & The system depends on external services (hosting, model inference, seller sites). &
+ERR-09 and ERR-10 require the system to degrade predictably and to inform the user when an
+external dependency is unavailable. \\
+\end{longtable}
+
+\section{References}
+\begin{enumerate}[label={[R\arabic*]}]
+  \item IEEE Std 830-1998, \emph{IEEE Recommended Practice for Software Requirements
+        Specifications}.
+  \item Kingdom of Saudi Arabia, \emph{Personal Data Protection Law}, Royal Decree No.~M/19,
+        and the Implementing Regulations issued by the Saudi Data and Artificial Intelligence
+        Authority (SDAIA).
+  \item GiftCompass Feasibility Study, version 1.0 (project document).
+  \item GiftCompass Architecture and Data Model Report (project document).
+  \item GiftCompass Prototype Evaluation Report (project document).
+  \item TikTok for Developers, Display API and Login Kit documentation; Research API
+        eligibility criteria.
+\end{enumerate}
+
+%===================================================================== 2
+\chapter{Overall Description}
+
+\section{Product Perspective}
+GiftCompass is a new, self-contained web application. It is not a replacement for, nor a
+component of, an existing system. It sits between the giver and the retail market: it does
+not sell products, and it does not hold inventory. Its role is to reduce a large product
+space to a small, justified set of suggestions, and then hand the user to a seller.
+
+Architecturally the system is organised as a pipeline of independently replaceable modules:
+
+\begin{center}
+\small
+\texttt{Gift context + recipient information} $\rightarrow$ \texttt{Recipient Profile}
+$\rightarrow$ \texttt{candidate retrieval} $\rightarrow$ \texttt{constraint filtering}
+$\rightarrow$ \texttt{ranking} $\rightarrow$ \texttt{explanation} $\rightarrow$
+\texttt{results, refinement, feedback}
+\end{center}
+
+\noindent Two properties of this arrangement are requirements in themselves rather than
+design preferences. First, constraint filtering occurs \emph{before} ranking (FR-29), so a
+product that violates a stated constraint can never be ranked or displayed. Second, every
+module communicates through a defined data contract (Section~\ref{sec:software-if}), so a
+module may be replaced without altering the others.
+
+\section{Product Functions}
+\label{sec:functions}
+The system comprises twelve modules. Table~\ref{tab:modules} lists each module, its purpose
+and the functional requirements that specify it.
+
+\begin{longtable}{@{}L{0.8cm}L{4.3cm}L{6.5cm}L{3.1cm}@{}}
+\caption{System modules and their governing requirements}\label{tab:modules}\\
+\toprule
+\textbf{\#} & \textbf{Module} & \textbf{Purpose} & \textbf{Requirements} \\ \midrule
+\endfirsthead
+\toprule \textbf{\#} & \textbf{Module} & \textbf{Purpose} & \textbf{Requirements} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+M1 & User / Gift Request & Captures relationship, occasion, budget and timing from the giver. & FR-01--FR-06 \\
+M2 & Recipient Questionnaire & Collects recipient interests through short structured questions. & FR-07--FR-11 \\
+M3 & Recipient Profile Builder & Converts collected signals into weighted, evidence-backed interests. & FR-12--FR-18 \\
+M4 & Product Catalogue & Stores products available in Jeddah with price, availability and suitability attributes. & FR-19--FR-24 \\
+M5 & Gift Matching / Retrieval & Selects candidate products relevant to the Recipient Profile. & FR-25--FR-28 \\
+M6 & Filtering & Removes candidates that violate budget, timing, age, relationship or stated dislikes. & FR-29--FR-35 \\
+M7 & Ranking and Scoring & Orders the surviving candidates and enforces variety. & FR-36--FR-40 \\
+M8 & Recommendation Explanation & States why each recommendation was selected. & FR-41--FR-44 \\
+M9 & Results and Refinement & Presents results and lets the giver adjust them without restarting. & FR-45--FR-49 \\
+M10 & Feedback & Records the giver's judgement of each recommendation. & FR-50--FR-52 \\
+M11 & TikTok Gift Profile & Optional consent-based enrichment of the Recipient Profile. & FR-53--FR-61 \\
+M12 & Security, Privacy and Consent & Enforces consent, minimisation, retention and deletion. & FR-62--FR-68 \\
+\end{longtable}
+
+\section{User Classes and Characteristics}
+Three user classes are recognised. No further roles are introduced, because the system
+neither sells products nor hosts recipient accounts.
+
+\begin{description}[style=nextline,leftmargin=0pt]
+  \item[UC-1 --- Gift giver (primary user)]
+        An individual in Jeddah choosing a gift for another person. Assumed to be comfortable
+        using a web application on a mobile device, to read Arabic or English, and to have no
+        technical knowledge of the system. This class performs the entire main flow and is
+        the actor for the majority of requirements.
+  \item[UC-2 --- Gift recipient (consenting data subject)]
+        The person the gift is for. This class does not use the recommendation features. Its
+        only interaction is optional: opening a Gift Profile invitation, deciding what to
+        share, reviewing the interests the system inferred, and approving, editing or
+        declining. This class is the data subject for all recipient personal data and holds
+        the rights specified in FR-62 to FR-68.
+  \item[UC-3 --- Catalogue maintainer (project team role)]
+        A member of the project team responsible for adding products, verifying prices and
+        availability, and marking records as verified. This is an internal role exercised
+        through project tooling rather than a public administrative interface.
+\end{description}
+
+\section{User Needs}
+\label{sec:needs}
+The requirements in this document trace to the following user needs, identified from the
+problem analysis. These identifiers are used in the traceability matrix
+(Appendix~\ref{app:rtm}).
+
+\begin{longtable}{@{}L{1.4cm}L{13.1cm}@{}}
+\caption{User needs}\label{tab:needs}\\
+\toprule \textbf{ID} & \textbf{Need} \\ \midrule
+\endfirsthead
+\toprule \textbf{ID} & \textbf{Need} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+UN-1 & The giver needs suggestions based on what the recipient actually likes, rather than on the occasion or on general popularity. \\
+UN-2 & The giver needs to reach a decision quickly, without searching several stores and comparing many products. \\
+UN-3 & The giver needs every suggestion to be affordable within a budget they set before seeing results. \\
+UN-4 & The giver needs to understand why a suggestion was made, in order to trust it. \\
+UN-5 & The giver needs suggestions that are appropriate to the relationship and the occasion, and that will not cause awkwardness. \\
+UN-6 & The giver needs a usable result when little is known about the recipient, and when the recipient does not participate. \\
+UN-7 & The recipient needs to control whether their information is used, to see what was inferred, and to have it deleted. \\
+UN-8 & Both users need the system in Arabic or English, with prices in SAR and products obtainable in Jeddah. \\
+\end{longtable}
+
+\section{Operating Environment}
+\begin{description}[style=nextline,leftmargin=0pt]
+  \item[Client] A current desktop or mobile web browser supporting HTML5, CSS3 and
+        JavaScript. The system is used predominantly on mobile devices and the interface is
+        specified as mobile-first (UIR-02). No installation is required.
+  \item[Server] A web application server exposing the application and its internal service
+        endpoints over HTTPS. The prototype is developed on a JavaScript/TypeScript
+        application framework; the deployment platform is not fixed by this specification.
+  \item[Data storage] Persistent storage for the product catalogue, Recipient Profiles,
+        consent records and feedback. A relational database is required; a relational
+        database with vector-similarity support is the proposed candidate, but this
+        specification does not mandate a product.
+  \item[Recommendation components] The Recipient Profile Builder and the ranking components
+        are required to behave as specified in Section~\ref{sec:fr}. The current prototype
+        implements them deterministically; a language-model-based profile builder and a
+        semantic retrieval component are planned substitutions behind the same interfaces
+        (see Section~\ref{sec:assumptions}).
+  \item[Network] The system requires an internet connection at both client and server. It is
+        not specified to operate offline.
+  \item[External services] Outbound links to seller websites. No inbound dependency on an
+        external service is required for the core recommendation flow to function.
+\end{description}
+
+\section{Design and Implementation Constraints}
+\begin{description}[style=nextline,leftmargin=0pt]
+  \item[C-1 Project scope and duration] The system is developed by a student team within a
+        single academic year. Requirements are scoped to what such a team can deliver and
+        verify.
+  \item[C-2 Platform access] The system shall not depend on access to social media data that
+        the project cannot lawfully and reliably obtain. This constrains the TikTok module
+        (Section~\ref{sec:tiktok-fr}).
+  \item[C-3 Product data] Product information is curated by the project team. The system
+        shall not present product data as live retail data unless that record has been
+        verified (FR-24).
+  \item[C-4 Legal] Processing of personal data shall be designed to support the obligations
+        of the Saudi Personal Data Protection Law, in particular consent, purpose limitation,
+        data minimisation and the rights of the data subject.
+  \item[C-5 Language] All user-facing text shall be available in Arabic and English
+        (UIR-01), and the system shall handle recipient information expressed in either
+        language (FR-26).
+  \item[C-6 Currency and market] All monetary values shall be expressed in SAR, and product
+        availability shall be assessed for delivery to or collection in Jeddah.
+  \item[C-7 Budget] The project operates without a commercial budget; the system shall be
+        operable on free or low-cost hosting and shall not require paid data feeds.
+  \item[C-8 Connectivity] The system requires internet connectivity and is not specified for
+        offline operation.
+\end{description}
+
+\section{Assumptions and Dependencies}
+\label{sec:assumptions}
+This section separates what is confirmed from what is assumed. Requirements elsewhere in the
+document are written so that no requirement depends on an unconfirmed item.
+
+\subsection*{Confirmed}
+\begin{itemize}
+  \item The recommendation pipeline --- profile construction, retrieval, filtering, ranking
+        and explanation --- has been implemented and exercised end to end in a prototype.
+  \item A curated demonstration catalogue of Jeddah-market products exists, spanning multiple
+        categories and budget bands, with prices in SAR.
+  \item A controlled interest vocabulary shared by profiles and products exists, and is the
+        join between the two.
+  \item The questionnaire route operates without any external platform.
+  \item Recipient data can be obtained lawfully only with the recipient's consent; no route
+        that bypasses consent is available to the project.
+\end{itemize}
+
+\subsection*{Assumed, to be confirmed}
+\begin{itemize}
+  \item \textbf{A-1} A hosted language-model service will be available to the team at
+        acceptable cost for profile construction and explanation generation. If it is not,
+        the deterministic implementation satisfies the same requirements with reduced
+        quality.
+  \item \textbf{A-2} A multilingual sentence-embedding model can be integrated for semantic
+        retrieval. If it is not, lexical retrieval satisfies FR-25 to FR-28.
+  \item \textbf{A-3} Recipients who are invited will, in some proportion of cases, choose to
+        create a Gift Profile. The system does not depend on this (FR-59).
+  \item \textbf{A-4} Catalogue prices can be verified against seller listings at a cadence
+        the team can sustain. FR-22 to FR-24 are written to make the verification state
+        explicit rather than to assume freshness.
+  \item \textbf{A-5} Users have a device and connection adequate for a standard responsive
+        web application.
+\end{itemize}
+
+\subsection*{Dependencies}
+\begin{itemize}
+  \item Availability of the hosting platform and database service.
+  \item Availability of seller websites for the outbound purchase link. A broken or changed
+        seller link affects only the final step (ERR-06).
+  \item For the optional TikTok route: the continued availability to the recipient of the
+        platform's own user-data export function. No dependency on a platform API is
+        specified.
+\end{itemize}
+
+%===================================================================== 3
+\chapter{System Requirements}
+
+\section{Functional Requirements}
+\label{sec:fr}
+Requirements are stated using \emph{shall}. Each requirement specifies one observable
+behaviour and is written so that it can be verified by the method recorded in
+Appendix~\ref{app:rtm}. Where a requirement refers to a configurable value, the value is
+named as a system parameter rather than fixed in this document, so that it can be tuned
+without amending the specification.
+
+\subsection{User and Gift Request Requirements}
+\begin{reqtable}{Gift request requirements (module M1)}
+FR-01 & The system shall allow the giver to specify the relationship to the recipient by selecting exactly one value from a defined list that includes at least: friend, best friend, partner, mother, father, sister, brother, relative, colleague, classmate and other. \\
+FR-02 & The system shall allow the giver to specify the occasion by selecting exactly one value from a defined list that includes at least: birthday, graduation, anniversary, wedding, achievement, thank you, Eid, new job and no specific occasion. \\
+FR-03 & The system shall require the giver to specify a maximum budget in SAR, either by selecting a predefined band or by entering a numeric value, and shall not proceed to recommendation without it. \\
+FR-04 & The system shall allow the giver to specify the number of days remaining before the occasion, and shall treat this value as a delivery constraint (FR-31). \\
+FR-05 & The system shall validate that a budget entered directly is a positive number within a configured permitted range, and shall reject non-numeric, zero, negative and out-of-range values with an explanatory message (ERR-02). \\
+FR-06 & The system shall retain the gift context (relationship, occasion, budget, days remaining) for the duration of the session so that it is reused on refinement without being re-entered (FR-48). \\
+\end{reqtable}
+
+\subsection{Recipient Questionnaire Requirements}
+\begin{reqtable}{Questionnaire requirements (module M2)}
+FR-07 & The system shall provide a structured questionnaire about the recipient consisting of no more than twelve questions, of which the majority shall be single- or multiple-choice rather than free text. \\
+FR-08 & The questionnaire shall collect, at minimum: the recipient's interests, how they spend free time, their style or aesthetic preference, whether they prefer practical or sentimental gifts, and anything they would not want to receive. \\
+FR-09 & The questionnaire shall not re-request the relationship, occasion or budget already captured by module M1. \\
+FR-10 & The system shall accept a completed questionnaire in which optional questions are unanswered, and shall construct a Recipient Profile from the answers provided (FR-16). \\
+FR-11 & The system shall record each questionnaire answer as an interest signal carrying its source and the date on which it was given, for use as evidence (FR-14). \\
+\end{reqtable}
+
+\subsection{Recipient Profile Requirements}
+\begin{reqtable}{Recipient Profile requirements (module M3)}
+FR-12 & The system shall construct a Recipient Profile consisting of weighted interests, dislikes, style attributes and, where stated, items the recipient already owns. \\
+FR-13 & Each interest in the Recipient Profile shall be drawn from the system's controlled interest vocabulary, so that interests join directly to product attributes (FR-20). \\
+FR-14 & Each interest shall carry at least one item of evidence recording the source, the signal type and the date. An interest without evidence shall not be added to the profile. \\
+FR-15 & The system shall assign each interest a numeric weight computed from the strength and the recency of its supporting signals, such that repeated and recent evidence yields a higher weight than a single or older signal, and shall classify the weight into a strength band. \\
+FR-16 & Where the available signals are insufficient to produce at least one interest, the system shall not fabricate an interest; it shall record the profile as incomplete and inform the giver (ERR-07). \\
+FR-17 & Where a signal expresses a negative sentiment toward a topic, the system shall record that topic as a dislike and shall not record it as an interest. \\
+FR-18 & The system shall not infer, derive or store any attribute relating to religion, health, political opinion, sexual orientation, ethnicity or financial status, irrespective of what the available signals would permit. \\
+\end{reqtable}
+
+\subsection{Product Catalogue Requirements}
+\begin{reqtable}{Product catalogue requirements (module M4)}
+FR-19 & The catalogue shall store, for each product: an identifier, a name in Arabic and English, a category, a price in SAR, an age range, the occasions it suits, the relationships it suits, delivery time in days, availability in Jeddah, and a seller reference. \\
+FR-20 & Each product shall be annotated with one or more interest keys drawn from the same controlled vocabulary used by the Recipient Profile (FR-13). \\
+FR-21 & Each product shall carry a numeric giftability attribute and a numeric social-appropriateness (embarrassment risk) attribute, for use in filtering and ranking (FR-34, FR-37). \\
+FR-22 & Each product record shall carry a verification status of either \emph{verified} or \emph{unverified}, and, where verified, the date of verification. \\
+FR-23 & The system shall support updating a product's price, availability and verification status without altering its identifier or its interest annotations. \\
+FR-24 & The system shall exclude unverified product records from results presented to an end user when operating in a mode configured for end-user use, and shall label any unverified data shown in development or demonstration mode. \\
+\end{reqtable}
+
+\subsection{Gift Matching and Retrieval Requirements}
+\begin{reqtable}{Matching and retrieval requirements (module M5)}
+FR-25 & The system shall retrieve a bounded set of candidate products by comparing the Recipient Profile against product records, using both the shared interest vocabulary and textual similarity. \\
+FR-26 & Retrieval shall operate on product and profile text expressed in Arabic or in English, and shall not require the two to be in the same language. \\
+FR-27 & The number of candidates retrieved shall be a configurable system parameter, and retrieval shall be performed before any constraint filtering is applied. \\
+FR-28 & Where retrieval returns no candidate, the system shall report that no match was found and shall offer the giver the refinement options defined in FR-47, rather than returning an empty page without explanation (ERR-03). \\
+\end{reqtable}
+
+\subsection{Filtering Requirements}
+\begin{reqtable}{Filtering requirements (module M6)}
+FR-29 & The system shall apply all constraint filters to the candidate set before ranking, so that no product violating a constraint is ranked or displayed. \\
+FR-30 & The system shall exclude any product whose price in SAR exceeds the maximum budget specified by the giver. \\
+FR-31 & The system shall exclude any product whose delivery time in days exceeds the days remaining before the occasion, where the giver has supplied that value. \\
+FR-32 & The system shall exclude any product whose stated age range does not overlap the recipient's age range, where an age range is known. \\
+FR-33 & The system shall exclude any product whose suitable-relationship list does not include the relationship specified by the giver. \\
+FR-34 & The system shall exclude any product whose social-appropriateness attribute exceeds the threshold configured for the specified relationship, where a closer relationship permits a higher threshold than a professional one. \\
+FR-35 & The system shall exclude any product annotated with an interest key recorded as a dislike in the Recipient Profile, and any product matching an item recorded as already owned. \\
+\end{reqtable}
+
+\subsection{Ranking and Scoring Requirements}
+\begin{reqtable}{Ranking requirements (module M7)}
+FR-36 & The system shall assign each surviving candidate a score computed from: the strength of its match to the Recipient Profile, its giftability, its fit to the stated budget, its novelty, and its social-appropriateness, with the relative weighting of these terms held as a configurable system parameter. \\
+FR-37 & The scoring function shall treat higher social-appropriateness risk as reducing the score, and shall never rank such an item above an otherwise equivalent item of lower risk. \\
+FR-38 & The system shall exclude from the result set any candidate whose match to the Recipient Profile falls below a configured relevance threshold, even where this reduces the number of results returned. \\
+FR-39 & The system shall limit the number of results drawn from any single product category to a configurable maximum, so that the result set presents distinct alternatives rather than variants of one item. \\
+FR-40 & Where a language model is used to re-order the ranked candidates, it shall be permitted only to reorder identifiers already present in the filtered candidate set; any identifier it returns that is not in that set shall be discarded, and any identifier it omits shall retain its position. \\
+\end{reqtable}
+
+\subsection{Recommendation Explanation Requirements}
+\begin{reqtable}{Explanation requirements (module M8)}
+FR-41 & The system shall present, with each recommendation, an explanation of no more than three sentences stating why the product was selected for this recipient. \\
+FR-42 & Each explanation shall refer to at least one interest recorded in the Recipient Profile, and shall refer only to interests actually present in that profile. \\
+FR-43 & Each explanation shall state the product price in SAR in relation to the budget the giver specified. \\
+FR-44 & Explanations shall not display internal scores, weights, confidence values or model identifiers to the end user. \\
+\end{reqtable}
+
+\subsection{Results and Refinement Requirements}
+\begin{reqtable}{Results and refinement requirements (module M9)}
+FR-45 & The system shall present at most five recommendations per request, ordered by score. \\
+FR-46 & Where fewer than five candidates satisfy the constraints and the relevance threshold, the system shall present only those candidates and shall state that fewer results were found; it shall not add candidates that fail the threshold in order to reach five. \\
+FR-47 & The system shall provide refinement controls allowing the giver to request results that are, at minimum: cheaper, more expensive, more practical, more sentimental, more unusual, from a different category, or additional to those already shown. \\
+FR-48 & On refinement the system shall reuse the existing Recipient Profile and gift context without requiring the giver to re-enter them. \\
+FR-49 & Each recommendation shall display the product name, its price in SAR, its category, the seller, and a control that opens the seller's page for that product. \\
+\end{reqtable}
+
+\subsection{Feedback Requirements}
+\begin{reqtable}{Feedback requirements (module M10)}
+FR-50 & The system shall allow the giver to record a positive or negative judgement on each individual recommendation. \\
+FR-51 & Where a negative judgement is recorded, the system shall allow the giver to select a reason from a defined list including at least: too expensive, wrong style, already owned, wrong category, and not personal enough. \\
+FR-52 & The system shall store feedback with a reference to the recommendation and the request that produced it, so that recommendation quality can later be analysed (NFR-13). \\
+\end{reqtable}
+
+\subsection{TikTok Personalisation Requirements}
+\label{sec:tiktok-fr}
+The requirements below are written so that the system functions fully without any TikTok
+integration. Table~\ref{tab:tiktok-scope} distinguishes what the prototype demonstrates from
+what a production deployment would additionally require.
+
+\begin{reqtable}{TikTok Gift Profile requirements (module M11)}
+FR-53 & The system shall allow the giver to generate a Gift Profile invitation, in the form of a shareable link addressed to the recipient, without transmitting any recipient personal data at the point of generation. \\
+FR-54 & The system shall present the recipient, on opening the invitation, with an explanation of what information is requested, the purpose for which it will be used, and a clearly available option to decline. \\
+FR-55 & The system shall accept recipient-supplied TikTok information only where the recipient has supplied it themselves and has recorded consent; the system shall provide no function that retrieves data about a recipient from any platform without that recipient's action. \\
+FR-56 & The system shall extract, from information the recipient supplies, only those signals that map to the controlled interest vocabulary, and shall discard content that does not, including private messages, location data, contact lists and device or login information. \\
+FR-57 & The system shall present the recipient with the complete list of interests it has inferred before any of them is stored, and shall allow the recipient to remove any entry. \\
+FR-58 & The system shall store a Recipient Profile derived from recipient-supplied information only after the recipient has explicitly approved the reviewed list. \\
+FR-59 & Where the recipient declines, does not respond, or supplies information that cannot be processed, the system shall construct the Recipient Profile from the questionnaire answers alone and shall continue to produce recommendations (ERR-07, ERR-08). \\
+FR-60 & The system shall weight interests derived from recipient-supplied signals according to signal strength and recency on the same basis as questionnaire answers (FR-15), so that both routes produce a profile of the same structure. \\
+FR-61 & The system shall delete the recipient-supplied source material once the Recipient Profile has been constructed, retaining only the approved profile, and shall record that the deletion has occurred. \\
+\end{reqtable}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Scope of the TikTok component}\label{tab:tiktok-scope}
+\begin{tabularx}{\textwidth}{@{}L{5.3cm}X@{}}
+\toprule
+\textbf{Aspect} & \textbf{Position} \\ \midrule
+A. Demonstrated by the prototype &
+Consent-based flow in which the recipient supplies their own information, reviews the
+inferred interests, approves or removes them, and has the source material deleted. Interest
+extraction and profile construction from those signals. Continued operation when the route
+is not used. \\
+B. Requires official platform integration &
+Direct retrieval of a recipient's activity through a platform interface. This is not assumed
+by any requirement in this document. Any such integration would be an additional source
+feeding the same interest extraction specified in FR-56, and would be subject to the
+platform's own authorisation and terms. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Security, Privacy and Consent Requirements}
+\begin{reqtable}{Security, privacy and consent requirements (module M12)}
+FR-62 & The system shall record, for every Recipient Profile, the party who provided the basis for processing, the purpose, the sources covered and the date. The record shall distinguish two cases: (a)~\emph{recipient-provided}, where the recipient supplied information about themselves and gave consent; and (b)~\emph{giver-provided}, where the giver supplied their own knowledge of the recipient through the questionnaire. The two cases shall be distinguishable for every profile. \\
+FR-63 & The system shall refuse to use a Recipient Profile that does not carry a valid record under FR-62, and shall report the refusal rather than proceeding with recommendation. A profile marked \emph{recipient-provided} shall additionally be refused where the recipient has not completed the approval step required by FR-58. \\
+FR-64 & The system shall process personal data only for the purpose of producing gift recommendations, and shall provide no function that uses it for another purpose. \\
+FR-65 & The system shall collect only those data items required by the modules specified in this document, and shall provide no function that requests unrelated personal information. \\
+FR-66 & The system shall assign each Recipient Profile a retention expiry, shall not use a profile after its expiry, and shall delete expired profiles. The retention period shall be a configurable system parameter set by the project team. \\
+FR-67 & The system shall allow the recipient to request deletion of their Recipient Profile, and shall delete it together with its evidence records on such a request. \\
+FR-68 & The system shall present its consent and privacy information in both Arabic and English (UIR-01). \\
+\end{reqtable}
+
+\noindent\textbf{Note on the two processing bases.} The questionnaire route processes the
+giver's own description of someone they know, which is the minimum information needed to
+produce a recommendation and is supplied by the person making the request. The Gift Profile
+route processes information originating from the recipient, and is therefore conditional on
+that recipient's consent and explicit approval (FR-55, FR-58). The system keeps the two cases
+distinguishable (FR-62) so that the correct rules can be applied to each, and so that a
+deletion request can be satisfied in either case (FR-67). This document states system
+requirements intended to support the obligations described in Section~\ref{sec:security}; it
+does not itself determine the legal basis for processing, which is assessed separately by the
+project team.
+
+\section{External Interface Requirements}
+
+\subsection{User Interface Requirements}
+\label{sec:ui}
+\begin{reqtable}{User interface requirements}
+UIR-01 & All user-facing text, including labels, validation messages, consent text and recommendation explanations, shall be available in Arabic and in English, and the user shall be able to switch language at any point without losing entered data. \\
+UIR-02 & The interface shall be responsive and shall be usable without horizontal scrolling on a viewport 360 pixels wide, this being the mobile-first case. \\
+UIR-03 & The gift request flow shall present relationship, occasion and budget as discrete steps with the current position in the flow visible, and shall allow the user to return to a previous step without losing entered values. \\
+UIR-04 & The questionnaire shall present one question or one small group of related questions at a time, shall indicate progress, and shall allow the user to skip an optional question. \\
+UIR-05 & The TikTok Gift Profile flow shall present, in order: an explanation of purpose, the consent decision, the supply of information, the review of inferred interests, and the approval step; and shall present the decline option with the same prominence as the accept option. \\
+UIR-06 & The results page shall display each recommendation with its image where available, its name, its price in SAR, its category, its seller and its explanation, in a consistent layout for all results. \\
+UIR-07 & Refinement controls shall be visible on the results page without navigation away from it, and their effect shall be described in plain language rather than by internal parameter names. \\
+UIR-08 & Validation messages shall identify the field concerned, state what is wrong, and state what an acceptable value is; they shall not display internal error codes or stack traces to the user. \\
+UIR-09 & Consent and privacy screens shall state what is collected, the purpose, the retention position and how to request deletion, in plain language in both supported languages. \\
+UIR-10 & Text and interactive elements shall meet a minimum contrast ratio of 4.5:1 against their background, and all interactive elements shall be reachable and operable by keyboard (NFR-10). \\
+\end{reqtable}
+
+\subsection{Hardware Interface Requirements}
+The system requires no special-purpose hardware. It does not interface with card readers,
+printers, scanners, sensors or embedded devices, and it does not require the camera,
+microphone, location services or any other device peripheral. The only hardware requirement
+is a general-purpose computer or mobile device capable of running a current web browser and
+connecting to the internet.
+
+\subsection{Software Interface Requirements}
+\label{sec:software-if}
+\begin{reqtable}{Software interface requirements}
+SIR-01 & The client shall operate in current versions of the major web browsers on desktop and mobile, without requiring a plug-in or extension. \\
+SIR-02 & The application server shall expose the recommendation function through a defined request/response interface accepting a Recipient Profile reference and a gift context, and returning an ordered set of recommendations with explanations. \\
+SIR-03 & Each pipeline module (M3, M5, M6, M7, M8) shall expose a defined interface with a documented input and output contract, so that a module may be replaced without modification to the others. \\
+SIR-04 & The Recipient Profile and the product record shall each conform to a published, machine-readable schema, and the system shall reject any instance that does not validate against its schema. \\
+SIR-05 & The system shall persist the product catalogue, Recipient Profiles, consent records and feedback in a database, and shall not depend on in-memory state for data that must survive a restart. \\
+SIR-06 & Where a language-model service is used, the system shall access it through an interface that permits the service to be replaced or disabled, and shall validate its output against the applicable schema before use (FR-40). \\
+SIR-07 & The system shall link to seller product pages by outbound URL only, and shall not require any programmatic interface to a seller system. \\
+\end{reqtable}
+
+\subsection{Communications Interface Requirements}
+\begin{reqtable}{Communications interface requirements}
+CIR-01 & All communication between the client and the server shall use HTTPS. The system shall not transmit personal data over an unencrypted channel. \\
+CIR-02 & Communication between the client and server shall use a structured data format over HTTP, with request and response shapes defined by the interfaces in SIR-02 and SIR-03. \\
+CIR-03 & The Gift Profile invitation shall be delivered as a URL that the giver may share through any channel of their choosing; the system shall not require access to the giver's contacts or messaging accounts. \\
+CIR-04 & Where an outbound request to an external service fails or does not complete within a configured timeout, the system shall handle the failure as specified in ERR-09 rather than leaving the request pending indefinitely. \\
+\end{reqtable}
+
+\section{Data Requirements}
+\label{sec:data}
+\subsection{Data Entities}
+Table~\ref{tab:entities} lists the entities the system processes, the information each holds
+and the reason that information is required. No entity holds a data item that is not used by
+a requirement in this document; this is the data minimisation position stated in FR-65.
+
+\begin{longtable}{@{}L{3.1cm}L{5.6cm}L{5.9cm}@{}}
+\caption{Principal data entities}\label{tab:entities}\\
+\toprule
+\textbf{Entity} & \textbf{Information held} & \textbf{Why it is required} \\ \midrule
+\endfirsthead
+\toprule \textbf{Entity} & \textbf{Information held} & \textbf{Why it is required} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+Gift Request & Identifier, relationship, occasion, budget in SAR, days until the occasion, delivery city. & Provides the constraints applied in filtering (FR-30--FR-34) and the context used in explanations (FR-43). \\
+Recipient Profile & Identifier, coarse age range, language preference, interests, dislikes, style attributes, items already owned, completeness indicator, expiry. & The basis of matching and ranking. Deliberately holds no name, contact detail or account identifier for the recipient. \\
+Interest & Interest key from the controlled vocabulary, weight, strength band, giftability. & Joins the Recipient Profile to product records (FR-13, FR-20). \\
+Evidence & Source, signal type, date, short excerpt, count. & Supports FR-14 (no interest without evidence) and allows the recipient to review what was inferred (FR-57). \\
+Dislike & Interest key, reason, source. & Used as an exclusion in filtering (FR-35). \\
+Product & Identifier, bilingual name, category, interest keys, price in SAR, age range, suitable occasions, suitable relationships, giftability, social-appropriateness, delivery days, availability, seller reference, verification status and date. & The candidate set for retrieval, filtering and ranking. \\
+Recommendation & Request reference, product reference, rank, score components, explanation text. & Presented to the giver and retained so feedback can be attributed (FR-52). \\
+Feedback & Recommendation reference, judgement, reason code, date. & Supports later analysis of recommendation quality (NFR-13). \\
+Consent Record & Party giving consent, purpose, sources covered, date given, review status, deletion status, expiry. & Required by FR-62 and checked by FR-63 before any profile is used. \\
+\end{longtable}
+
+\subsection{Data Protection Requirements}
+\begin{reqtable}{Data requirements}
+DR-01 & The Recipient Profile shall not contain the recipient's name, telephone number, email address, postal address or social media account identifier. \\
+DR-02 & The system shall store the recipient's age only as a coarse range and never as a date of birth. \\
+DR-03 & The system shall hold no field, and shall create no derived field, representing religion, health, political opinion, sexual orientation, ethnicity or financial status (FR-18). \\
+DR-04 & Every entity holding personal data shall be linked to a consent record, and the system shall be able to identify all personal data associated with a given consent record in order to satisfy a deletion request (FR-67). \\
+DR-05 & Source material supplied by a recipient shall be deleted once the Recipient Profile has been constructed; only the approved profile shall persist (FR-61). \\
+DR-06 & Every Recipient Profile shall carry an expiry, and the system shall not use an expired profile (FR-66). \\
+DR-07 & The product catalogue shall carry no personal data. \\
+DR-08 & Feedback records shall reference a recommendation and shall not store free-text entered by the user about any identifiable person. \\
+\end{reqtable}
+
+\section{Security and Privacy Requirements}
+\label{sec:security}
+These requirements are stated as system requirements intended to support the obligations of
+the Saudi Personal Data Protection Law. Writing them does not by itself establish legal
+compliance; compliance is assessed separately by the project team with appropriate review.
+
+\begin{reqtable}{Security and privacy requirements}
+SEC-01 & The system shall transmit all data between client and server over HTTPS (CIR-01), and shall reject requests received over an unencrypted channel. \\
+SEC-02 & The system shall validate and sanitise all input received from a client before processing or storing it, and shall reject input that does not conform to the expected type, range or format. \\
+SEC-03 & The system shall construct all database queries in a manner that prevents the injection of executable statements through user-supplied values. \\
+SEC-04 & The system shall encode all user-supplied and recipient-supplied content before rendering it, so that submitted content cannot execute in another user's browser. \\
+SEC-05 & Access to a Recipient Profile shall be restricted to the gift request that it belongs to; the system shall provide no function that lists or retrieves profiles belonging to other requests. \\
+SEC-06 & A Gift Profile invitation link shall use an unguessable identifier, shall be usable only for the purpose of creating the profile it refers to, and shall expire after a configured period. \\
+SEC-07 & Where a user account facility is provided, the system shall store authentication credentials only in salted, hashed form, and shall never store or log a password in recoverable form. Where no account facility is provided, the system shall operate without collecting credentials at all. \\
+SEC-08 & Recipient-supplied source material shall be processed in a manner that minimises exposure, shall not be retained beyond profile construction (FR-61), and shall not be written to application logs. \\
+SEC-09 & Error responses presented to a user shall not disclose stack traces, database messages, file paths, internal identifiers or configuration values (UIR-08, ERR-11). \\
+SEC-10 & The system shall log security-relevant events, including consent given, profile deletion and failed validation, without recording the personal data involved in those events. \\
+\end{reqtable}
+
+\section{Error Handling Requirements}
+\label{sec:errors}
+\begin{reqtable}{Error handling requirements}
+ERR-01 & Where a required input is missing, the system shall identify the specific field, shall not proceed, and shall preserve all other values the user has already entered. \\
+ERR-02 & Where the budget entered is non-numeric, zero, negative or outside the permitted range, the system shall reject it, state the acceptable range, and allow immediate correction (FR-05). \\
+ERR-03 & Where no product satisfies the constraints, the system shall state which constraint eliminated the candidates and shall offer at least one specific relaxation, such as raising the budget or extending the delivery window (FR-28). \\
+ERR-04 & Where a product becomes unavailable between retrieval and display, the system shall omit it from the results rather than display an item that cannot be obtained. \\
+ERR-05 & Where a product's price has changed since verification, the system shall present the price as recorded together with its verification date, and shall direct the user to the seller for the current price. \\
+ERR-06 & Where a seller link cannot be opened, the system shall inform the user and shall continue to display the remaining recommendations. \\
+ERR-07 & Where recipient information is insufficient to construct a usable profile, the system shall state this, shall not fabricate interests, and shall offer the questionnaire as the route to continue (FR-16). \\
+ERR-08 & Where recipient-supplied TikTok information cannot be read or yields no usable signal, the system shall inform the recipient, shall retain nothing from the attempt, and shall allow the questionnaire route to proceed (FR-59). \\
+ERR-09 & Where an external service fails or exceeds its configured timeout, the system shall fall back to the behaviour that does not require that service where one exists, and shall otherwise inform the user that the function is temporarily unavailable. \\
+ERR-10 & Where the database or another essential internal service is unavailable, the system shall present a service-unavailable message and shall not present partial or inconsistent results as though they were complete. \\
+ERR-11 & The system shall handle any unanticipated error without terminating the user's session, shall record the diagnostic detail server-side, and shall present the user with a plain-language message only (SEC-09). \\
+\end{reqtable}
+
+%===================================================================== 4
+\chapter{System Features}
+\label{sec:features}
+\label{ch:features}
+Each feature below is described with its purpose, actors, preconditions, flows, governing
+requirements, inputs, outputs and constraints. Feature identifiers SF-1 to SF-12 are used in
+the traceability matrix (Appendix~\ref{app:rtm}).
+
+\section{SF-1 --- Gift Request}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Captures the context of the gift: who it is for, why, how much may be spent and by when.
+\item[Purpose] Establishes the constraints that all later filtering and ranking must respect, before any product is considered.
+\item[Actors] Gift giver (UC-1).
+\item[Preconditions] The user has opened the application. No account is required.
+\item[Main flow] (1)~The user starts a gift request. (2)~The user selects the relationship. (3)~The user selects the occasion. (4)~The user sets a budget in SAR. (5)~The user optionally states the days remaining before the occasion. (6)~The system stores the gift context and proceeds to recipient information (SF-2 or SF-4).
+\item[Alternative and exception flows] (a)~The user enters an invalid budget: ERR-02 applies and the step is repeated. (b)~The user returns to an earlier step: UIR-03 requires previously entered values to be preserved. (c)~The user abandons the flow: no personal data has been collected at this point.
+\item[Requirements] FR-01--FR-06, UIR-03, ERR-01, ERR-02.
+\item[Inputs] Relationship, occasion, budget (SAR), days remaining.
+\item[Outputs] A stored gift context for the session.
+\item[Constraints] The budget is mandatory (FR-03). Exactly one relationship and one occasion may be selected (FR-01, FR-02).
+\end{description}
+
+\section{SF-2 --- Recipient Questionnaire}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] A short structured questionnaire about the recipient, answered by the giver.
+\item[Purpose] Provides the always-available route to recipient information, requiring no participation by the recipient and no external platform.
+\item[Actors] Gift giver (UC-1).
+\item[Preconditions] A gift context exists (SF-1).
+\item[Main flow] (1)~The system presents the questions. (2)~The user answers. (3)~The system records each answer as an interest signal with source and date. (4)~The system passes the signals to the Recipient Profile Builder (SF-3).
+\item[Alternative and exception flows] (a)~The user skips optional questions: FR-10 requires the profile to be built from what was given. (b)~Too few answers to yield any interest: ERR-07 applies and the user is invited to add more detail. (c)~The user has also completed SF-4: both signal sets feed the same profile (FR-60).
+\item[Requirements] FR-07--FR-11, UIR-04, ERR-07.
+\item[Inputs] Answers about interests, free time, style, practical or sentimental preference, and anything unwanted.
+\item[Outputs] A set of interest signals.
+\item[Constraints] At most twelve questions, mostly closed-form (FR-07). No re-asking of relationship, occasion or budget (FR-09).
+\end{description}
+
+\section{SF-3 --- Recipient Profile Builder}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Converts interest signals, from whatever source, into a single structured Recipient Profile.
+\item[Purpose] Produces one profile format for the whole system, so that the rest of the pipeline is independent of how the information was collected.
+\item[Actors] System (invoked after SF-2 or SF-4).
+\item[Preconditions] At least one interest signal exists, with a consent record where the signal came from the recipient.
+\item[Main flow] (1)~The system maps each signal to the controlled interest vocabulary. (2)~It determines sentiment, routing negative mentions to dislikes. (3)~It computes a weight per interest from signal strength and recency. (4)~It classifies each weight into a strength band. (5)~It attaches the supporting evidence to each interest. (6)~It records the profile with a completeness indicator and an expiry.
+\item[Alternative and exception flows] (a)~No signal maps to the vocabulary: FR-16 requires the profile to be recorded as incomplete, with no invented interest. (b)~A topic appears with both positive and negative sentiment: FR-17 gives precedence to the dislike, and the topic is excluded from recommendation. (c)~A signal would imply a prohibited attribute: FR-18 requires it to be discarded.
+\item[Requirements] FR-12--FR-18, FR-60, DR-01--DR-03, DR-06.
+\item[Inputs] Interest signals with source, type and date.
+\item[Outputs] A Recipient Profile: weighted interests with evidence, dislikes, style attributes, completeness, expiry.
+\item[Constraints] No interest without evidence (FR-14). No prohibited attribute, under any circumstances (FR-18).
+\end{description}
+
+\section{SF-4 --- TikTok Personalisation (Gift Profile)}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] An optional route in which the recipient supplies their own TikTok-related information, reviews what the system inferred, and approves it.
+\item[Purpose] Enriches the Recipient Profile with interest signals the giver may not know, without the system obtaining data about anyone without their action and consent.
+\item[Actors] Gift giver (UC-1) creates the invitation; gift recipient (UC-2) decides and supplies.
+\item[Preconditions] A gift request exists. The recipient has received the invitation link.
+\item[Main flow] (1)~The giver generates an invitation link. (2)~The recipient opens it and is shown the purpose and the decline option. (3)~The recipient consents. (4)~The recipient supplies their information. (5)~The system extracts only signals mapping to the interest vocabulary. (6)~The system presents the inferred interests for review. (7)~The recipient removes any entry and approves. (8)~The system builds the profile (SF-3) and deletes the source material.
+\item[Alternative and exception flows] (a)~The recipient declines or does not respond: FR-59 requires the questionnaire route to proceed. (b)~The information cannot be processed: ERR-08 applies, nothing is retained, and the questionnaire route proceeds. (c)~The recipient removes every inferred interest: the profile is treated as having no signals from this source. (d)~The recipient later requests deletion: FR-67 applies.
+\item[Requirements] FR-53--FR-61, FR-62--FR-68, SEC-06, SEC-08, ERR-08, UIR-05.
+\item[Inputs] Recipient consent; recipient-supplied information.
+\item[Outputs] An approved set of interests contributing to the Recipient Profile; a consent record; confirmation that source material was deleted.
+\item[Constraints] No data is obtained about a recipient without that recipient's own action (FR-55). Nothing is stored before approval (FR-58). The system remains fully functional if this feature is never used (FR-59).
+\end{description}
+
+\section{SF-5 --- Product Catalogue}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] The curated set of products available in the Jeddah market, with the attributes required for matching, filtering and ranking.
+\item[Purpose] Provides the candidate space. Without accurate attributes the rest of the pipeline cannot enforce its constraints.
+\item[Actors] Catalogue maintainer (UC-3); system (read access).
+\item[Preconditions] None for reading. Write access is restricted to the maintainer role.
+\item[Main flow] (1)~The maintainer adds or edits a product record. (2)~The maintainer supplies interest keys from the controlled vocabulary. (3)~The maintainer verifies price and availability against the seller. (4)~The maintainer marks the record verified with a date. (5)~The record becomes eligible for end-user results.
+\item[Alternative and exception flows] (a)~A record is unverified: FR-24 excludes it from end-user results. (b)~A price changes: ERR-05 governs what is displayed. (c)~A product becomes unavailable: ERR-04 omits it from results.
+\item[Requirements] FR-19--FR-24, DR-07, ERR-04, ERR-05.
+\item[Inputs] Product attributes; verification outcome.
+\item[Outputs] Catalogue records eligible for retrieval.
+\item[Constraints] Prices in SAR (C-6). Availability assessed for Jeddah. No personal data in the catalogue (DR-07).
+\end{description}
+
+\section{SF-6 --- Gift Retrieval and Matching}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Selects a bounded candidate set from the catalogue on the basis of the Recipient Profile.
+\item[Purpose] Reduces the catalogue to a set small enough to filter and rank, without discarding relevant products.
+\item[Actors] System.
+\item[Preconditions] A Recipient Profile exists and carries valid consent (FR-63).
+\item[Main flow] (1)~The system forms a query from the profile's interests, weighted by strength. (2)~It compares the query against product records by shared interest key and by textual similarity. (3)~It returns the highest-scoring candidates up to the configured limit.
+\item[Alternative and exception flows] (a)~No candidate is returned: FR-28 and ERR-03 apply. (b)~The profile is in Arabic and products in English, or the reverse: FR-26 requires retrieval to operate across both.
+\item[Requirements] FR-25--FR-28, FR-63.
+\item[Inputs] Recipient Profile; catalogue.
+\item[Outputs] An ordered candidate set.
+\item[Constraints] Retrieval precedes filtering (FR-27).
+\end{description}
+
+\section{SF-7 --- Filtering}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Removes candidates that violate a stated constraint.
+\item[Purpose] Guarantees that no displayed recommendation breaches the budget, the timing, or the appropriateness of the relationship, regardless of how well it matches the profile.
+\item[Actors] System.
+\item[Preconditions] A candidate set exists; a gift context exists.
+\item[Main flow] (1)~Remove candidates above budget. (2)~Remove candidates that cannot arrive in time. (3)~Remove candidates outside the recipient's age range. (4)~Remove candidates not suitable for the relationship. (5)~Remove candidates above the social-appropriateness threshold for that relationship. (6)~Remove candidates matching a dislike or an item already owned. (7)~Pass the remainder to ranking.
+\item[Alternative and exception flows] (a)~All candidates are removed: ERR-03 applies, naming the constraint responsible and offering a relaxation. (b)~No age range is known: the age filter is not applied. (c)~No delivery deadline was given: the timing filter is not applied.
+\item[Requirements] FR-29--FR-35, ERR-03.
+\item[Inputs] Candidate set; gift context; Recipient Profile dislikes.
+\item[Outputs] A filtered candidate set, with a record of how many were removed by each constraint.
+\item[Constraints] Filtering is applied before ranking and is not overridable by score (FR-29).
+\end{description}
+
+\section{SF-8 --- Ranking and Scoring}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Orders the filtered candidates and enforces variety and a minimum relevance.
+\item[Purpose] Determines which of the acceptable products are presented, and in what order.
+\item[Actors] System.
+\item[Preconditions] A filtered candidate set exists.
+\item[Main flow] (1)~Score each candidate on interest match, giftability, budget fit, novelty and social-appropriateness. (2)~Discard candidates below the relevance threshold. (3)~Apply the per-category limit. (4)~Order by score. (5)~Optionally re-order the leading candidates using a language model, constrained to the existing set. (6)~Pass at most five to presentation.
+\item[Alternative and exception flows] (a)~Fewer than five candidates survive: FR-46 requires the shorter list to be presented as such. (b)~The model re-ordering returns an unknown identifier: FR-40 requires it to be discarded. (c)~The model service is unavailable: ERR-09 requires the deterministic order to stand.
+\item[Requirements] FR-36--FR-40, FR-45, FR-46, ERR-09.
+\item[Inputs] Filtered candidates; Recipient Profile; gift context.
+\item[Outputs] An ordered result set of at most five items with score components retained for analysis.
+\item[Constraints] A model may reorder but never introduce a candidate (FR-40). The list is never padded to reach five (FR-46).
+\end{description}
+
+\section{SF-9 --- Recommendation Explanation}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Produces a short statement of why each recommendation was selected.
+\item[Purpose] Allows the giver to judge the suggestion rather than accept it on trust; addresses UN-4.
+\item[Actors] System.
+\item[Preconditions] A ranked result set exists.
+\item[Main flow] (1)~For each recommendation, identify the interest that drove the match. (2)~Compose a statement of at most three sentences referring to that interest and to the price in relation to the budget. (3)~Present it with the recommendation.
+\item[Alternative and exception flows] (a)~No single interest dominates: the explanation refers to the general style recorded in the profile. (b)~Explanation generation fails: ERR-09 applies and the recommendation is shown with its attributes, without a generated sentence.
+\item[Requirements] FR-41--FR-44, UIR-06.
+\item[Inputs] Recommendation; Recipient Profile; gift context.
+\item[Outputs] Explanation text in the user's selected language.
+\item[Constraints] Only interests present in the profile may be cited (FR-42). No internal scores are shown (FR-44).
+\end{description}
+
+\section{SF-10 --- Results and Refinement}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Presents the recommendations and allows the giver to adjust them without restarting.
+\item[Purpose] Converts a single ranked list into a short, directed search; addresses UN-2.
+\item[Actors] Gift giver (UC-1).
+\item[Preconditions] A result set exists.
+\item[Main flow] (1)~The system displays up to five recommendations with explanations. (2)~The user may open a seller page for any item. (3)~The user may select a refinement. (4)~The system re-runs retrieval, filtering and ranking with the adjusted parameter, reusing the existing profile and context. (5)~The revised results are displayed.
+\item[Alternative and exception flows] (a)~A refinement yields no result: ERR-03 applies and the previous results remain available. (b)~A seller link fails: ERR-06 applies. (c)~The user refines repeatedly: each refinement is applied to the original profile, not cumulatively, unless the user states otherwise.
+\item[Requirements] FR-45--FR-49, UIR-06, UIR-07, ERR-03, ERR-06.
+\item[Inputs] Result set; refinement selection.
+\item[Outputs] A displayed or revised result set; an outbound link to the seller.
+\item[Constraints] The profile and gift context are never re-requested on refinement (FR-48).
+\end{description}
+
+\section{SF-11 --- Feedback}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] Records the giver's judgement of individual recommendations.
+\item[Purpose] Provides the evidence base for assessing and improving recommendation quality.
+\item[Actors] Gift giver (UC-1).
+\item[Preconditions] A recommendation has been displayed.
+\item[Main flow] (1)~The user records a positive or negative judgement. (2)~Where negative, the user selects a reason. (3)~The system stores the judgement against the recommendation and request.
+\item[Alternative and exception flows] (a)~The user gives no feedback: this is the normal case and no behaviour depends on it. (b)~The user changes a judgement: the latest value is retained.
+\item[Requirements] FR-50--FR-52, DR-08, NFR-13.
+\item[Inputs] Judgement; optional reason code.
+\item[Outputs] A stored feedback record.
+\item[Constraints] Feedback is stored against a recommendation, not against a person (DR-08).
+\end{description}
+
+\section{SF-12 --- Security, Privacy and Consent}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Description] The cross-cutting controls governing consent, minimisation, retention, deletion and protection of data.
+\item[Purpose] Ensures personal data is processed only with consent and only for the stated purpose; addresses UN-7 and constraint C-4.
+\item[Actors] Gift recipient (UC-2) as data subject; system as enforcement point.
+\item[Preconditions] Applies to every operation on a Recipient Profile.
+\item[Main flow] (1)~Consent is recorded when given (FR-62). (2)~The recommendation pipeline checks for valid consent before use (FR-63). (3)~Only data required by a requirement is collected (FR-65). (4)~Source material is deleted after profile construction (FR-61). (5)~Profiles expire and are deleted (FR-66). (6)~A deletion request is honoured (FR-67).
+\item[Alternative and exception flows] (a)~Consent is absent or invalid: FR-63 requires the pipeline to refuse and report, not to proceed. (b)~A profile has expired: FR-66 forbids its use. (c)~A deletion request arrives while a request is in progress: deletion takes precedence and the recommendation request is terminated.
+\item[Requirements] FR-62--FR-68, SEC-01--SEC-10, DR-01--DR-08, NFR-05, NFR-06.
+\item[Inputs] Consent decisions; deletion requests.
+\item[Outputs] Consent records; deletion confirmations; security event log entries without personal data.
+\item[Constraints] The system provides no function that processes recipient data without a consent record (FR-63); this is a hard behaviour, not a configurable one.
+\end{description}
+
+%===================================================================== 5
+\chapter{Non-Functional Requirements}
+Each requirement below states a criterion that can be checked. Where a numeric target is
+given, it is a target for the prototype under defined conditions, not a service-level
+guarantee. \emph{Normal prototype operating conditions} means: a single concurrent user, the
+catalogue at its specified size, a broadband connection, and the application deployed on the
+hosting tier used by the project.
+
+\begin{longtable}{@{}L{1.9cm}L{3.2cm}L{9.4cm}@{}}
+\caption{Non-functional requirements}\label{tab:nfr}\\
+\toprule
+\textbf{ID} & \textbf{Quality} & \textbf{Requirement} \\ \midrule
+\endfirsthead
+\toprule \textbf{ID} & \textbf{Quality} & \textbf{Requirement} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+NFR-01 & Performance &
+The system shall return a complete set of recommendations, including explanations, within
+5~seconds for at least 95\% of requests under normal prototype operating conditions. A page
+of the gift request flow shall become interactive within 3~seconds on a mobile connection.
+Measurement is by instrumented timing over a defined set of at least 20 representative
+requests. \\
+NFR-02 & Usability &
+A first-time user shall be able to complete the flow from the landing page to a displayed
+result set, using the questionnaire route, within 3~minutes and without assistance, in at
+least 80\% of trials in a usability test of at least 8 participants. \\
+NFR-03 & Reliability &
+The system shall handle every error condition listed in Section~\ref{sec:errors} without
+terminating the user's session. In a test suite exercising each condition, the system shall
+present a defined message and remain operable in 100\% of cases. \\
+NFR-04 & Availability &
+The system shall be available during scheduled demonstration and evaluation periods. Planned
+unavailability shall be announced in advance. No continuous availability target is claimed
+for a project prototype. \\
+NFR-05 & Security &
+The system shall satisfy every requirement in Section~\ref{sec:security}. Verification is by
+inspection of the implementation against SEC-01 to SEC-10 and by targeted testing of input
+validation, injection and output encoding. \\
+NFR-06 & Privacy &
+The system shall hold no personal data item that is not required by a stated requirement, and
+shall hold no prohibited attribute. Verification is by inspection of the stored data model
+against Table~\ref{tab:entities} and by an automated check that no prohibited attribute
+appears in a stored profile. \\
+NFR-07 & Maintainability &
+Each pipeline module shall be replaceable without modification to the others, as required by
+SIR-03. Verification is by demonstration: substituting one module implementation for another
+shall require no change outside that module. \\
+NFR-08 & Scalability &
+The system shall maintain the NFR-01 response target with a catalogue of at least 1{,}000
+products and at least 5 concurrent users. Beyond this, scalability is not specified for the
+prototype. \\
+NFR-09 & Compatibility &
+The system shall function correctly in the current release, and the immediately preceding
+release, of at least three major browsers, on both desktop and mobile. Verification is by
+executing the main flow on each. \\
+NFR-10 & Accessibility &
+Interactive elements shall be operable by keyboard alone, every form control shall have an
+associated label, and text shall meet a contrast ratio of at least 4.5:1. Verification is by
+automated accessibility check plus manual keyboard traversal of the main flow. \\
+NFR-11 & Localisation &
+All user-facing text shall be present in Arabic and English with no untranslated string in
+either, layout shall adapt to right-to-left presentation for Arabic, and all monetary values
+shall display in SAR. Verification is by inspection of both language builds of every screen. \\
+NFR-12 & Data integrity &
+Every Recipient Profile and product record shall validate against its published schema before
+being stored or used; an instance failing validation shall be rejected rather than stored
+partially. Verification is by test with deliberately malformed instances. \\
+NFR-13 & Recommendation quality &
+Recommendation quality shall be evaluated against a defined baseline in which only
+questionnaire input is used. For a set of test recipients, independent assessors shall rate
+each recommendation for relevance on a three-point scale and record whether it would be
+socially inappropriate. The target is a mean relevance of at least 1.5 of 2.0 and no
+recommendation rated socially inappropriate. Where the target is not met, the result shall be
+reported as measured rather than adjusted. \\
+\end{longtable}
+
+\noindent\textbf{Note on NFR-13.} This requirement specifies how quality is to be measured and
+what target is being aimed at. It does not assert that the system will achieve the target, and
+no requirement in this document claims that a recommendation will be correct for any
+particular recipient.
+
+%===================================================================== 6
+\chapter{Verification and Traceability}
+\label{ch:verification}
+\label{sec:traceability}
+
+\section{Verification Methods}
+Every requirement is assigned one of four verification methods.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Verification methods}\label{tab:methods}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Method} & \textbf{Definition} \\ \midrule
+T --- Test & The requirement is checked by executing the system with defined inputs and comparing the output against an expected result. Applies to most functional requirements. \\
+I --- Inspection & The requirement is checked by examining the implementation, the data model or the interface without executing it. Applies to structural and data-protection requirements. \\
+D --- Demonstration & The requirement is checked by operating the system and observing the behaviour, without instrumented measurement. Applies to flows and user interface behaviour. \\
+A --- Analysis & The requirement is checked by measurement over a sample and evaluation of the result. Applies to performance and quality requirements. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Traceability Approach}
+Traceability runs in both directions:
+\begin{itemize}
+  \item \textbf{Forward:} each user need in Table~\ref{tab:needs} maps to one or more
+        functional requirements, each functional requirement is realised by exactly one system
+        feature, and each feature carries a verification method.
+  \item \textbf{Backward:} every functional requirement traces to at least one user need. A
+        requirement that traces to no need is removed at review; a need with no requirement
+        indicates a gap in the specification.
+\end{itemize}
+
+\noindent Appendix~\ref{app:rtm} records the matrix. When a requirement changes after
+baselining, the change is recorded in the Document Control table, the matrix row is updated,
+and the associated verification activity is repeated.
+
+%===================================================================== appendices
+\appendix
+
+\chapter{Glossary}
+\label{app:glossary}
+\begin{description}[style=nextline,leftmargin=0pt]
+\item[Artificial intelligence (AI)] In this document, software components that derive structured information from unstructured input, or that rank alternatives using a learned or computed model, rather than by a fixed rule stated by the developer.
+\item[Candidate retrieval] The step that selects a bounded subset of the catalogue for further processing, before any constraint is applied.
+\item[Controlled interest vocabulary] The fixed set of interest keys used by both Recipient Profiles and product records, which makes matching a direct join rather than a text comparison.
+\item[Evidence] The record of which signal, from which source and on which date, supports a given interest in a Recipient Profile.
+\item[Filtering] The removal of candidates that violate a stated constraint. Distinct from ranking: filtering is absolute, ranking is relative.
+\item[Giftability] An attribute expressing how well an interest or product works as a gift, as distinct from how well it matches the recipient.
+\item[Gift context] The relationship, occasion, budget and timing supplied by the giver.
+\item[Gift Profile] The consent-based route by which a recipient supplies their own information to enrich their Recipient Profile.
+\item[Interest signal] A single observation suggesting an interest, carrying a source, a type and a date.
+\item[Ranking] The ordering of candidates that have already satisfied every constraint.
+\item[Recipient Profile] The structured record of a recipient's weighted interests, dislikes and style attributes, with evidence for each interest.
+\item[Recommendation engine] The combination of the retrieval, filtering and ranking modules.
+\item[Signal strength] The relative evidential weight of a signal type; a deliberate action is treated as stronger evidence than a passive one.
+\item[Social-appropriateness (embarrassment risk)] An attribute expressing the risk that a product would be awkward given the stated relationship.
+\item[TikTok personalisation] The optional enrichment of a Recipient Profile from information the recipient supplies themselves, with consent.
+\end{description}
+
+\chapter{Acronyms}
+\label{app:acronyms}
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\textbf{Acronym} & \textbf{Expansion} \\ \midrule
+AI & Artificial Intelligence \\
+API & Application Programming Interface \\
+CIR & Communications Interface Requirement (identifier prefix) \\
+DR & Data Requirement (identifier prefix) \\
+ERD & Entity Relationship Diagram \\
+ERR & Error Handling Requirement (identifier prefix) \\
+FR & Functional Requirement (identifier prefix) \\
+HTTPS & Hypertext Transfer Protocol Secure \\
+NFR & Non-Functional Requirement (identifier prefix) \\
+PDPL & Personal Data Protection Law (Kingdom of Saudi Arabia) \\
+RTM & Requirements Traceability Matrix \\
+SAR & Saudi Riyal \\
+SDAIA & Saudi Data and Artificial Intelligence Authority \\
+SEC & Security and Privacy Requirement (identifier prefix) \\
+SF & System Feature (identifier prefix) \\
+SIR & Software Interface Requirement (identifier prefix) \\
+SRS & Software Requirements Specification \\
+UAT & User Acceptance Testing \\
+UC & User Class (identifier prefix) \\
+UIR & User Interface Requirement (identifier prefix) \\
+UN & User Need (identifier prefix) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{Requirements Traceability Matrix}
+\label{app:rtm}
+Table~\ref{tab:rtm} traces each user need through the requirements that satisfy it, the
+feature that realises them, and the method by which they are verified.
+
+\begin{longtable}{@{}L{1.4cm}L{4.1cm}L{4.1cm}L{3.0cm}L{1.5cm}@{}}
+\caption{Requirements traceability matrix}\label{tab:rtm}\\
+\toprule
+\textbf{Need} & \textbf{Functional requirements} & \textbf{Feature} & \textbf{Non-functional} & \textbf{Method} \\ \midrule
+\endfirsthead
+\toprule \textbf{Need} & \textbf{Functional requirements} & \textbf{Feature} & \textbf{Non-functional} & \textbf{Method} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+UN-1 & FR-07--FR-11 & SF-2 Recipient Questionnaire & NFR-02 & T, D \\
+UN-1 & FR-12--FR-18 & SF-3 Recipient Profile Builder & NFR-12 & T, I \\
+UN-1 & FR-25--FR-28 & SF-6 Gift Retrieval and Matching & NFR-01 & T, A \\
+UN-1 & FR-53--FR-61 & SF-4 TikTok Personalisation & NFR-06 & T, D \\
+UN-2 & FR-45--FR-49 & SF-10 Results and Refinement & NFR-01, NFR-02 & T, D, A \\
+UN-2 & FR-36--FR-40 & SF-8 Ranking and Scoring & NFR-01 & T, A \\
+UN-3 & FR-03, FR-05, FR-30 & SF-1 Gift Request, SF-7 Filtering & NFR-03 & T \\
+UN-3 & FR-19, FR-22--FR-24 & SF-5 Product Catalogue & NFR-12 & T, I \\
+UN-4 & FR-41--FR-44 & SF-9 Recommendation Explanation & NFR-11 & T, I \\
+UN-5 & FR-31--FR-35 & SF-7 Filtering & NFR-13 & T, A \\
+UN-5 & FR-37, FR-39 & SF-8 Ranking and Scoring & NFR-13 & T, A \\
+UN-6 & FR-10, FR-16, FR-46 & SF-2, SF-3, SF-10 & NFR-03 & T \\
+UN-6 & FR-59 & SF-4 TikTok Personalisation & NFR-03 & T, D \\
+UN-6 & ERR-03, ERR-07, ERR-08 & SF-7, SF-3, SF-4 & NFR-03 & T \\
+UN-7 & FR-54--FR-58, FR-61 & SF-4 TikTok Personalisation & NFR-06 & T, D, I \\
+UN-7 & FR-62--FR-68 & SF-12 Security, Privacy and Consent & NFR-05, NFR-06 & T, I \\
+UN-7 & DR-01--DR-08, SEC-01--SEC-10 & SF-12 Security, Privacy and Consent & NFR-05, NFR-06 & I, T \\
+UN-8 & UIR-01, UIR-09, FR-68 & SF-1--SF-12 (all screens) & NFR-11 & I, D \\
+UN-8 & FR-19, FR-26, FR-43 & SF-5, SF-6, SF-9 & NFR-11 & T, I \\
+UN-8 & UIR-02, UIR-10 & SF-10 Results and Refinement & NFR-09, NFR-10 & D, I \\
+--- & SIR-01--SIR-07, CIR-01--CIR-04 & Cross-cutting & NFR-07, NFR-09 & I, D \\
+--- & FR-50--FR-52 & SF-11 Feedback & NFR-13 & T, A \\
+\end{longtable}
+
+\chapter{Use-Case Summary}
+\label{app:usecases}
+\begin{longtable}{@{}L{1.5cm}L{3.5cm}L{2.5cm}L{6.6cm}@{}}
+\caption{Use-case summary}\\
+\toprule
+\textbf{ID} & \textbf{Use case} & \textbf{Primary actor} & \textbf{Outcome} \\ \midrule
+\endfirsthead
+\toprule \textbf{ID} & \textbf{Use case} & \textbf{Primary actor} & \textbf{Outcome} \\ \midrule
+\endhead
+\bottomrule
+\endfoot
+UC-A & Request gift recommendations & Gift giver & A result set of at most five recommendations with explanations. \\
+UC-B & Describe the recipient by questionnaire & Gift giver & Interest signals from which a Recipient Profile is built. \\
+UC-C & Invite the recipient to create a Gift Profile & Gift giver & An invitation link, shared by a channel of the giver's choosing. \\
+UC-D & Create a Gift Profile & Gift recipient & An approved set of interests, or a recorded decline. \\
+UC-E & Review and edit inferred interests & Gift recipient & A profile containing only what the recipient approved. \\
+UC-F & Refine the result set & Gift giver & A revised result set, without re-entering context. \\
+UC-G & Record feedback on a recommendation & Gift giver & A stored judgement with an optional reason. \\
+UC-H & Open the seller page for a product & Gift giver & The seller's page for that product, in a new context. \\
+UC-I & Request deletion of a Recipient Profile & Gift recipient & The profile and its evidence deleted, with confirmation. \\
+UC-J & Add or verify a catalogue product & Catalogue maintainer & A product record eligible for end-user results. \\
+\end{longtable}
+
+\end{document}
