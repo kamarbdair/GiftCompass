@@ -1,0 +1,472 @@
+%=====================================================================
+%  GiftCompass --- Business Model Canvas, Version 02
+%  Page 1: nine-box canvas.  Page 2: pricing and monetization (KPI 3).
+%  Compile with pdfLaTeX.
+%=====================================================================
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,landscape,margin=8mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{microtype}
+\usetikzlibrary{arrows.meta,positioning}
+\pagestyle{empty}
+\hyphenation{GiftCompass WhatsApp HyperPay}
+\setlength{\parindent}{0pt}
+
+%---------------------------------------------------------------- palette
+\definecolor{gcBerry}{HTML}{6D2E46}
+\definecolor{gcBerryDk}{HTML}{4A1F30}
+\definecolor{gcRose}{HTML}{A26769}
+\definecolor{gcInk}{HTML}{2B1A20}
+\definecolor{gcGrid}{HTML}{D8CBC8}
+\definecolor{gcTint}{HTML}{F7F2F0}
+\definecolor{gcSand}{HTML}{EFE6E2}
+
+%---------------------------------------------------------------- type
+\newcommand{\bb}{\fontsize{7}{8.4}\selectfont}
+\newcommand{\bbs}{\fontsize{6.3}{7.5}\selectfont}
+\newcommand{\boxhead}[1]{%
+  {\hyphenpenalty=10000\exhyphenpenalty=10000\fontsize{8}{9.2}\selectfont
+   \textcolor{gcBerry}{\textbf{\MakeUppercase{#1}}}\par}\vspace{0.3mm}
+  \textcolor{gcGrid}{\rule{\linewidth}{0.4pt}}\vspace{-0.4mm}\par}
+\newcommand{\sublab}[1]{\textcolor{gcRose}{\textit{#1}}}
+\newcommand{\flag}[1]{\textcolor{gcBerryDk}{\textbf{#1}}}
+
+%---------------------------------------------------------------- lists
+\newenvironment{bl}
+  {\begin{list}{\textcolor{gcRose}{\scriptsize\textbullet}}%
+     {\setlength{\leftmargin}{2.5mm}\setlength{\labelwidth}{1.4mm}%
+      \setlength{\labelsep}{1.1mm}\setlength{\itemindent}{0pt}%
+      \setlength{\topsep}{0.5mm}\setlength{\itemsep}{0.45mm}%
+      \setlength{\parsep}{0pt}\setlength{\partopsep}{0pt}}}
+  {\end{list}}
+
+%---------------------------------------------------------------- boxes
+\tikzset{
+  bx/.style={draw=gcGrid, line width=0.45pt, fill=white, rounded corners=0.8mm,
+             anchor=north west, inner sep=1.6mm, align=left, text=gcInk},
+  tint/.style={bx, fill=gcTint},
+  fstep/.style={draw=gcRose, line width=0.45pt, fill=gcTint, rounded corners=0.7mm,
+               anchor=north west, inner sep=1.1mm, align=left, text=gcInk, font=\bbs,
+               text width=24.5mm, minimum height=13mm},
+  ar/.style={-{Stealth[length=1.6mm,width=1.2mm]}, gcRose, line width=0.5pt}
+}
+
+% fixed-height box: #1 x, #2 y, #3 text width (mm), #4 box height (mm), #5 style, #6 body
+\newcommand{\gbox}[6]{%
+  \node[#5, text width=#3mm, minimum height=#4mm] at (#1,#2)
+    {\begin{minipage}[t][\dimexpr #4mm-3.2mm\relax][t]{#3mm}#6\end{minipage}};}
+
+%---------------------------------------------------------------- tables
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{1.2mm}
+\newcommand{\thd}[1]{\textcolor{gcBerry}{\textbf{#1}}}
+\newcommand{\hr}{\noalign{\vskip0.4mm}\hline\noalign{\vskip0.4mm}}
+
+\begin{document}
+
+%=====================================================================
+%  PAGE 1 --- BUSINESS MODEL CANVAS
+%=====================================================================
+\noindent\begin{tikzpicture}[x=1mm,y=1mm]
+\useasboundingbox (0,0) rectangle (281,-194);
+\node[anchor=north west, inner sep=0pt] at (0,0)
+  {\fontsize{15}{17}\selectfont\bfseries\color{gcBerry}GiftCompass \textemdash\ Business Model Canvas};
+\node[anchor=north west, inner sep=0pt, text width=281mm, align=left, font=\bb, text=gcInk] at (0,-7.4)
+  {AI-assisted, privacy-first gift recommendation for the Jeddah market\hfill
+   \flag{Version 02}\quad\textbar\quad 1 October 2026\quad\textbar\quad Effat University, CS4176};
+\draw[gcBerry, line width=0.8pt] (0,-12.4) -- (281,-12.4);
+
+%------------------------------------------------- 1. KEY PARTNERS
+\gbox{0}{-13.6}{51.72}{126}{bx}{\bb
+\boxhead{1. Key Partners}
+\flag{Potential partners only.} No agreement is in place with any
+company named below. These are organisations GiftCompass intends to approach.\\[0.8mm]
+\sublab{Retail (to contact)}
+\begin{bl}
+\item Amazon.sa, Noon, Jarir
+\item Jeddah flower shops
+\item Jeddah chocolate shops
+\item Jeddah gift and lifestyle shops
+\end{bl}
+\vspace{0.7mm}
+\sublab{Delivery (to contact)}
+\begin{bl}
+\item Aramex, SMSA
+\item Local Jeddah courier companies
+\end{bl}
+\vspace{0.7mm}
+\sublab{Payments (to contact)}
+\begin{bl}
+\item Moyasar, Tap, HyperPay
+\end{bl}
+\vspace{0.7mm}
+\sublab{Buy Now Pay Later (to contact)}
+\begin{bl}
+\item Tabby, Tamara
+\end{bl}
+\vspace{0.7mm}
+\sublab{Technology}
+\begin{bl}
+\item Cloud, hosting and AI providers
+\item Infrastructure selected with Saudi PDPL requirements in mind
+\end{bl}
+\vspace{0.7mm}
+\sublab{Academic (confirmed)}
+\begin{bl}
+\item Effat University --- course supervision and project review
+\end{bl}}
+
+%------------------------------------------------- 2. KEY ACTIVITIES
+\gbox{56.52}{-13.6}{51.72}{66}{bx}{\bb
+\boxhead{2. Key Activities}
+\begin{bl}
+\item Develop and maintain the GiftCompass platform
+\item AI-assisted matching, filtering and ranking
+\item Consent-based profiling: buyer quiz plus recipient opt-in link
+\item Product catalogue management: keeping prices and availability accurate and verified
+\item Partner onboarding and retail partner management
+\item Order and delivery coordination \textit{(Phase 1B)}
+\item Recommendation evaluation and improvement
+\item Customer support
+\item PDPL and privacy compliance
+\item Marketing and customer acquisition
+\end{bl}}
+
+%------------------------------------------------- 3. KEY RESOURCES
+\gbox{56.52}{-81.2}{51.72}{58.4}{bx}{\bb
+\boxhead{3. Key Resources}
+\begin{bl}
+\item GiftCompass platform (mobile-friendly website)
+\item AI recommendation engine and matching logic
+\item Curated catalogue: 187 demonstration items in 12 categories, priced in SAR
+\item Shared interest vocabulary linking profiles to products
+\item Consented recipient profiles (opt-in)
+\item Retail, delivery and payment partners
+\item Development and technical team
+\item GiftCompass brand
+\item Feedback and evaluation data
+\item Secure cloud and database hosting
+\end{bl}}
+
+%------------------------------------------------- 4. VALUE PROPOSITIONS
+\gbox{113.04}{-13.6}{51.72}{126}{tint}{\bb
+\boxhead{4. Value Propositions}
+\sublab{For gift buyers (paying side)}
+\begin{bl}
+\item Recommendations matched to the \textit{recipient}, not only to the occasion
+\item Matching on interests, relationship, occasion, budget and preferences
+\item Less gift-selection stress
+\item Saves time: a decision in minutes rather than an evening of browsing
+\item A short, focused set of options instead of endless choice
+\item A clear explanation of why each gift fits that person
+\item Jeddah availability and SAR pricing throughout
+\item Privacy-first personalization: the 10-question quiz plus an optional opt-in recipient profile. No scraping
+\item Optional reusable recipient profiles for future occasions
+\item End-to-end gifting in one flow: Recommend $\rightarrow$ Buy $\rightarrow$ Wrap $\rightarrow$ Add card $\rightarrow$ Deliver \textit{(Phase 1B)}
+\item Built for Saudi occasions: Eid, graduation, weddings, newborns, birthdays
+\end{bl}
+\vspace{0.8mm}
+\sublab{For gift recipients (non-paying side)}
+\begin{bl}
+\item Optional opt-in Gift Profile; they review every inferred interest and can remove any of them before anything is stored
+\item Nothing is collected without their own action
+\end{bl}
+\vspace{0.8mm}
+\sublab{For retail partners (partner side)}
+\begin{bl}
+\item Access to buyers already showing purchase intent
+\item Intent-matched referrals rather than broad advertising
+\end{bl}}
+
+%------------------------------------------------- 5. CUSTOMER RELATIONSHIPS
+\gbox{169.56}{-13.6}{51.72}{66}{bx}{\bb
+\boxhead{5. Customer Relationships}
+\begin{bl}
+\item Self-service, personalized experience
+\item \flag{Main route:} the buyer's 10-question quiz
+\item Saved recipient profiles for reuse
+\item Optional recipient-created Gift Profiles
+\item Refinement on demand: cheaper, more practical, more sentimental, more unusual, different category
+\item Occasion and birthday reminders \textit{(planned)}
+\item Feedback after purchase and delivery
+\item Feedback improves future recommendations
+\item Order and delivery support \textit{(Phase 1B)}
+\end{bl}}
+
+%------------------------------------------------- 6. CHANNELS
+\gbox{169.56}{-81.2}{51.72}{58.4}{bx}{\bb
+\boxhead{6. Channels}
+\begin{bl}
+\item GiftCompass mobile-friendly website --- the initial platform
+\item Instagram content
+\item TikTok content --- \flag{marketing only.} No recipient data is taken from TikTok
+\item Snapchat content
+\item University ambassadors
+\item Partner stores and in-store referral
+\item WhatsApp sharing of recipient Gift Profile links
+\item Search and digital marketing
+\item Native mobile application --- \textit{later phase, not at launch}
+\end{bl}}
+
+%------------------------------------------------- 7. CUSTOMER SEGMENTS
+\gbox{226.08}{-13.6}{51.72}{126}{tint}{\bb
+\boxhead{7. Customer Segments}
+\flag{GiftCompass is a multi-sided market.} Three distinct sides, only one of which pays at launch.\\[0.8mm]
+\sublab{A. Gift buyers --- primary paying customers}
+\begin{bl}
+\item University students
+\item Young professionals
+\item Busy professionals with little time to shop
+\item People buying for Saudi occasions: Eid, graduations, birthdays, weddings, newborns
+\item Corporate gifting and HR teams --- \textit{possible future B2B segment}
+\end{bl}
+\vspace{0.8mm}
+\sublab{B. Gift recipients --- do not pay}
+\begin{bl}
+\item May optionally complete their own opt-in Gift Profile to improve the match
+\item Benefit without ever paying or registering
+\end{bl}
+\vspace{0.8mm}
+\sublab{C. Retail and delivery partners --- may pay}
+\begin{bl}
+\item Retailers supply products and fulfil orders
+\item Delivery partners carry out delivery
+\item Retail partners may pay GiftCompass through commission or a commercial partnership
+\end{bl}
+\vspace{0.8mm}
+\flag{To be validated.} These segments are assumptions. Customer interviews are
+intended to test them; none has been conducted to date.}
+
+%------------------------------------------------- 8. COST STRUCTURE
+\gbox{0}{-141.2}{136.5}{42}{bx}{\bb
+\boxhead{8. Cost Structure}
+\begin{minipage}[t]{66mm}\bb
+\sublab{Fixed / operating (monthly)}
+\begin{bl}
+\item Platform development and maintenance
+\item Cloud hosting and managed database
+\item AI / LLM API infrastructure
+\item Domain and software fees
+\item Legal, privacy and PDPL review
+\item Marketing
+\item Staff and development cost
+\item Partner onboarding and management
+\end{bl}
+\end{minipage}\hfill
+\begin{minipage}[t]{67mm}\bb
+\sublab{Variable / per order}
+\begin{bl}
+\item Payment gateway fee $\approx$2.5\% --- GiftCompass \textit{(Phase 1B)}
+\item Wrapping materials $\approx$SAR 10 --- GiftCompass
+\item AI and hosting $\approx$SAR 1 per order --- GiftCompass
+\item Customer and order support --- GiftCompass
+\item Delivery --- normally passed to the customer; any share GiftCompass absorbs is \flag{TBD}
+\end{bl}
+\end{minipage}}
+
+%------------------------------------------------- 9. REVENUE STREAMS
+\gbox{141.3}{-141.2}{136.5}{42}{bx}{\bb
+\boxhead{9. Revenue Streams}
+\begin{minipage}[t]{66mm}\bb
+\sublab{Phase 1A --- validate demand}
+\begin{bl}
+\item Affiliate / referral commission at partner retailers
+\item Fast to test, but little control over checkout, wrapping and delivery
+\end{bl}
+\vspace{0.6mm}
+\sublab{Phase 1B --- GiftCompass checkout}
+\begin{bl}
+\item Commission on each partner sale
+\item Fixed service fee per order
+\item Gift-wrapping margin
+\item Greeting-card and gift-card upsells
+\item Express-delivery and convenience upsells
+\end{bl}
+\end{minipage}\hfill
+\begin{minipage}[t]{67mm}\bb
+\sublab{Phase 2 --- after demand is proven}
+\begin{bl}
+\item Premium subscription --- \flag{price TBD after customer interviews}
+\item GiftCompass-owned products in proven high-demand categories
+\item Corporate gifting
+\item Sponsored placements, clearly labelled
+\end{bl}
+\vspace{0.8mm}
+\flag{Trust rule.} Sponsored placements must be clearly labelled and must never
+silently determine which gifts are recommended. Ranking stays driven by the
+recipient profile.
+\end{minipage}}
+
+\node[anchor=north west, inner sep=0pt, text width=277.8mm, align=left, font=\bbs, text=gcInk] at (1.6,-184.8) {%
+{\textbf{Labelling convention.}
+\flag{Confirmed} --- already decided in the GiftCompass project.\quad
+\flag{Assumption} --- a working figure that has not been validated.\quad
+\flag{Potential partner} --- a company we intend to contact; no agreement exists.\quad
+\flag{To be validated} --- to be tested through customer interviews, partner quotations and pilot data.\hfill
+Phase 1B requires payments, wrapping and delivery, which the current SRS v1.0 places out of scope --- see the note on page 2.}};
+
+\end{tikzpicture}
+
+\clearpage
+
+%=====================================================================
+%  PAGE 2 --- PRICING AND MONETIZATION (KPI 3)
+%=====================================================================
+\noindent\begin{tikzpicture}[x=1mm,y=1mm]
+\useasboundingbox (0,0) rectangle (281,-194);
+\node[anchor=north west, inner sep=0pt] at (0,0)
+  {\fontsize{15}{17}\selectfont\bfseries\color{gcBerry}GiftCompass \textemdash\ Pricing \& Monetization (KPI 3)};
+\node[anchor=north west, inner sep=0pt, text width=281mm, align=left, font=\bb, text=gcInk] at (0,-7.4)
+  {Named pricing assumptions, cost breakdown, and how money reaches GiftCompass\hfill
+   \flag{Version 02}\quad\textbar\quad 1 October 2026};
+\draw[gcBerry, line width=0.8pt] (0,-12.4) -- (281,-12.4);
+
+%------------------------------------------------- A. REVENUE BY PHASE
+\gbox{0}{-13.6}{136.5}{50}{bx}{\bbs
+\boxhead{A. Revenue model by phase}
+\begin{tabular}{@{}L{13mm}L{56mm}L{59mm}@{}}
+\thd{Phase} & \thd{Revenue stream} & \thd{Status and control} \\ \hr
+\textbf{1A}\newline\textit{validate demand} &
+Affiliate / referral commission at partner retailers &
+Fastest to test. GiftCompass does not control checkout, wrapping or delivery.
+Matches the current SRS v1.0 scope. \\ \hr
+\textbf{1B}\newline\textit{GiftCompass checkout} &
+1. Commission on each partner sale\newline
+2. Fixed GiftCompass service fee per order\newline
+3. Gift-wrapping margin\newline
+4. Greeting-card and gift-card upsells\newline
+5. Express-delivery / convenience upsells &
+Requires a GiftCompass-operated checkout. \flag{Scope change:} payments, wrapping and
+delivery are listed \textit{out of scope} in SRS v1.0 and would have to be added before
+this phase can be built. \\ \hr
+\textbf{2}\newline\textit{after demand is proven} &
+Premium subscription; GiftCompass-owned products in proven categories; corporate gifting;
+clearly labelled sponsored placements &
+Only after Phase 1 demand is proven. Sponsored placements are labelled and never silently
+reorder recommendations. \\
+\end{tabular}}
+
+%------------------------------------------------- B. PRICING ASSUMPTIONS
+\gbox{141.3}{-13.6}{136.5}{50}{bx}{\bbs
+\boxhead{B. Initial pricing assumptions \textemdash\ for validation}
+\begin{tabular}{@{}L{35mm}R{21mm}L{72mm}@{}}
+\thd{Item} & \thd{Assumption} & \thd{Basis and status} \\ \hr
+Average example gift price & SAR 200 & Near the catalogue median of SAR 190 (mean SAR 303). \\
+Partner commission & 8\% & \flag{Not negotiated with any retailer.} Published marketplace rates run roughly 1--10\% by category; 8\% most likely needs a direct local partnership. \\
+GiftCompass service fee & SAR 10 / order & Willingness to pay is untested. \\
+Gift wrapping --- sale price & SAR 25 & Untested. \\
+Gift wrapping --- cost & SAR 10 & Needs a supplier quotation. \\
+Payment gateway fee & $\approx$2.5\% & Needs a quotation from Moyasar, Tap or HyperPay. \\
+AI + hosting allocation & $\approx$SAR 1 / order & See the reconciliation note in section F. \\
+Premium subscription & \flag{TBD} & Set after customer interviews. Provisional modelling range only: SAR 49--99 per year. \\
+Delivery & \flag{TBD} & Depends on partner and distance; normally passed to the customer. \\
+\end{tabular}}
+
+%------------------------------------------------- C. MONETIZATION FLOW
+\gbox{0}{-65.2}{277.8}{40}{bx}{\bbs
+\boxhead{C. Monetization process \textemdash\ how money reaches GiftCompass}}
+\begin{scope}[shift={(0,-72.2)}]
+  \node[fstep] at (2.6,0)   {\textbf{1.} Buyer completes the quiz, \textit{or} the recipient completes an opt-in Gift Profile};
+  \node[fstep] at (33.7,0)  {\textbf{2.} GiftCompass generates personalized recommendations};
+  \node[fstep] at (64.8,0)  {\textbf{3.} Buyer selects a gift};
+  \node[fstep] at (95.9,0)  {\textbf{4.} Buyer checks out: gift, service fee, wrapping, card, delivery};
+  \node[fstep] at (127.0,0) {\textbf{5.} Retail partner fulfils the gift order};
+  \node[fstep] at (158.1,0) {\textbf{6.} Delivery partner delivers the order};
+  \node[fstep] at (189.2,0) {\textbf{7.} \textbf{GiftCompass retains} commission, service fee and upsell margin};
+  \node[fstep] at (220.3,0) {\textbf{8.} Buyer gives post-delivery feedback};
+  \node[fstep] at (251.4,0) {\textbf{9.} Feedback improves future recommendations};
+  \foreach \i in {0,1,2,3,4,5,6,7}{
+    \draw[ar] (27.4+31.1*\i,-7) -- (30.6+31.1*\i,-7);}
+\end{scope}
+\node[anchor=north west, inner sep=0pt, text width=277.8mm, align=left, font=\bbs, text=gcInk] at (1.6,-86.8) {
+\textbf{\color{gcBerryDk}Phase 1A \textemdash\ affiliate:}\quad
+GiftCompass $\rightarrow$ affiliate link $\rightarrow$ \textit{the retailer's} checkout $\rightarrow$ retailer fulfils and delivers $\rightarrow$ retailer reports the sale $\rightarrow$
+\textbf{GiftCompass receives commission only.}\quad Steps 4, 5 and 6 happen outside GiftCompass, so the service fee, wrapping and delivery upsells do not exist in this phase.\\[0.4mm]
+\textbf{\color{gcBerryDk}Phase 1B \textemdash\ GiftCompass checkout:}\quad
+GiftCompass $\rightarrow$ \textit{GiftCompass} checkout, where the buyer pays the whole basket $\rightarrow$ GiftCompass pays the retailer the gift price less commission $\rightarrow$ retailer fulfils $\rightarrow$ delivery partner delivers $\rightarrow$
+\textbf{GiftCompass retains commission + service fee + wrapping and card margin.}};
+
+%------------------------------------------------- D. COST BREAKDOWN
+\gbox{0}{-106.8}{136.5}{58}{bx}{\bbs
+\boxhead{D. Cost breakdown \textemdash\ fixed vs variable}
+\begin{tabular}{@{}L{55mm}L{26mm}L{47mm}@{}}
+\thd{Fixed / operating cost} & \thd{Paid by} & \thd{Status} \\ \hr
+Website and platform development & GiftCompass & Team labour to date \\
+Cloud hosting & GiftCompass & Free tier now, paid at launch \\
+Database & GiftCompass & Free tier now, paid at launch \\
+AI / LLM / API infrastructure & GiftCompass & Measured per journey \\
+Domain and software fees & GiftCompass & Confirmed, small \\
+Legal, privacy and PDPL review & GiftCompass & \flag{TBD} --- no quotation yet \\
+Marketing & GiftCompass & \flag{TBD} --- budget not set \\
+Staff / development cost & GiftCompass & Unpaid student labour now \\
+Partner onboarding and management & GiftCompass & Mostly team time \\ \hr
+\thd{Variable / per-order cost} & \thd{Paid by} & \thd{Status} \\ \hr
+Payment gateway fee $\approx$2.5\% \textit{(1B)} & GiftCompass & \flag{Assumption} \\
+Wrapping materials $\approx$SAR 10 & GiftCompass & \flag{Assumption} \\
+AI / API cost per order $\approx$SAR 1 & GiftCompass & \flag{Assumption} \\
+Customer and order support & GiftCompass & Team time; not costed \\
+Delivery & Customer & \flag{TBD} --- any absorbed share \\
+\end{tabular}}
+
+%------------------------------------------------- E. UNIT ECONOMICS
+\gbox{141.3}{-106.8}{136.5}{58}{tint}{\bbs
+\boxhead{E. Initial Unit Economics Assumption \textemdash\ For Validation}
+\begin{tabular}{@{}L{46mm}L{47mm}R{35mm}@{}}
+\thd{Line} & \thd{Calculation} & \thd{Amount (SAR)} \\ \hr
+Example gift price & Assumption & 200 \\ \hr
+Commission revenue & 8\% $\times$ 200 & $+$16 \\
+GiftCompass service fee & Fixed, per order & $+$10 \\
+Wrapping paid by the buyer & Sale price & $+$25 \\
+Wrapping materials & Estimated cost & $-$10 \\
+Payment gateway fee & $\approx$2.5\% $\times$ 235 collected & $-$6 \\
+AI + hosting allocation & Per order & $-$1 \\ \hr
+\textbf{Contribution before marketing} & \textbf{16 + 10 + 25 $-$ 10 $-$ 6 $-$ 1} & \textbf{$\approx$ 34} \\ \hr
+\textit{Phase 1A, for comparison} & \textit{commission 16 $-$ AI/hosting 1} & \textit{$\approx$ 15} \\
+\end{tabular}
+
+\vspace{1mm}
+\flag{These figures are illustrative assumptions, not results.} SAR 34 is not a guaranteed
+profit. It is a contribution \textit{before} marketing, support, fixed cost and any delivery
+GiftCompass absorbs, and every input above is unvalidated. In this example the buyer pays a
+basket of SAR 235 (200 + 10 + 25) plus delivery, of which SAR 184 is remitted to the retailer.}
+
+%------------------------------------------------- F. VALIDATION NOTE
+\gbox{0}{-166.4}{277.8}{26}{bx}{\bbs
+\boxhead{F. What still needs validation}
+\begin{minipage}[t]{88mm}\bbs
+\sublab{Replace these figures using}
+\begin{bl}
+\item Partner and supplier quotations (commission, wrapping)
+\item Payment gateway pricing from Moyasar, Tap or HyperPay
+\item Delivery quotations from Aramex, SMSA or local couriers
+\item Customer interviews on willingness to pay, and real transaction data from a Jeddah pilot
+\end{bl}
+\end{minipage}\hfill
+\begin{minipage}[t]{88mm}\bbs
+\sublab{Known tensions in these numbers}
+\begin{bl}
+\item The SAR 1 per order AI and hosting allocation implies about one order per ten sessions. The feasibility study measures SAR 0.09 per user journey and plans on 1.5\% conversion, which would put the allocation nearer SAR 6 per order.
+\item 8\% exceeds the 5\% blended commission used in the feasibility study.
+\end{bl}
+\end{minipage}\hfill
+\begin{minipage}[t]{88mm}\bbs
+\sublab{Not yet done}
+\begin{bl}
+\item No customer interview, survey or focus group has been conducted.
+\item No partnership, pilot or sale has taken place.
+\item No price on this page has been tested with a buyer.
+\item Phase 1B needs an SRS scope change before it can be built.
+\end{bl}
+\end{minipage}}
+
+\end{tikzpicture}
+\end{document}
