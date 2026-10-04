@@ -176,54 +176,55 @@ them; none has been conducted to date.
 
 ## 8. Cost Structure
 
-**Fixed / operating costs (monthly)** — all paid by GiftCompass
+*Described in words on page 1 of the canvas. Named amounts and rates are in section 10 and
+on page 2 of the PDF, not here.*
 
-| Cost | Status |
-|---|---|
-| Website and platform development | Team labour to date |
-| Cloud hosting | Free tier now, paid tier at launch |
-| Database | Free tier now, paid tier at launch |
-| AI / LLM / API infrastructure | Measured per journey in the feasibility study |
-| Domain and software fees | Confirmed, small |
-| Legal, privacy and PDPL review | **TBD** — no quotation yet |
-| Marketing | **TBD** — budget not set |
-| Staff / development cost | Currently unpaid student labour |
-| Partner onboarding and management | Mostly team time |
+All costs below are paid by GiftCompass unless the entry says otherwise.
+
+**Fixed / operating costs**
+- Platform development and maintenance
+- Cloud hosting and managed database
+- AI / LLM API infrastructure
+- Domain and software fees
+- Legal, privacy and PDPL review
+- Marketing and customer acquisition
+- Staff and development cost
+- Partner onboarding and management
 
 **Variable / per-order costs**
-
-| Cost | Paid by | Status |
-|---|---|---|
-| Payment gateway fee ≈2.5% *(Phase 1B)* | GiftCompass | **Assumption** |
-| Wrapping materials ≈SAR 10 | GiftCompass | **Assumption** |
-| AI / API cost per order ≈SAR 1 | GiftCompass | **Assumption** |
-| Customer and order support | GiftCompass | Team time; not yet costed |
-| Delivery | Customer, normally | **TBD** — any share GiftCompass absorbs is undecided |
+- Payment gateway processing fees on each transaction *(Phase 1B)*
+- Cost of wrapping materials used for customer orders
+- AI and hosting cost for each order processed
+- Customer and order support
+- Delivery, normally passed to the customer; any portion GiftCompass absorbs is undecided
 
 ---
 
 ## 9. Revenue Streams
 
+*Described in words on page 1 of the canvas. Named amounts and rates are in section 10 and
+on page 2 of the PDF, not here.*
+
 **Phase 1A — validate demand**
-- Affiliate / referral commission at partner retailers
+- Affiliate and referral commissions from partner retailers on referred purchases
 - Fast to test, but little control over checkout, wrapping and delivery
 - Matches the current SRS v1.0 scope
 
 **Phase 1B — GiftCompass checkout**
-1. Commission on each partner sale
-2. Fixed GiftCompass service fee per order
-3. Gift-wrapping margin
-4. Greeting-card and gift-card upsells
-5. Express-delivery / convenience upsells
+- Commission on partner sales under a GiftCompass-operated checkout
+- A service fee charged per order
+- A margin on gift-wrapping services
+- Greeting-card and gift-card upsells
+- Express-delivery and convenience upsells
 
 *Requires a GiftCompass-operated checkout. **Scope change:** payments, wrapping and delivery
 are out of scope in SRS v1.0 and would have to be added first.*
 
 **Phase 2 — after demand is proven**
-- Premium subscription — price **TBD** after customer interviews
+- Premium subscriptions, once demand is validated
 - GiftCompass-owned products in proven high-demand categories
 - Corporate gifting
-- Sponsored placements, clearly labelled
+- Clearly labelled sponsored placements
 
 **Trust rule.** Sponsored placements must be clearly labelled and must never silently
 determine which gifts are recommended. Ranking stays driven by the recipient profile.
