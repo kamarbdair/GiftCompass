@@ -1,43 +1,56 @@
-# GiftCompass Customer Lifecycle — Version 02
+# GiftCompass Customer Lifecycle
 
-Two diagrams, one source file.
+**Current version: V03** — the circular elegance of V01 with the corrected journey logic of V02.
 
 | File | What it is |
 |---|---|
-| `GiftCompass_Lifecycle_v02.pdf` | Both diagrams, 2 pages, 16:9 (1200 × 675 pt — same page size as version 01) |
-| `GiftCompass_Customer_Lifecycle_v02.png` | Page 1 at 200 dpi, for slides |
-| `GiftCompass_Recipient_Lifecycle_v02.png` | Page 2 at 200 dpi, for slides |
-| `giftcompass-lifecycle.html` | The source. Edit this, then re-render. |
-| `fonts/Manrope-var.woff2` | The typeface used by version 01, kept so the files render identically offline |
+| `GiftCompass_Lifecycle_v03.pdf` | **Current.** Both diagrams, 2 pages, 16:9 (1200 × 675 pt — same page size as V01) |
+| `GiftCompass_Customer_Lifecycle_v03.png` | Page 1 at 200 dpi, for slides |
+| `GiftCompass_Recipient_Lifecycle_v03.png` | Page 2 at 200 dpi, for slides |
+| `giftcompass-lifecycle-v03.html` | The V03 source. Edit this, then re-render. |
+| `GiftCompass_Lifecycle_v02.pdf`, `giftcompass-lifecycle.html` | V02, kept for reference |
+| `fonts/Manrope-var.woff2` | The typeface used since V01 |
 
 ## Re-rendering after an edit
 
 ```sh
 /opt/pw-browsers/chromium-1194/chrome-linux/chrome --headless --disable-gpu --no-sandbox \
-  --no-pdf-header-footer --virtual-time-budget=4000 \
-  --print-to-pdf=GiftCompass_Lifecycle_v02.pdf giftcompass-lifecycle.html
-pdftoppm -r 200 -png -f 1 -l 1 GiftCompass_Lifecycle_v02.pdf page
+  --no-pdf-header-footer --virtual-time-budget=5000 \
+  --print-to-pdf=GiftCompass_Lifecycle_v03.pdf giftcompass-lifecycle-v03.html
+pdftoppm -r 200 -png GiftCompass_Lifecycle_v03.pdf page
 ```
 
-## Role colour system
+Stage text, roles and geometry live in the `stages` / `st` arrays near the bottom of the HTML.
+Changing a stage's `roles` array automatically redraws its node ring — one colour segment per role.
 
-| Role | Colour | Used for |
+## The seven stages (page 1)
+
+| # | Stage | Role |
 |---|---|---|
-| Sender | lavender `#8E74B8` | steps 1, 2, 3, 10, 12, 13 |
-| Recipient | peach `#DD8459` | the consent decision (4), sharing interests (5), receiving the gift (11), feedback |
-| GiftCompass app & AI | teal `#3B8F88` | sending the invitation (4), profile building (6), catalog search (7), filtering (8), ranking (9) |
-| Retailer / delivery partner | neutral `#8A7F76` | delivery (11) |
+| 1 | Get Started | Sender |
+| 2 | Request a Gift | Sender |
+| 3 | Recipient Preferences *(optional)* | Recipient |
+| 4 | AI Gift Discovery | GiftCompass |
+| 5 | Choose & Purchase | Sender |
+| 6 | Gift Delivery | Retailer / delivery partner + Recipient |
+| 7 | Feedback & Future Gifts | Sender + Recipient + GiftCompass |
 
-Peach is used **only** for decisions and actions the recipient actually takes. Everything
-GiftCompass does automatically is teal, including building the interest profile.
+A dashed loop runs from stage 7 back to **stage 2**, not stage 1 — the returning customer never
+creates another account.
 
-## Notes on accuracy
+## Role colours
 
-- TikTok connection is shown as requiring official, authorised platform access. A footnote on
-  both pages records that this authorisation has not been obtained and that the questionnaire
-  is the route available today. This matches SRS v1.0 (FR-55, FR-56 and Table 3.11).
-- The invitation is described as a secure link GiftCompass creates and the sender passes on,
-  which is what CIR-03 specifies — the system does not need the sender's contacts.
-- Delivery is attributed to the retailer or courier, never to GiftCompass, matching the SRS
-  scope statement and the Business Model Canvas.
-- "Top 5" matches FR-45 (at most five recommendations).
+| Role | Colour |
+|---|---|
+| Sender | deep violet `#4A3690` |
+| Recipient | soft lavender `#B983DD` |
+| GiftCompass app & AI | soft teal `#2F8A83` |
+| Retailer / delivery partner | neutral grey `#8B8077` |
+
+Stages with more than one role carry one ring segment per role rather than extra text labels.
+
+## What V03 removed from V02
+
+The "Steps 4–6 up close" panel, the "Privacy & Trust" box, the worked example paragraph, the
+per-step descriptions and the role chips. The consent route survives as a three-pill branch
+beside stage 3, and privacy as a single line at the foot of the page.

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>GiftCompass Customer Lifecycle — V03</title>
+<style>
+@font-face{font-family:'Manrope';src:url('fonts/Manrope-var.woff2') format('woff2');font-weight:200 800;font-style:normal;font-display:block}
+@page{size:1600px 900px;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#FBF8F4}
+body{font-family:'Manrope',sans-serif;color:#33264A;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:1600px;height:900px;background:#FBF8F4;overflow:hidden;page-break-after:always}
+.page:last-child{page-break-after:auto}
+svg.layer{position:absolute;inset:0;width:1600px;height:900px}
+
+h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
+.sub{font-size:15.5px;font-weight:500;color:#6E6280;margin-top:8px}
+.stamp{position:absolute;right:48px;top:44px;text-align:right;font-size:12px;font-weight:700;
+       color:#8C80A0;letter-spacing:.5px;line-height:1.55}
+
+/* tiny legend */
+.legend{position:absolute;display:flex;gap:24px;align-items:center}
+.lg{display:flex;gap:7px;align-items:center;font-size:12px;font-weight:600;color:#55496B;white-space:nowrap}
+.lg i{width:11px;height:11px;border-radius:50%;flex:none}
+
+/* stage labels */
+.lab{position:absolute;width:218px}
+.lab .t{font-size:17px;font-weight:800;line-height:1.18;letter-spacing:-.25px}
+.lab .d{font-size:12.5px;font-weight:500;color:#6E6280;line-height:1.35;margin-top:3px}
+.lab .opt{font-size:11px;font-weight:800;color:#A05FD0;letter-spacing:.4px}
+.lab.r{text-align:left}
+.lab.l{text-align:right}
+.lab.c{text-align:center}
+
+/* reuse loop caption */
+.reuse{position:absolute;width:300px;text-align:center}
+.reuse .t{font-size:15px;font-weight:800;color:#4A3690;letter-spacing:-.2px;line-height:1.22}
+.reuse .d{font-size:12px;font-weight:500;color:#6E6280;margin-top:3px;line-height:1.3}
+
+/* hub */
+.hub{position:absolute;width:144px;height:144px;border-radius:50%;background:#fff;border:1.5px solid #E7DFEE;
+     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.hub .nm{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-top:3px}
+.hub .mt{font-size:9.5px;font-weight:800;color:#9589A8;letter-spacing:1.1px;text-transform:uppercase}
+
+/* consent micro-branch */
+.branch{position:absolute;display:flex;align-items:center;gap:5px}
+.pill{font-size:10.5px;font-weight:700;color:#6B4FA8;background:#F1EBFA;border:1px solid #D9CCEE;
+      border-radius:999px;padding:2.5px 9px;white-space:nowrap}
+.arw{font-size:11px;color:#A79BBC;font-weight:700}
+.fallback{position:absolute;font-size:11px;font-weight:500;color:#7B6F8C;font-style:italic}
+
+.note{position:absolute;font-size:12.5px;font-weight:600;color:#7B6F8C}
+.note b{color:#55496B;font-weight:800}
+
+/* page 2 */
+.p2lab{position:absolute;width:224px;text-align:center}
+.p2lab .t{font-size:16.5px;font-weight:800;line-height:1.18;letter-spacing:-.25px}
+.p2lab .d{font-size:12.5px;font-weight:500;color:#6E6280;line-height:1.35;margin-top:4px}
+.p2cap{position:absolute;text-align:center;font-size:12.5px;font-weight:700;color:#8B8077}
+.p2cap span{display:block;font-size:11.5px;font-weight:500;color:#7B6F8C;font-style:italic;margin-top:1px}
+</style></head><body>
+
+<!-- ======================================================== PAGE 1 -->
+<div class="page" id="p1">
+  <svg class="layer" id="sv1" viewBox="0 0 1600 900">
+    <defs>
+      <marker id="a1" markerWidth="9" markerHeight="9" refX="6.2" refY="4.5" orient="auto">
+        <path d="M0,0.9 L8,4.5 L0,8.1 Z" fill="#C3B4DB"/></marker>
+      <marker id="a2" markerWidth="9" markerHeight="9" refX="6.2" refY="4.5" orient="auto">
+        <path d="M0,0.9 L8,4.5 L0,8.1 Z" fill="#4A3690"/></marker>
+    </defs>
+  </svg>
+
+  <div style="position:absolute;left:48px;top:36px">
+    <h1>GiftCompass Customer Lifecycle</h1>
+    <div class="sub">From the first gift to every occasion after it.</div>
+  </div>
+  <div class="stamp">VERSION 03 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#AEA3BE">7 stages</span></div>
+
+  <div class="legend" style="left:48px;top:112px">
+    <div class="lg"><i style="background:#4A3690"></i>Sender</div>
+    <div class="lg"><i style="background:#B983DD"></i>Recipient</div>
+    <div class="lg"><i style="background:#2F8A83"></i>GiftCompass AI</div>
+    <div class="lg"><i style="background:#8B8077"></i>Retailer / delivery</div>
+  </div>
+
+  <div class="hub" style="left:693px;top:428px">
+    <svg width="26" height="26" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12.4" fill="none" stroke="#4A3690" stroke-width="1.6"/>
+      <path d="M15 6.4 L18.1 15 L15 23.6 L11.9 15 Z" fill="#B983DD"/><circle cx="15" cy="15" r="1.8" fill="#33264A"/></svg>
+    <div class="nm">GiftCompass</div>
+    <div class="mt">the loop</div>
+  </div>
+
+  <div class="note" style="left:48px;top:838px">
+    <b>Recipient participation is optional.</b> Personal data is used only with appropriate consent.
+  </div>
+</div>
+
+<!-- ======================================================== PAGE 2 -->
+<div class="page" id="p2">
+  <svg class="layer" id="sv2" viewBox="0 0 1600 900">
+    <defs>
+      <marker id="b1" markerWidth="9" markerHeight="9" refX="6.2" refY="4.5" orient="auto">
+        <path d="M0,0.9 L8,4.5 L0,8.1 Z" fill="#C3B4DB"/></marker>
+      <marker id="b2" markerWidth="9" markerHeight="9" refX="6.2" refY="4.5" orient="auto">
+        <path d="M0,0.9 L8,4.5 L0,8.1 Z" fill="#9C9188"/></marker>
+    </defs>
+  </svg>
+
+  <div style="position:absolute;left:48px;top:36px">
+    <h1>GiftCompass Recipient Lifecycle</h1>
+    <div class="sub">The same journey, seen by the person receiving the gift.</div>
+  </div>
+  <div class="stamp">VERSION 03 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#AEA3BE">supporting diagram</span></div>
+
+  <div class="legend" style="left:48px;top:112px">
+    <div class="lg"><i style="background:#B983DD"></i>Recipient</div>
+    <div class="lg"><i style="background:#2F8A83"></i>GiftCompass AI</div>
+    <div class="lg"><i style="background:#8B8077"></i>Retailer / delivery</div>
+  </div>
+
+  <div class="note" style="left:48px;top:838px">
+    <b>Sharing interests is always optional.</b> Declining never prevents the gift from arriving.
+  </div>
+</div>
+
+<script>
+var C={send:'#4A3690', recv:'#B983DD', sys:'#2F8A83', part:'#8B8077'};
+var TINT={send:'#E5E0F5', recv:'#F6EBFC', sys:'#DEEEEC', part:'#EFEAE5'};
+var SVGNS='http://www.w3.org/2000/svg';
+function el(n,a){var e=document.createElementNS(SVGNS,n);for(var k in a)e.setAttribute(k,a[k]);return e;}
+function pt(cx,cy,r,deg){var t=deg*Math.PI/180;return [cx+r*Math.cos(t), cy+r*Math.sin(t)];}
+
+/* ---- draw a stage node: filled disc + one ring arc per role ---- */
+function node(sv,x,y,r,roles,num){
+  sv.appendChild(el('circle',{cx:x,cy:y,r:r,fill:TINT[roles[0]]}));
+  var n=roles.length, span=360/n;
+  for(var i=0;i<n;i++){
+    var a0=-90+i*span, a1=a0+span;
+    var p0=pt(x,y,r,a0), p1=pt(x,y,r,a1);
+    var d = n===1
+      ? 'M'+p0[0]+','+p0[1]+' A'+r+','+r+' 0 1 1 '+(p0[0]-0.01)+','+p0[1]
+      : 'M'+p0[0]+','+p0[1]+' A'+r+','+r+' 0 0 1 '+p1[0]+','+p1[1];
+    sv.appendChild(el('path',{d:d,fill:'none',stroke:C[roles[i]],'stroke-width':3.2,'stroke-linecap':'butt'}));
+  }
+  var t=el('text',{x:x,y:y+6.5,'text-anchor':'middle','font-family':'Manrope','font-size':17,
+                   'font-weight':800,fill:C[roles[0]]});
+  t.textContent=num; sv.appendChild(t);
+}
+
+/* ================= PAGE 1 ================= */
+(function(){
+  var sv=document.getElementById('sv1'), pg=document.getElementById('p1');
+  var cx=765, cy=500, R=248, nr=31;
+  var stages=[
+    {t:'Get Started',             d:'Create an account · choose the recipient and occasion', roles:['send']},
+    {t:'Request a Gift',          d:'Budget · delivery city · date needed',                  roles:['send']},
+    {t:'Recipient Preferences',   d:'',                                                      roles:['recv'], opt:'OPTIONAL'},
+    {t:'AI Gift Discovery',       d:'Build the profile · filter · rank → Top 5',        roles:['sys']},
+    {t:'Choose &amp; Purchase',   d:'Pick a gift · buy from the retailer',                    roles:['send']},
+    {t:'Gift Delivery',           d:'Retailer or courier delivers to the recipient',          roles:['part','recv']},
+    {t:'Feedback &amp; Future Gifts', d:'Optional feedback · preferences saved',              roles:['send','recv','sys']}
+  ];
+  var N=stages.length, step=360/N, gap=9.6;
+
+  /* connecting arcs */
+  for(var i=0;i<N;i++){
+    var a0=-90+i*step+gap, a1=-90+(i+1)*step-gap;
+    var q0=pt(cx,cy,R,a0), q1=pt(cx,cy,R,a1);
+    sv.appendChild(el('path',{d:'M'+q0[0]+','+q0[1]+' A'+R+','+R+' 0 0 1 '+q1[0]+','+q1[1],
+      fill:'none',stroke:'#D3C6E4','stroke-width':2.6,'marker-end':'url(#a1)'}));
+  }
+
+  /* nodes + labels */
+  stages.forEach(function(s,i){
+    var ang=-90+i*step, p=pt(cx,cy,R,ang);
+    node(sv,p[0],p[1],nr,s.roles,i+1);
+    var div=document.createElement('div'); div.className='lab';
+    div.innerHTML='<div class="t">'+s.t+(s.opt?' <span class="opt">'+s.opt+'</span>':'')+'</div>'+
+                  (s.d?'<div class="d">'+s.d+'</div>':'');
+    var W=(i===2?300:218); div.style.width=W+'px';
+    if(i===0){ div.className='lab c'; div.style.left=(p[0]-W/2)+'px'; div.style.top=(p[1]-nr-12-46)+'px'; }
+    else if(Math.cos((ang)*Math.PI/180)>0){ div.className='lab r'; div.style.left=(p[0]+nr+13)+'px'; div.style.top=(p[1]-26)+'px'; }
+    else { div.className='lab l'; div.style.left=(p[0]-nr-13-W)+'px'; div.style.top=(p[1]-26)+'px'; }
+    if(i===2) div.dataset.anchor='1';
+    pg.appendChild(div);
+  });
+
+  /* micro consent branch under stage 3 */
+  var s3=pt(cx,cy,R,-90+2*step);
+  var br=document.createElement('div'); br.className='branch';
+  br.style.left=(s3[0]+nr+13)+'px'; br.style.top=(s3[1]+2)+'px';
+  br.innerHTML='<span class="pill">Invitation</span><span class="arw">→</span>'+
+               '<span class="pill">Consent</span><span class="arw">→</span>'+
+               '<span class="pill">TikTok or short quiz</span>';
+  pg.appendChild(br);
+  var fb=document.createElement('div'); fb.className='fallback';
+  fb.style.left=(s3[0]+nr+13)+'px'; fb.style.top=(s3[1]+32)+'px';
+  fb.innerHTML='Declines or no reply → the sender’s own answers are used';
+  pg.appendChild(fb);
+
+  /* reuse loop: stage 7 → stage 2 */
+  var s7=pt(cx,cy,R,-90+6*step), s2=pt(cx,cy,R,-90+1*step);
+  var ux=(cx-s7[0]), uy=(414-s7[1]); var L=Math.hypot(ux,uy);
+  var st=[s7[0]+(nr+4)*ux/L, s7[1]+(nr+4)*uy/L];
+  var ux2=(cx-s2[0]), uy2=(414-s2[1]); var L2=Math.hypot(ux2,uy2);
+  var en=[s2[0]+(nr+10)*ux2/L2, s2[1]+(nr+10)*uy2/L2];
+  var apex=406, ctrlY=2*apex-(st[1]+en[1])/2;
+  sv.appendChild(el('path',{d:'M'+st[0]+','+st[1]+' Q'+cx+','+ctrlY+' '+en[0]+','+en[1],
+    fill:'none',stroke:'#4A3690','stroke-width':2.6,'stroke-dasharray':'8 6','marker-end':'url(#a2)'}));
+  var ru=document.createElement('div'); ru.className='reuse';
+  ru.style.left=(cx-150)+'px'; ru.style.top='308px';
+  ru.innerHTML='<div class="t">↻ Next Occasion? Select the Same Recipient</div>'+
+               '<div class="d">GiftCompass reuses saved preferences to recommend new gifts.</div>';
+  pg.appendChild(ru);
+})();
+
+/* ================= PAGE 2 ================= */
+(function(){
+  var sv=document.getElementById('sv2'), pg=document.getElementById('p2');
+  var y=460, nr=34, xs=[200,444,688,932,1176,1420];
+  var st=[
+    {t:'Receive Invitation',   d:'A secure link shared by the sender',       roles:['recv']},
+    {t:'Review &amp; Give Consent', d:'Decide freely — take part, or not',   roles:['recv']},
+    {t:'Share Interests',      d:'TikTok or a short questionnaire',          roles:['recv']},
+    {t:'Approve Interest Profile', d:'Built by GiftCompass · review and edit', roles:['sys','recv']},
+    {t:'Receive Gift',         d:'Delivered by the retailer or courier',     roles:['part','recv']},
+    {t:'Feedback &amp; Future Reuse', d:'Optional · preferences saved for later', roles:['recv','sys']}
+  ];
+  for(var i=0;i<xs.length-1;i++){
+    sv.appendChild(el('path',{d:'M'+(xs[i]+nr+10)+','+y+' L'+(xs[i+1]-nr-14)+','+y,
+      fill:'none',stroke:'#D3C6E4','stroke-width':2.6,'marker-end':'url(#b1)'}));
+  }
+  st.forEach(function(s,i){
+    node(sv,xs[i],y,nr,s.roles,i+1);
+    var div=document.createElement('div'); div.className='p2lab';
+    div.style.left=(xs[i]-112)+'px'; div.style.top=(y+nr+20)+'px';
+    div.innerHTML='<div class="t">'+s.t+'</div><div class="d">'+s.d+'</div>';
+    pg.appendChild(div);
+  });
+  /* optional-path bracket under stages 3-4 */
+  sv.appendChild(el('path',{d:'M'+(xs[2]-118)+',630 L'+(xs[2]-118)+',618 L'+(xs[3]+118)+',618 L'+(xs[3]+118)+',630',
+    fill:'none',stroke:'#D6C6E6','stroke-width':1.6}));
+  var op=document.createElement('div'); op.className='p2cap';
+  op.style.left=(xs[2]-118)+'px'; op.style.width=(xs[3]+118-(xs[2]-118))+'px'; op.style.top='636px';
+  op.innerHTML='<span style="color:#8E6FC4;font-weight:700;font-style:normal">Optional — only with the recipient’s consent</span>';
+  pg.appendChild(op);
+
+  /* decline path routed above the row: stage 2 → stage 5 */
+  sv.appendChild(el('path',{d:'M'+xs[1]+','+(y-nr-8)+' L'+xs[1]+',348 L'+xs[4]+',348 L'+xs[4]+','+(y-nr-12),
+    fill:'none',stroke:'#9C9188','stroke-width':2.2,'stroke-dasharray':'8 6','marker-end':'url(#b2)',
+    'stroke-linejoin':'round'}));
+  var dc=document.createElement('div'); dc.className='p2cap';
+  dc.style.left=(xs[1])+'px'; dc.style.width=(xs[4]-xs[1])+'px'; dc.style.top='292px';
+  dc.innerHTML='Declines or does not reply<span>The gift still arrives — the sender’s own answers are used</span>';
+  pg.appendChild(dc);
+})();
+</script>
+</body></html>
