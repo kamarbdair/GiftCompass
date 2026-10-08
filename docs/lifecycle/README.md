@@ -24,21 +24,26 @@ pdftoppm -r 200 -png GiftCompass_Lifecycle_v03.pdf page
 Stage text, roles and geometry live in the `stages` / `st` arrays near the bottom of the HTML.
 Changing a stage's `roles` array automatically redraws its node ring — one colour segment per role.
 
-## The seven stages (page 1)
+## The eight stages (page 1)
 
 | # | Stage | Role |
 |---|---|---|
 | 1 | Get Started | Sender |
 | 2 | Request a Gift | Sender |
-| 3 | Recipient Preferences *(optional)* | Recipient |
-| 4 | AI Gift Discovery | GiftCompass |
-| 5 | Choose & Purchase | Sender |
-| 6 | Gift Delivery | Retailer / delivery partner + Recipient |
-| 7 | Feedback & Learning | Sender + Recipient + GiftCompass |
+| 3 | Recipient Preferences & Consent *(optional)* | Recipient |
+| 4 | Recipient Interest Profile | GiftCompass + Recipient |
+| 5 | AI Gift Discovery | GiftCompass |
+| 6 | Choose & Purchase | Sender |
+| 7 | Gift Delivery | Retailer / delivery partner + Recipient |
+| 8 | Feedback & Learning | Sender + Recipient + GiftCompass |
 
-A dashed loop runs from stage 7 back to **stage 2**, not stage 1 — the returning customer never
+Stage 3 is where the recipient *participates* — invitation, consent, optional sharing. Stage 4 is
+where GiftCompass *builds* the profile, from recipient-approved information or, where the
+recipient did not take part, from what the sender supplied. The two are deliberately separate.
+
+A dashed loop runs from stage 8 back to **stage 2**, not stage 1 — the returning customer never
 creates another account. The next occasion is shown only by that loop, never repeated inside
-stage 7.
+stage 8.
 
 The single-page PDF is produced by extracting page 1 from the two-page build:
 `pdfseparate -f 1 -l 1 GiftCompass_Lifecycle_v03.pdf GiftCompass_Customer_Lifecycle_v03.pdf`

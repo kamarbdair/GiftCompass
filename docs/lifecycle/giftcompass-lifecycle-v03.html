@@ -31,9 +31,9 @@ h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
 .lab.c{text-align:center}
 
 /* reuse loop caption */
-.reuse{position:absolute;width:300px;text-align:center}
+.reuse{position:absolute;width:270px;text-align:center}
 .reuse .t{font-size:15px;font-weight:800;color:#4A3690;letter-spacing:-.2px;line-height:1.22}
-.reuse .d{font-size:12px;font-weight:500;color:#6E6280;margin-top:3px;line-height:1.3}
+.reuse .d{font-size:11.5px;font-weight:500;color:#6E6280;margin-top:3px;line-height:1.3}
 
 /* hub */
 .hub{position:absolute;width:144px;height:144px;border-radius:50%;background:#fff;border:1.5px solid #E7DFEE;
@@ -74,7 +74,7 @@ h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
     <h1>GiftCompass Customer Lifecycle</h1>
     <div class="sub">From the first gift to every occasion after it.</div>
   </div>
-  <div class="stamp">VERSION 03 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#AEA3BE">7 stages</span></div>
+  <div class="stamp">VERSION 03 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#AEA3BE">8 stages</span></div>
 
   <div class="legend" style="left:48px;top:112px">
     <div class="lg"><i style="background:#4A3690"></i>Sender</div>
@@ -90,7 +90,7 @@ h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
     <div class="mt">the loop</div>
   </div>
 
-  <div class="note" style="left:48px;top:838px">
+  <div class="note" style="left:48px;top:856px">
     <b>Recipient participation is optional.</b> Personal data is used only with appropriate consent.
   </div>
 </div>
@@ -150,17 +150,18 @@ function node(sv,x,y,r,roles,num){
 /* ================= PAGE 1 ================= */
 (function(){
   var sv=document.getElementById('sv1'), pg=document.getElementById('p1');
-  var cx=745, cy=500, R=248, nr=31;
+  var cx=745, cy=500, R=252, nr=31;
   var stages=[
-    {t:'Get Started',             d:'Create an account · choose the recipient and occasion', roles:['send']},
-    {t:'Request a Gift',          d:'Budget · delivery city · date needed',                  roles:['send']},
-    {t:'Recipient Preferences',   d:'',                                                      roles:['recv'], opt:'OPTIONAL'},
-    {t:'AI Gift Discovery',       d:'Build Profile → Search Catalog → Filter → Rank → Top 5',        roles:['sys']},
-    {t:'Choose &amp; Purchase',   d:'Pick a gift · buy from the retailer',                    roles:['send']},
-    {t:'Gift Delivery',           d:'Retailer or courier delivers to the recipient',          roles:['part','recv']},
-    {t:'Feedback &amp; Learning',     d:'Optional feedback improves future recommendations',   roles:['send','recv','sys']}
+    {t:'Get Started',                 d:'Create an account · choose the recipient and occasion',        roles:['send']},
+    {t:'Request a Gift',              d:'Budget · delivery city · date needed',                         roles:['send']},
+    {t:'Recipient Preferences &amp; Consent', d:'',                                                     roles:['recv'], opt:'OPTIONAL'},
+    {t:'Recipient Interest Profile',  d:'GiftCompass builds the profile · recipient reviews it where they took part', roles:['sys','recv']},
+    {t:'AI Gift Discovery',           d:'Search Catalog → Filter → Rank → Top 5',                       roles:['sys']},
+    {t:'Choose &amp; Purchase',       d:'Pick a gift · buy from the retailer',                           roles:['send']},
+    {t:'Gift Delivery',               d:'Retailer or courier delivers to the recipient',                 roles:['part','recv']},
+    {t:'Feedback &amp; Learning',     d:'Optional feedback improves future recommendations',             roles:['send','recv','sys']}
   ];
-  var N=stages.length, step=360/N, gap=9.6;
+  var N=stages.length, step=360/N, gap=10.5;
 
   /* connecting arcs */
   for(var i=0;i<N;i++){
@@ -177,9 +178,11 @@ function node(sv,x,y,r,roles,num){
     var div=document.createElement('div'); div.className='lab';
     div.innerHTML='<div class="t">'+s.t+(s.opt?' <span class="opt">'+s.opt+'</span>':'')+'</div>'+
                   (s.d?'<div class="d">'+s.d+'</div>':'');
-    var W=(i===2?300:218); div.style.width=W+'px';
+    var W=[340,218,390,252,300,218,218,218][i]||218; div.style.width=W+'px';
+    var cosA=Math.cos(ang*Math.PI/180), sinA=Math.sin(ang*Math.PI/180);
     if(i===0){ div.className='lab c'; div.style.left=(p[0]-W/2)+'px'; div.style.top=(p[1]-nr-12-46)+'px'; }
-    else if(Math.cos((ang)*Math.PI/180)>0){ div.className='lab r'; div.style.left=(p[0]+nr+13)+'px'; div.style.top=(p[1]-26)+'px'; }
+    else if(Math.abs(cosA)<0.02 && sinA>0){ div.className='lab c'; div.style.left=(p[0]-W/2)+'px'; div.style.top=(p[1]+nr+13)+'px'; }
+    else if(cosA>0){ div.className='lab r'; div.style.left=(p[0]+nr+13)+'px'; div.style.top=(p[1]-26)+'px'; }
     else { div.className='lab l'; div.style.left=(p[0]-nr-13-W)+'px'; div.style.top=(p[1]-26)+'px'; }
     if(i===2) div.dataset.anchor='1';
     pg.appendChild(div);
@@ -199,16 +202,16 @@ function node(sv,x,y,r,roles,num){
   pg.appendChild(fb);
 
   /* reuse loop: stage 7 → stage 2 */
-  var s7=pt(cx,cy,R,-90+6*step), s2=pt(cx,cy,R,-90+1*step);
+  var s7=pt(cx,cy,R,-90+(N-1)*step), s2=pt(cx,cy,R,-90+1*step);
   var ux=(cx-s7[0]), uy=(414-s7[1]); var L=Math.hypot(ux,uy);
   var st=[s7[0]+(nr+4)*ux/L, s7[1]+(nr+4)*uy/L];
   var ux2=(cx-s2[0]), uy2=(414-s2[1]); var L2=Math.hypot(ux2,uy2);
   var en=[s2[0]+(nr+10)*ux2/L2, s2[1]+(nr+10)*uy2/L2];
-  var apex=406, ctrlY=2*apex-(st[1]+en[1])/2;
+  var apex=400, ctrlY=2*apex-(st[1]+en[1])/2;
   sv.appendChild(el('path',{d:'M'+st[0]+','+st[1]+' Q'+cx+','+ctrlY+' '+en[0]+','+en[1],
     fill:'none',stroke:'#4A3690','stroke-width':2.6,'stroke-dasharray':'8 6','marker-end':'url(#a2)'}));
   var ru=document.createElement('div'); ru.className='reuse';
-  ru.style.left=(cx-150)+'px'; ru.style.top='308px';
+  ru.style.left=(cx-135)+'px'; ru.style.top='288px';
   ru.innerHTML='<div class="t">↻ Next Occasion → Same Recipient → New Gift Request</div>'+
                '<div class="d">Reuse saved preferences to discover new gifts.</div>';
   pg.appendChild(ru);
