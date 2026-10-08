@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>GiftCompass Customer Lifecycle</title>
+<style>
+@font-face{font-family:'Manrope';src:url('fonts/Manrope-var.woff2') format('woff2');font-weight:200 800;font-style:normal;font-display:block}
+@page{size:1600px 900px;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#FBF7F2}
+body{font-family:'Manrope',sans-serif;color:#3B2A41;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:1600px;height:900px;background:#FBF7F2;overflow:hidden;page-break-after:always}
+.page:last-child{page-break-after:auto}
+svg.layer{position:absolute;inset:0;width:1600px;height:900px;pointer-events:none}
+
+h1{font-size:38px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
+.sub{font-size:16px;font-weight:500;color:#6F6275;margin-top:7px}
+.stamp{font-size:12px;font-weight:700;color:#8A7C90;letter-spacing:.4px;line-height:1.5}
+
+.r-send{--base:#8E74B8;--fill:#EFE8F8;--line:#C6B5E0}
+.r-recv{--base:#DD8459;--fill:#FCE8DC;--line:#F2BE9F}
+.r-sys {--base:#3B8F88;--fill:#DBEEEB;--line:#A3D1CC}
+.r-part{--base:#8A7F76;--fill:#EEE9E3;--line:#CEC5BC}
+
+.legend{position:absolute;display:flex;gap:30px;align-items:flex-start}
+.lg{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.3}
+.lg i{width:13px;height:13px;border-radius:50%;background:var(--base);border:2px solid var(--line);flex:none;margin-top:1px}
+.lg b{font-weight:700;display:block;white-space:nowrap}
+.lg span{color:#776A7D;font-weight:500;white-space:nowrap}
+
+.pod{position:absolute;background:#fff;border:1.4px solid #E9E0EA;border-radius:16px;
+     box-shadow:0 3px 14px rgba(59,42,65,.07);padding:11px 13px 12px}
+.pod.recvtint{background:#FFFBF8;border-color:#F3DFD1}
+.pod .ph{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;
+         letter-spacing:1.1px;text-transform:uppercase;color:#8A7C90;margin-bottom:8px}
+.pod .ph em{font-style:normal;width:19px;height:19px;border-radius:50%;background:#3B2A41;color:#fff;
+            font-size:11px;display:flex;align-items:center;justify-content:center;letter-spacing:0;flex:none}
+.step{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px}
+.step:last-child{margin-bottom:0}
+.num{width:21px;height:21px;border-radius:50%;flex:none;background:var(--fill);border:1.6px solid var(--base);
+     color:var(--base);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.tx b{display:block;font-size:12.8px;font-weight:700;line-height:1.25}
+.tx span{display:block;font-size:11px;font-weight:500;color:#776A7D;line-height:1.3;margin-top:1px}
+.tx .tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;
+     color:#7C6F82;background:#F3EEF4;border:1px solid #E3D9E5;border-radius:7px;padding:1px 6px;margin-top:3px;width:auto}
+.tx .ir{display:inline;font-weight:800}
+
+.hub{position:absolute;width:182px;height:182px;border-radius:50%;background:#fff;border:1.6px solid #E6DCE8;
+     box-shadow:0 4px 18px rgba(59,42,65,.09);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.hub .nm{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.hub .mt{font-size:10px;font-weight:800;color:#8A7C90;letter-spacing:.9px;text-transform:uppercase}
+.hub .fl{font-size:9.6px;font-weight:600;color:#776A7D;text-align:center;line-height:1.4;margin-top:3px}
+
+.loop{position:absolute;background:#F6F0FB;border:1.4px dashed #B9A5D8;border-radius:12px;padding:8px 10px}
+.loop b{display:block;font-size:12.5px;font-weight:800;color:#6E5796}
+.loop span{display:block;font-size:10.4px;font-weight:500;color:#6F6275;line-height:1.34;margin-top:2px}
+
+.panel{position:absolute;background:#fff;border:1.4px solid #E9E0EA;border-radius:16px;
+       box-shadow:0 3px 14px rgba(59,42,65,.07);padding:13px 15px}
+.panel>h3{font-size:14.5px;font-weight:800;letter-spacing:-.1px}
+.panel>p.lede{font-size:11.2px;font-weight:500;color:#776A7D;margin-top:3px;line-height:1.35}
+.fbox{position:absolute;border-radius:11px;padding:6px 10px;border:1.4px solid var(--line);background:var(--fill);
+      display:flex;flex-direction:column;justify-content:center}
+.fbox b{display:block;font-size:12px;font-weight:700;line-height:1.25;color:#3B2A41}
+.fbox span{display:block;font-size:10.2px;font-weight:500;color:#5F5365;line-height:1.32;margin-top:1px}
+.fbox .mini{font-size:9px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--base);margin:0 0 2px}
+.chk{display:flex;gap:7px;font-size:11.2px;font-weight:500;line-height:1.35;margin-bottom:6px;color:#4A3A50}
+.chk i{color:#3B8F88;font-weight:800;font-style:normal;flex:none}
+.foot{position:absolute;font-size:10px;font-weight:500;color:#8A7C90;line-height:1.4}
+
+.ex{position:absolute;background:#F4EFF8;border:1.4px solid #DFD2EA;border-radius:14px;padding:11px 16px;
+    display:flex;gap:14px;align-items:center}
+.ex .k{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#6E5796;flex:none;line-height:1.4}
+.ex p{font-size:12.3px;font-weight:500;line-height:1.46;color:#4A3A50}
+.ex p b{font-weight:800;color:#3B2A41}
+
+.card{position:absolute;background:#fff;border:1.4px solid #E9E0EA;border-radius:16px;
+      box-shadow:0 3px 14px rgba(59,42,65,.07);padding:14px 16px}
+.card .hd{display:flex;gap:10px;align-items:center}
+.card .hd .num{width:27px;height:27px;font-size:13px;margin-top:0}
+.card h4{font-size:15.5px;font-weight:800;line-height:1.2}
+.card .dsc{font-size:11.8px;font-weight:500;color:#6F6275;line-height:1.45;margin-top:7px}
+.card .dsc b{color:#3B2A41;font-weight:800}
+.opt{border:1.3px solid var(--line);background:var(--fill);border-radius:10px;padding:6px 10px;margin-top:7px}
+.opt b{font-size:11.8px;font-weight:700;display:block}
+.opt span{font-size:10.4px;font-weight:500;color:#5F5365;display:block;line-height:1.3;margin-top:1px}
+.inbox{border:1.3px solid #A3D1CC;background:#E7F3F1;border-radius:10px;padding:7px 10px;margin-top:9px}
+.card .rc{position:absolute;left:16px;bottom:13px;display:flex;gap:6px;flex-wrap:wrap}
+.rc em{font-style:normal;font-size:9.3px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;
+   color:var(--c);background:var(--f);border:1px solid var(--l);border-radius:7px;padding:2px 7px}
+.c-send{--c:#8E74B8;--f:#EFE8F8;--l:#C6B5E0}.c-recv{--c:#C9713F;--f:#FCE8DC;--l:#F2BE9F}
+.c-sys{--c:#2F7B74;--f:#DBEEEB;--l:#A3D1CC}.c-part{--c:#7A6F66;--f:#EEE9E3;--l:#CEC5BC}
+.inbox b{font-size:11.2px;font-weight:800;color:#2F7B74;display:block}
+.inbox span{font-size:10.4px;font-weight:500;color:#4A3A50;display:block;line-height:1.34;margin-top:2px}
+</style></head><body>
+
+<!-- ================================================================= PAGE 1 -->
+<div class="page" id="p1">
+  <svg class="layer" viewBox="0 0 1600 900">
+    <defs>
+      <marker id="ahs" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+        <path d="M0,0.7 L7,4 L0,7.3 Z" fill="#9A8DA2"/></marker>
+    </defs>
+    <ellipse cx="520" cy="480" rx="330" ry="250" fill="none" stroke="#CBBCDB" stroke-width="3"/>
+    <g id="ringarrows"></g>
+    <!-- consent panel flow -->
+    <g stroke="#9A8DA2" stroke-width="1.7" fill="none" marker-end="url(#ahs)" stroke-linejoin="round">
+      <path d="M1286,258 L1286,268"/>
+      <path d="M1286,310 L1286,319 L1155,319 L1155,327"/>
+      <path d="M1286,310 L1286,319 L1417,319 L1417,327"/>
+      <path d="M1155,394 L1155,401 L1286,401 L1286,407"/>
+      <path d="M1417,394 L1417,401 L1286,401 L1286,407"/>
+      <path d="M1286,452 L1286,464"/>
+    </g>
+  </svg>
+
+  <div style="position:absolute;left:46px;top:32px">
+    <h1>GiftCompass Customer Lifecycle</h1>
+    <div class="sub">Who does what — from a first account to every future occasion.</div>
+  </div>
+  <div class="stamp" style="position:absolute;right:46px;top:42px;text-align:right">
+    VERSION 02 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#A89BAD">5 phases · 13 steps</span>
+  </div>
+
+  <div class="legend" style="left:46px;top:106px;width:1510px">
+    <div class="lg r-send"><i></i><div><b>Sender</b><span>buys the gift</span></div></div>
+    <div class="lg r-recv"><i></i><div><b>Recipient</b><span>optional — shares interests only if they agree</span></div></div>
+    <div class="lg r-sys"><i></i><div><b>GiftCompass app &amp; AI</b><span>automatic — nobody has to do it</span></div></div>
+    <div class="lg r-part"><i></i><div><b>Retailer / delivery partner</b><span>external — fulfils and delivers</span></div></div>
+    <div class="lg" style="--base:#B5A8BB;--line:#DED5E2"><i style="background:linear-gradient(90deg,#3B8F88 50%,#DD8459 50%)"></i><div><b>Two colours in one step</b><span>two roles act there</span></div></div>
+  </div>
+
+  <!-- ===== PHASE PODS ===== -->
+  <div class="pod" style="left:395px;top:153px;width:250px;height:215px">
+    <div class="ph"><em>1</em>Getting started</div>
+    <div class="step r-send"><div class="num">1</div><div class="tx"><b>Create account &amp; sender profile</b>
+      <span>Their first GiftCompass account.</span><span class="tag">first time only</span></div></div>
+    <div class="step r-send"><div class="num">2</div><div class="tx"><b>Identify the gift-giving need</b>
+      <span>Who the gift is for, and the occasion.</span></div></div>
+    <div class="step r-send"><div class="num">3</div><div class="tx"><b>Submit the gift request</b>
+      <span>Budget · delivery city · date needed.</span><span class="tag">↻ return point</span></div></div>
+  </div>
+
+  <div class="pod recvtint" style="left:709px;top:326px;width:250px;height:186px">
+    <div class="ph"><em>2</em>Recipient preferences &amp; privacy</div>
+    <div class="step r-sys"><div class="num">4</div><div class="tx"><b>Invitation &amp; consent</b>
+      <span><b class="ir" style="color:#3B8F88">App</b> sends a secure invitation link.
+      <b class="ir" style="color:#DD8459">Recipient</b> accepts, declines or ignores it.</span></div></div>
+    <div class="step r-recv"><div class="num">5</div><div class="tx"><b>Share interests <span class="ir" style="font-weight:600;color:#776A7D">(optional)</span></b>
+      <span>Connect TikTok, or answer a short questionnaire.</span></div></div>
+    <div class="step r-sys"><div class="num">6</div><div class="tx"><b>Build the interest profile</b>
+      <span>Saved for reuse while consent lasts.</span></div></div>
+  </div>
+
+  <div class="pod" style="left:589px;top:599px;width:250px;height:172px">
+    <div class="ph"><em>3</em>AI gift discovery</div>
+    <div class="step r-sys"><div class="num">7</div><div class="tx"><b>Search the catalog</b>
+      <span>Finds gift options that may fit.</span></div></div>
+    <div class="step r-sys"><div class="num">8</div><div class="tx"><b>Smart filtering</b>
+      <span>Budget · city · date · occasion · suitability.</span></div></div>
+    <div class="step r-sys"><div class="num">9</div><div class="tx"><b>Rank &amp; show the top 5</b>
+      <span>Each with a short reason why it fits.</span></div></div>
+  </div>
+
+  <div class="pod" style="left:201px;top:599px;width:250px;height:172px">
+    <div class="ph"><em>4</em>Purchase &amp; delivery</div>
+    <div class="step r-send"><div class="num">10</div><div class="tx"><b>Choose a gift &amp; buy</b>
+      <span>The sender picks one and completes the purchase with the retailer.</span></div></div>
+    <div class="step r-part"><div class="num">11</div><div class="tx"><b>Delivery &amp; receipt</b>
+      <span>Retailer or courier delivers ·
+      <b class="ir" style="color:#DD8459">recipient</b> receives the gift.</span></div></div>
+  </div>
+
+  <div class="pod" style="left:81px;top:326px;width:250px;height:186px">
+    <div class="ph"><em>5</em>Feedback &amp; reuse</div>
+    <div class="step r-send"><div class="num">12</div><div class="tx"><b>Feedback after delivery</b>
+      <span>Sender rates the picks · recipient may say if they liked it ·
+      <b class="ir" style="color:#3B8F88">App</b> learns from it.</span></div></div>
+    <div class="step r-send"><div class="num">13</div><div class="tx"><b>Next occasion? Reuse the saved profile</b>
+      <span>Same person, new occasion — no setup repeated.</span></div></div>
+  </div>
+
+  <div class="hub" style="left:429px;top:389px">
+    <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12.3" fill="none" stroke="#8E74B8" stroke-width="1.7"/>
+      <path d="M15 6.6 L18 15 L15 23.4 L12 15 Z" fill="#DD8459"/><circle cx="15" cy="15" r="1.9" fill="#3B2A41"/></svg>
+    <div class="nm">GiftCompass</div>
+    <div class="mt">the loop</div>
+    <div class="fl">Ask → Understand → Filter<br>→ Rank → Buy → Deliver → Learn</div>
+  </div>
+
+  <div class="loop" style="left:196px;top:164px;width:190px">
+    <b>↻ Next occasion</b>
+    <span>The sender picks the same recipient and goes straight to a new gift request (step 3).
+    No new account. No profile rebuilt.</span>
+  </div>
+
+  <!-- ===== PANEL A : consent flow ===== -->
+  <div class="panel" style="left:1016px;top:153px;width:540px;height:367px">
+    <h3>Steps 4–6 up close: how consent works</h3>
+    <p class="lede">Participation is invited, never assumed — recommendations happen either way.</p>
+  </div>
+  <div class="fbox r-sys"  style="left:1031px;top:224px;width:510px;height:34px">
+    <b><span class="mini" style="display:inline;margin:0">GiftCompass</span> &nbsp;Creates a secure invitation link, which the sender passes to the recipient</b></div>
+  <div class="fbox r-recv" style="left:1031px;top:272px;width:510px;height:38px">
+    <b><span class="mini" style="display:inline;margin:0">Recipient decides</span> &nbsp;Take part? Consent is explicit and voluntary</b></div>
+  <div class="fbox r-recv" style="left:1031px;top:329px;width:248px;height:65px">
+    <b>Yes — shares interests</b><span>Connect TikTok (official authorised access), or answer a short questionnaire</span></div>
+  <div class="fbox r-part" style="left:1293px;top:329px;width:248px;height:65px">
+    <b>No — declines or never replies</b><span>Nothing is collected from the recipient</span></div>
+  <div class="fbox r-sys"  style="left:1031px;top:409px;width:510px;height:43px">
+    <b>GiftCompass builds the recipient interest profile</b><span>from the recipient's answers — or, if there are none, from what the sender provided</span></div>
+  <div class="fbox r-send" style="left:1031px;top:466px;width:510px;height:38px">
+    <b>Top 5 personalised recommendations — on either path</b></div>
+
+  <!-- ===== PANEL B : privacy ===== -->
+  <div class="panel" style="left:1016px;top:534px;width:540px;height:190px">
+    <h3>Privacy &amp; trust, built in</h3>
+    <p class="lede" style="margin-bottom:10px">The recipient is a person, not a data source.</p>
+    <div style="display:flex;gap:20px">
+      <div style="width:246px">
+        <div class="chk"><i>✓</i><div>Consent is asked for first, and is explicit and voluntary</div></div>
+        <div class="chk"><i>✓</i><div>No scraping, no private messages, no hidden collection</div></div>
+        <div class="chk"><i>✓</i><div>Social media only through official, authorised access</div></div>
+      </div>
+      <div style="width:246px">
+        <div class="chk"><i>✓</i><div>Only what is needed to match a gift</div></div>
+        <div class="chk"><i>✓</i><div>The recipient reviews every inferred interest and can remove any of them</div></div>
+        <div class="chk"><i>✓</i><div>Consent can be withdrawn, and the saved profile deleted, at any time</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot" style="left:1018px;top:734px;width:538px">
+    TikTok connection depends on official platform authorisation, which the project has not yet obtained —
+    the short questionnaire is the route available today.
+  </div>
+
+  <div class="ex" style="left:46px;top:775px;width:1510px;height:70px">
+    <div class="k">In plain<br>words</div>
+    <p><b>Sarah</b> wants a birthday gift for her friend. She creates a GiftCompass account, sends her friend an optional
+    preference invitation, and gets personalised recommendations with a reason for each. She buys one and the retailer
+    delivers it. <b>Next occasion</b>, Sarah reuses her friend's saved profile — she enters only the new occasion and
+    budget, and GiftCompass suggests something new.</p>
+  </div>
+</div>
+
+<!-- ================================================================= PAGE 2 -->
+<div class="page" id="p2">
+  <svg class="layer" viewBox="0 0 1600 900">
+    <defs>
+      <marker id="b1" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+        <path d="M0,1 L9,5 L0,9 Z" fill="#A596AD"/></marker>
+      <marker id="b2" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto">
+        <path d="M0,1 L9,5 L0,9 Z" fill="#8E74B8"/></marker>
+    </defs>
+    <g stroke="#A596AD" stroke-width="2" fill="none" marker-end="url(#b1)">
+      <path d="M400,253 L440,253"/>
+      <path d="M782,253 L822,253"/>
+      <path d="M1164,253 L1204,253"/>
+      <path d="M612,360 L612,390"/>
+      <path d="M700,696 L742,696"/>
+      <path d="M1142,696 L1184,696"/>
+    </g>
+    <path d="M1373,360 L1373,528 L34,528 L34,690 L58,690" stroke="#8E74B8" stroke-width="2.2" fill="none"
+          stroke-linejoin="round" marker-end="url(#b2)"/>
+    <path d="M1118,431 L1373,431" stroke="#8E74B8" stroke-width="2.2" fill="none"/>
+    <circle cx="1373" cy="431" r="4.6" fill="#8E74B8"/>
+    <text x="700" y="553" font-family="Manrope" font-size="11.5" font-weight="700" fill="#6E5796"
+          text-anchor="middle">both paths continue the same way</text>
+  </svg>
+
+  <div style="position:absolute;left:46px;top:32px">
+    <h1>GiftCompass Recipient Lifecycle</h1>
+    <div class="sub">The same journey, seen by the person receiving the gift. Taking part is always optional.</div>
+  </div>
+  <div class="stamp" style="position:absolute;right:46px;top:42px;text-align:right">
+    VERSION 02 &nbsp;·&nbsp; 8 OCTOBER 2026<br><span style="color:#A89BAD">supporting diagram</span>
+  </div>
+  <div class="legend" style="left:46px;top:108px;width:1200px">
+    <div class="lg r-send"><i></i><div><b>Sender</b></div></div>
+    <div class="lg r-recv"><i></i><div><b>Recipient</b></div></div>
+    <div class="lg r-sys"><i></i><div><b>GiftCompass app &amp; AI</b></div></div>
+    <div class="lg r-part"><i></i><div><b>Retailer / delivery partner</b></div></div>
+  </div>
+
+  <div class="card r-recv" style="left:60px;top:170px;width:340px;height:190px">
+    <div class="hd"><div class="num">1</div><h4>An invitation arrives</h4></div>
+    <p class="dsc">Someone has chosen a gift for them and shares a secure GiftCompass link. It explains what is being
+    asked for, and why.</p>
+    <div class="rc"><em class="c-recv">Recipient</em></div>
+  </div>
+
+  <div class="card r-recv" style="left:442px;top:170px;width:340px;height:190px">
+    <div class="hd"><div class="num">2</div><h4>Read it, then decide</h4></div>
+    <p class="dsc">They see what would be collected and how it is used, then choose freely:
+    <b>take part</b>, or <b>decline / ignore it</b>.</p>
+    <div class="rc"><em class="c-recv">Recipient decides</em></div>
+  </div>
+
+  <div class="card r-recv" style="left:824px;top:170px;width:340px;height:190px">
+    <div class="hd"><div class="num">3</div><h4>Choose how to share</h4></div>
+    <div class="opt r-recv"><b>Connect TikTok</b><span>official authorised access only — no scraping</span></div>
+    <div class="opt r-recv"><b>Short questionnaire</b><span>a few questions about interests and hobbies</span></div>
+    <div class="rc" style="position:static;margin-top:9px"><em class="c-recv">Recipient chooses</em></div>
+  </div>
+
+  <div class="card r-sys" style="left:1204px;top:170px;width:336px;height:190px">
+    <div class="hd"><div class="num">4</div><h4>Profile is built</h4></div>
+    <p class="dsc">GiftCompass turns the shared information into an interest profile. The recipient reviews every
+    interest and can remove any of them before it is saved.</p>
+    <div class="rc"><em class="c-sys">GiftCompass app</em> <em class="c-recv">Recipient approves</em></div>
+  </div>
+
+  <div class="card r-part" style="left:442px;top:390px;width:676px;height:82px;padding:12px 16px">
+    <div class="hd" style="align-items:flex-start"><div class="num">—</div><div><h4>Declines, or never replies — that is fine</h4>
+    <p class="dsc" style="margin-top:4px">No profile is built. GiftCompass uses what the sender already knows about them,
+    and the gift goes ahead exactly as normal.</p></div></div>
+    <div class="rc" style="bottom:11px;left:auto;right:16px"><em class="c-recv">Recipient</em> <em class="c-sys">GiftCompass app</em></div>
+  </div>
+
+  <div class="card r-part" style="left:58px;top:604px;width:642px;height:184px">
+    <div class="hd"><div class="num">5</div><h4>The gift arrives</h4></div>
+    <p class="dsc">A retailer or courier delivers it — GiftCompass does not deliver gifts itself.
+    <b>Declining the invitation never stops the gift.</b> It only means the suggestions were based on what the
+    sender already knew.</p>
+    <div class="rc"><em class="c-part">Retailer / delivery partner</em> <em class="c-recv">Recipient</em></div>
+  </div>
+
+  <div class="card r-recv" style="left:742px;top:604px;width:400px;height:184px">
+    <div class="hd"><div class="num">6</div><h4>Feedback, if they want</h4></div>
+    <p class="dsc">They may say whether the gift suited them. Entirely optional, and only ever after delivery.</p>
+    <div class="rc"><em class="c-recv">Recipient</em> <em class="c-sys">GiftCompass learns</em></div>
+  </div>
+
+  <div class="card r-sys" style="left:1184px;top:604px;width:356px;height:184px">
+    <div class="hd"><div class="num">7</div><h4>Reused next time</h4></div>
+    <p class="dsc">While consent is still valid, the saved profile helps future gifts.</p>
+    <div class="inbox"><b>Always in their hands</b><span>They can update their preferences, or withdraw consent and
+    have the profile deleted, at any time.</span></div>
+    <div class="rc"><em class="c-send">Sender</em> <em class="c-sys">GiftCompass app</em></div>
+  </div>
+
+  <div class="foot" style="left:60px;top:812px;width:1480px">
+    TikTok connection depends on official platform authorisation, which the project has not yet obtained; the short
+    questionnaire is the route available today.
+  </div>
+</div>
+
+<script>
+(function(){
+  var cx=520, cy=480, rx=330, ry=250;
+  var g=document.getElementById('ringarrows');
+  var arc=document.createElementNS('http://www.w3.org/2000/svg','path');
+  var a0=198*Math.PI/180, a1=270*Math.PI/180;
+  arc.setAttribute('d','M'+(cx+rx*Math.cos(a0))+','+(cy+ry*Math.sin(a0))+
+                   ' A'+rx+','+ry+' 0 0 1 '+(cx+rx*Math.cos(a1))+','+(cy+ry*Math.sin(a1)));
+  arc.setAttribute('fill','none');arc.setAttribute('stroke','#8E74B8');
+  arc.setAttribute('stroke-width','3');arc.setAttribute('stroke-dasharray','8 6');
+  g.appendChild(arc);
+  [-54,18,90,162,234].forEach(function(deg){
+    var t=deg*Math.PI/180;
+    var x=cx+rx*Math.cos(t), y=cy+ry*Math.sin(t);
+    var a=Math.atan2(ry*Math.cos(t),-rx*Math.sin(t))*180/Math.PI;
+    var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d','M-17,-9 L10,0 L-17,9 L-11,0 Z');
+    p.setAttribute('transform','translate('+x+','+y+') rotate('+a+')');
+    p.setAttribute('fill',deg===234?'#8E74B8':'#BCA9D6');
+    g.appendChild(p);
+  });
+})();
+</script>
+</body></html>
