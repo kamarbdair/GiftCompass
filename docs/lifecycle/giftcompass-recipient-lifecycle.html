@@ -35,6 +35,9 @@ h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
 .orx{position:absolute;font-size:11.5px;font-weight:700;color:#9B90AC;font-style:italic}
 .fine{position:absolute;text-align:center;font-size:10.8px;font-weight:500;color:#8A7F96;font-style:italic}
 
+.prong{position:absolute;font-size:11.5px;font-weight:700;font-style:italic;white-space:nowrap}
+.prong.a{color:#8A51B8}
+.prong.d{color:#857A71}
 .note{position:absolute;font-size:12.5px;font-weight:600;color:#7B6F8C}
 .note b{color:#55496B;font-weight:800}
 </style></head><body>
@@ -95,13 +98,13 @@ function node(sv,x,y,r,roles,num){
 
 (function(){
   var sv=document.getElementById('sv'), pg=document.getElementById('pg');
-  var y=495, nr=34, xs=[180,428,676,924,1172,1420];
+  var y=480, nr=34, xs=[180,428,676,924,1172,1420];
   var st=[
-    {t:'Receive Invitation',      d:'A secure GiftCompass invitation to share gift preferences', roles:['sys','recv']},
-    {t:'Review &amp; Give Consent',   d:'Choose whether to share your preferences',                  roles:['recv']},
-    {t:'Share Interests',         d:'TikTok or a short questionnaire',                           roles:['recv'], opt:'OPTIONAL'},
-    {t:'Review &amp; Approve Profile', d:'GiftCompass builds it · the recipient reviews and approves', roles:['sys','recv']},
-    {t:'Receive Gift',            d:'Delivered by the retailer or courier',                      roles:['part','recv']},
+    {t:'Receive Invitation',           d:'A secure GiftCompass invitation to share gift preferences', roles:['sys','recv']},
+    {t:'Review &amp; Give Consent',    d:'Choose whether to share your preferences',                  roles:['recv']},
+    {t:'Share Interests',              d:'TikTok or a short questionnaire',                           roles:['recv'], opt:'OPTIONAL'},
+    {t:'Review &amp; Approve Profile', d:'Review, edit, or approve interests suggested by GiftCompass', roles:['recv','sys']},
+    {t:'Receive Gift',                 d:'Delivered by the retailer or courier',                      roles:['part','recv']},
     {t:'Feedback &amp; Future Gifts',  d:'Optional feedback · saved preferences for next time',       roles:['recv','sys']}
   ];
 
@@ -121,18 +124,26 @@ function node(sv,x,y,r,roles,num){
     pg.appendChild(d);
   });
 
-  /* ---- decline path: stage 2 bypasses straight to stage 5 ---- */
-  sv.appendChild(el('path',{d:'M'+xs[1]+','+(y-nr-8)+' L'+xs[1]+',381 L'+xs[4]+',381 L'+xs[4]+','+(y-nr-12),
+  /* ---------- the consent decision forks right after stage 2 ---------- */
+  var fx=500;
+  sv.appendChild(el('path',{d:'M'+fx+','+y+' L'+fx+',366 L'+xs[4]+',366 L'+xs[4]+','+(y-nr-12),
     fill:'none',stroke:'#9C9188','stroke-width':2.4,'stroke-dasharray':'8 6',
     'marker-end':'url(#a2)','stroke-linejoin':'round'}));
+  sv.appendChild(el('circle',{cx:fx,cy:y,r:5,fill:'#8A7F96'}));
+  function tag(cls,left,top,txt){
+    var e=document.createElement('div'); e.className='prong '+cls;
+    e.style.left=left+'px'; e.style.top=top+'px'; e.textContent=txt; pg.appendChild(e);
+  }
+  tag('a',514,452,'accepts');
+  tag('d',514,398,'declines / no reply');
   var dc=document.createElement('div'); dc.className='cap grey';
-  dc.style.left=((xs[1]+xs[4])/2-210)+'px'; dc.style.width='420px'; dc.style.top='313px';
-  dc.innerHTML='<b>Declines, or does not reply</b>'+
-               '<span>No recipient profile is created — GiftCompass uses what the sender provided, and the gift still arrives</span>';
+  dc.style.left=((fx+xs[4])/2-210)+'px'; dc.style.width='420px'; dc.style.top='294px';
+  dc.innerHTML='<b>The gift still arrives</b>'+
+               '<span>No recipient-approved profile is created — GiftCompass uses the information the sender provided</span>';
   pg.appendChild(dc);
 
-  /* ---- the two ways to share, branching under stage 3 ---- */
-  var bx=xs[2], ya=615, pa=bx-88, pb=bx+88;
+  /* ---------- the two ways to share, branching under stage 3 ---------- */
+  var bx=xs[2], ya=600, pa=bx-88, pb=bx+88;
   sv.appendChild(el('path',{d:'M'+bx+','+(ya-8)+' L'+bx+','+ya+' M'+pa+','+ya+' L'+pb+','+ya+
                               ' M'+pa+','+ya+' L'+pa+','+(ya+8)+' M'+pb+','+ya+' L'+pb+','+(ya+8),
     fill:'none',stroke:'#C9BCDC','stroke-width':1.8,'stroke-linecap':'round'}));
@@ -152,13 +163,16 @@ function node(sv,x,y,r,roles,num){
   fn.textContent='TikTok access depends on official platform authorisation';
   pg.appendChild(fn);
 
-  /* ---- saved profile reused for the next occasion ---- */
-  sv.appendChild(el('path',{d:'M'+(xs[5])+','+(y-nr-6)+' Q'+((xs[4]+xs[5])/2)+',399 '+(xs[4]+nr+8)+','+(y-32),
-    fill:'none',stroke:'#A05FD0','stroke-width':2.4,'stroke-dasharray':'8 6','marker-end':'url(#a3)'}));
+  /* ---------- the approved profile carries forward to future occasions ---------- */
+  var gapA=(xs[3]+112+xs[4]-112)/2, gapB=(xs[4]+112+xs[5]-112)/2;  /* corridors between labels */
+  sv.appendChild(el('path',{d:'M'+xs[5]+','+(y+nr+2)+' L'+gapB+','+(y+nr+2)+' L'+gapB+',675 L'+gapA+',675 L'+
+                              gapA+','+(y+45)+' L'+(xs[3]+24)+','+(y+24),
+    fill:'none',stroke:'#A05FD0','stroke-width':2.2,'stroke-dasharray':'8 6',
+    'marker-end':'url(#a3)','stroke-linejoin':'round'}));
   var rc=document.createElement('div'); rc.className='cap lav';
-  rc.style.left=((xs[4]+xs[5])/2-150)+'px'; rc.style.width='300px'; rc.style.top='329px';
-  rc.innerHTML='<b>↻ Next occasion</b>'+
-               '<span>Saved profile reused while consent is valid · update or withdraw anytime</span>';
+  rc.style.left=((gapA+gapB)/2-165)+'px'; rc.style.width='330px'; rc.style.top='685px';
+  rc.innerHTML='<b>Future Occasion → Reuse Approved Profile</b>'+
+               '<span>Update or withdraw anytime.</span>';
   pg.appendChild(rc);
 })();
 </script>
