@@ -5,10 +5,12 @@
 | File | What it is |
 |---|---|
 | `GiftCompass_Customer_Lifecycle_v03.pdf` | **Current deliverable.** Page 1 on its own, 1 page landscape 16:9 |
+| `GiftCompass_Recipient_Lifecycle_v03.pdf` | **Current deliverable.** The recipient's own journey, 1 page landscape 16:9 |
 | `GiftCompass_Lifecycle_v03.pdf` | Both diagrams together, 2 pages, 16:9 (1200 × 675 pt — same page size as V01) |
 | `GiftCompass_Customer_Lifecycle_v03.png` | Page 1 at 200 dpi, for slides |
 | `GiftCompass_Recipient_Lifecycle_v03.png` | Page 2 at 200 dpi, for slides |
-| `giftcompass-lifecycle-v03.html` | The V03 source. Edit this, then re-render. |
+| `giftcompass-lifecycle-v03.html` | Source of the **customer** lifecycle (its page 2 is superseded — see below) |
+| `giftcompass-recipient-lifecycle.html` | Source of the **recipient** lifecycle |
 | `GiftCompass_Lifecycle_v02.pdf`, `giftcompass-lifecycle.html` | V02, kept for reference |
 | `fonts/Manrope-var.woff2` | The typeface used since V01 |
 
@@ -47,6 +49,26 @@ stage 8.
 
 The single-page PDF is produced by extracting page 1 from the two-page build:
 `pdfseparate -f 1 -l 1 GiftCompass_Lifecycle_v03.pdf GiftCompass_Customer_Lifecycle_v03.pdf`
+
+## The six stages (recipient lifecycle)
+
+| # | Stage | Role |
+|---|---|---|
+| 1 | Receive Invitation | GiftCompass → Recipient |
+| 2 | Review & Give Consent | Recipient |
+| 3 | Share Interests *(optional)* | Recipient |
+| 4 | Review & Approve Profile | GiftCompass + Recipient |
+| 5 | Receive Gift | Retailer / delivery partner + Recipient |
+| 6 | Feedback & Future Gifts | Recipient + GiftCompass |
+
+A dashed grey bypass runs from stage 2 straight to stage 5: declining or ignoring the invitation
+never stops the gift. A dashed lavender loop from stage 6 back to stage 5 carries the profile
+reuse, conditional on consent still being valid.
+
+The recipient lifecycle has its **own source file** (`giftcompass-recipient-lifecycle.html`). Page 2
+of `giftcompass-lifecycle-v03.html` is the older recipient diagram and is no longer rendered into
+any deliverable; the two-page `GiftCompass_Lifecycle_v03.pdf` is now assembled with
+`pdfunite` from the two one-pagers.
 
 ## Role colours
 
