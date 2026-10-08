@@ -83,7 +83,7 @@ h1{font-size:37px;font-weight:800;letter-spacing:-.7px;line-height:1.05}
     <div class="lg"><i style="background:#8B8077"></i>Retailer / delivery</div>
   </div>
 
-  <div class="hub" style="left:693px;top:428px">
+  <div class="hub" style="left:673px;top:428px">
     <svg width="26" height="26" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12.4" fill="none" stroke="#4A3690" stroke-width="1.6"/>
       <path d="M15 6.4 L18.1 15 L15 23.6 L11.9 15 Z" fill="#B983DD"/><circle cx="15" cy="15" r="1.8" fill="#33264A"/></svg>
     <div class="nm">GiftCompass</div>
@@ -150,15 +150,15 @@ function node(sv,x,y,r,roles,num){
 /* ================= PAGE 1 ================= */
 (function(){
   var sv=document.getElementById('sv1'), pg=document.getElementById('p1');
-  var cx=765, cy=500, R=248, nr=31;
+  var cx=745, cy=500, R=248, nr=31;
   var stages=[
     {t:'Get Started',             d:'Create an account · choose the recipient and occasion', roles:['send']},
     {t:'Request a Gift',          d:'Budget · delivery city · date needed',                  roles:['send']},
     {t:'Recipient Preferences',   d:'',                                                      roles:['recv'], opt:'OPTIONAL'},
-    {t:'AI Gift Discovery',       d:'Build the profile · filter · rank → Top 5',        roles:['sys']},
+    {t:'AI Gift Discovery',       d:'Build Profile → Search Catalog → Filter → Rank → Top 5',        roles:['sys']},
     {t:'Choose &amp; Purchase',   d:'Pick a gift · buy from the retailer',                    roles:['send']},
     {t:'Gift Delivery',           d:'Retailer or courier delivers to the recipient',          roles:['part','recv']},
-    {t:'Feedback &amp; Future Gifts', d:'Optional feedback · preferences saved',              roles:['send','recv','sys']}
+    {t:'Feedback &amp; Learning',     d:'Optional feedback improves future recommendations',   roles:['send','recv','sys']}
   ];
   var N=stages.length, step=360/N, gap=9.6;
 
@@ -189,13 +189,13 @@ function node(sv,x,y,r,roles,num){
   var s3=pt(cx,cy,R,-90+2*step);
   var br=document.createElement('div'); br.className='branch';
   br.style.left=(s3[0]+nr+13)+'px'; br.style.top=(s3[1]+2)+'px';
-  br.innerHTML='<span class="pill">Invitation</span><span class="arw">→</span>'+
-               '<span class="pill">Consent</span><span class="arw">→</span>'+
-               '<span class="pill">TikTok or short quiz</span>';
+  br.innerHTML='<span class="pill">App invitation</span><span class="arw">→</span>'+
+               '<span class="pill">Recipient consent</span><span class="arw">→</span>'+
+               '<span class="pill">TikTok / Short Quiz</span>';
   pg.appendChild(br);
   var fb=document.createElement('div'); fb.className='fallback';
   fb.style.left=(s3[0]+nr+13)+'px'; fb.style.top=(s3[1]+32)+'px';
-  fb.innerHTML='Declines or no reply → the sender’s own answers are used';
+  fb.innerHTML='Declines or no reply → continue with sender-provided information';
   pg.appendChild(fb);
 
   /* reuse loop: stage 7 → stage 2 */
@@ -209,8 +209,8 @@ function node(sv,x,y,r,roles,num){
     fill:'none',stroke:'#4A3690','stroke-width':2.6,'stroke-dasharray':'8 6','marker-end':'url(#a2)'}));
   var ru=document.createElement('div'); ru.className='reuse';
   ru.style.left=(cx-150)+'px'; ru.style.top='308px';
-  ru.innerHTML='<div class="t">↻ Next Occasion? Select the Same Recipient</div>'+
-               '<div class="d">GiftCompass reuses saved preferences to recommend new gifts.</div>';
+  ru.innerHTML='<div class="t">↻ Next Occasion → Same Recipient → New Gift Request</div>'+
+               '<div class="d">Reuse saved preferences to discover new gifts.</div>';
   pg.appendChild(ru);
 })();
 

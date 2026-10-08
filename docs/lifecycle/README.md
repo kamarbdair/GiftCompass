@@ -4,7 +4,8 @@
 
 | File | What it is |
 |---|---|
-| `GiftCompass_Lifecycle_v03.pdf` | **Current.** Both diagrams, 2 pages, 16:9 (1200 × 675 pt — same page size as V01) |
+| `GiftCompass_Customer_Lifecycle_v03.pdf` | **Current deliverable.** Page 1 on its own, 1 page landscape 16:9 |
+| `GiftCompass_Lifecycle_v03.pdf` | Both diagrams together, 2 pages, 16:9 (1200 × 675 pt — same page size as V01) |
 | `GiftCompass_Customer_Lifecycle_v03.png` | Page 1 at 200 dpi, for slides |
 | `GiftCompass_Recipient_Lifecycle_v03.png` | Page 2 at 200 dpi, for slides |
 | `giftcompass-lifecycle-v03.html` | The V03 source. Edit this, then re-render. |
@@ -33,10 +34,14 @@ Changing a stage's `roles` array automatically redraws its node ring — one col
 | 4 | AI Gift Discovery | GiftCompass |
 | 5 | Choose & Purchase | Sender |
 | 6 | Gift Delivery | Retailer / delivery partner + Recipient |
-| 7 | Feedback & Future Gifts | Sender + Recipient + GiftCompass |
+| 7 | Feedback & Learning | Sender + Recipient + GiftCompass |
 
 A dashed loop runs from stage 7 back to **stage 2**, not stage 1 — the returning customer never
-creates another account.
+creates another account. The next occasion is shown only by that loop, never repeated inside
+stage 7.
+
+The single-page PDF is produced by extracting page 1 from the two-page build:
+`pdfseparate -f 1 -l 1 GiftCompass_Lifecycle_v03.pdf GiftCompass_Customer_Lifecycle_v03.pdf`
 
 ## Role colours
 
