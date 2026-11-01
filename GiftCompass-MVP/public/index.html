@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GiftCompass · Prototype</title>
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" id="homeLink"><img src="logo.png" alt="" class="brand-logo"><span>GiftCompass</span></a>
+    <span class="badge">Prototype · demo data</span>
+  </header>
+
+  <main id="app">
+    <!-- WELCOME -->
+    <section id="screen-welcome" class="screen active">
+      <div class="hero">
+        <img src="logo.png" alt="GiftCompass gift illustration" class="hero-logo">
+        <h1>Start with the person.<br><span class="accent">Find the gift.</span></h1>
+        <p class="lead">GiftCompass builds a picture of the person you're buying for, then recommends gifts that fit them, the occasion and your budget, with a reason for each one.</p>
+      </div>
+
+      <h2 class="center">Two ways to describe the recipient</h2>
+      <div class="options">
+        <article class="option available">
+          <div class="option-head"><span class="option-letter">A</span><span class="pill ok">Available now</span></div>
+          <h3>Answer 10 quick questions about them</h3>
+          <p>Tell us your relationship, the occasion, their interests and personality, the kind of gift they'd like, what they've said they want, what they already have, what to avoid, and your budget. It takes about 2 minutes.</p>
+          <button class="btn primary big" id="startBtn">Start the questionnaire</button>
+        </article>
+        <article class="option later" aria-disabled="true">
+          <div class="option-head"><span class="option-letter">B</span><span class="pill soon">Coming later</span></div>
+          <h3>Recipient-authorised social media profile</h3>
+          <p>In a future version, the <strong>recipient themselves</strong> could choose to share interest signals from their own social media account (for example TikTok) through the platform's official login. They give explicit permission and can withdraw it at any time.</p>
+          <ul class="mini">
+            <li>Not available in this prototype</li>
+            <li>We never ask you for someone else's username</li>
+            <li>No scraping and no data collected without the recipient's consent</li>
+          </ul>
+          <button class="btn ghost" disabled>Coming later</button>
+        </article>
+      </div>
+      <p class="fineprint center">No names or contact details needed. Your answers are used only to calculate recommendations and are not stored.</p>
+    </section>
+
+    <!-- QUESTIONNAIRE -->
+    <section id="screen-quiz" class="screen">
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      <p class="step-label" id="stepLabel">Step 1 of 5</p>
+
+      <div class="step" data-step="1">
+        <h2>About the recipient</h2>
+        <h3><span class="qn">1</span>Who is the gift for?</h3>
+        <div class="chips" id="relationshipChips"></div>
+        <h3><span class="qn">2</span>What's the occasion?</h3>
+        <div class="chips" id="occasionChips"></div>
+      </div>
+
+      <div class="step" data-step="2">
+        <h2>Who they are</h2>
+        <h3><span class="qn">3</span>What are their interests and hobbies? <small>(choose 1–5)</small></h3>
+        <div class="chips" id="interestChips"></div>
+        <h3><span class="qn">4</span>How would you describe their personality? <small>(optional, up to 3)</small></h3>
+        <div class="chips" id="personalityChips"></div>
+      </div>
+
+      <div class="step" data-step="3">
+        <h2>The kind of gift</h2>
+        <h3><span class="qn">5</span>What style of gift would suit them? <small>(optional, up to 3)</small></h3>
+        <div class="chips" id="styleChips"></div>
+        <h3><span class="qn">6</span>What type of gift do you prefer? <small>(optional, up to 3)</small></h3>
+        <div class="chips" id="giftTypeChips"></div>
+      </div>
+
+      <div class="step" data-step="4">
+        <h2>Wishes and limits</h2>
+        <h3><span class="qn">7</span>Have they mentioned wanting anything? <small>(optional)</small></h3>
+        <input type="text" class="text-in" id="wishes" maxlength="100" placeholder="e.g. headphones, a perfume, a pottery class" autocomplete="off">
+        <h3><span class="qn">8</span>Is there anything they already have or don't need? <small>(optional)</small></h3>
+        <input type="text" class="text-in" id="owned" maxlength="100" placeholder="e.g. camera, smartwatch, dallah" autocomplete="off">
+        <p class="hint">Describe items only, not personal details. Matching items get priority (Q7) or are removed (Q8).</p>
+        <h3><span class="qn">9</span>Anything to avoid? <small>(optional)</small></h3>
+        <div class="chips" id="avoidChips"></div>
+      </div>
+
+      <div class="step" data-step="5">
+        <h2>Your budget</h2>
+        <h3><span class="qn">10</span>How much would you like to spend?</h3>
+        <div class="chips" id="budgetChips"></div>
+        <h3>Or set your own (SAR)</h3>
+        <div class="budget-inputs">
+          <label>Min <input type="number" id="minBudget" min="0" max="10000" step="10" inputmode="numeric"></label>
+          <span>–</span>
+          <label>Max <input type="number" id="maxBudget" min="0" max="10000" step="10" inputmode="numeric"></label>
+        </div>
+      </div>
+
+      <p class="error" id="quizError" role="alert"></p>
+      <div class="nav">
+        <button class="btn ghost" id="backBtn">Back</button>
+        <span class="nav-right">
+          <button class="btn ghost" id="updateBtn" hidden>Update results</button>
+          <button class="btn primary" id="nextBtn">Next</button>
+        </span>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="screen-results" class="screen">
+      <h2>Gift ideas for <span id="forWhom"></span></h2>
+      <div class="summary" id="summary"></div>
+      <div class="summary-actions">
+        <span class="muted">Edit:</span>
+        <button class="btn ghost small" data-edit="1">Recipient</button>
+        <button class="btn ghost small" data-edit="2">Interests &amp; personality</button>
+        <button class="btn ghost small" data-edit="3">Gift style</button>
+        <button class="btn ghost small" data-edit="4">Wishes &amp; avoid</button>
+        <button class="btn ghost small" data-edit="5">Budget</button>
+      </div>
+      <p class="stats" id="stats"></p>
+      <div id="results"></div>
+      <details class="excluded" id="excludedBox"><summary id="excludedSummary"></summary><ul id="excludedList"></ul></details>
+      <div class="notice" id="notice"></div>
+      <div class="nav">
+        <button class="btn ghost" id="restartBtn">Start over</button>
+        <button class="btn primary" id="editBtn">Change answers</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">GiftCompass prototype · transparent rule-based scoring (not a trained AI/ML model) · illustrative demo catalogue</footer>
+  <script src="app.js"></script>
+</body>
+</html>

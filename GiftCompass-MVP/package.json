@@ -1,0 +1,13 @@
+{
+  "name": "giftcompass-mvp",
+  "version": "0.2.0",
+  "description": "GiftCompass functional MVP: 10-question recipient questionnaire, SAR budget filter, exclusions, wishes and transparent rule-based gift recommendations over a demo catalogue.",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/run-tests.js"
+  },
+  "engines": { "node": ">=18" },
+  "license": "UNLICENSED"
+}
